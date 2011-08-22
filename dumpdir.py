@@ -19,6 +19,9 @@ def main():
       relpath_filename = os.path.relpath(dirpath_filename)
       if os.path.islink(relpath_filename):
         target = os.readlink(relpath_filename)
+        commonprefix = os.path.commonprefix([cwd, target])
+        if commonprefix != '/':
+          target = '(...)' + os.path.relpath(target)
         print "l %s -> %s" % (relpath_filename, target)
       else:
         print "f %s" % (relpath_filename)
