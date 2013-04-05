@@ -2,3 +2,4 @@
 tests/*/*/actual
 tests/*/*/expected
 tests/*/*/workdir
+tests/*/*/inputfile
