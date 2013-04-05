@@ -6,12 +6,7 @@ import os
 def main():
   cwd = os.getcwd()
   for (dirpath, dirnames, filenames) in os.walk(cwd):
-    if dirpath == cwd:
-      basename = os.path.basename(dirpath)
-      print "%s" % (basename)
-      if not dirnames and not filenames:
-        print "(empty)"
-    else:
+    if dirpath != cwd:
       relpath = os.path.relpath(dirpath)
       print "d %s" % (relpath)
     for filename in filenames:
