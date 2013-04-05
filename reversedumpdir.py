@@ -30,7 +30,3 @@ def main():
         currentfile.close()
       else:
         raise Exception('unknown type: %s' % type)
-
-# ------------------------------------------------------------------------------
-if __name__ == '__main__':
-  main()

@@ -20,7 +20,3 @@ def main():
         print "l %s -> %s" % (relpath_filename, target)
       else:
         print "f %s" % (relpath_filename)
-
-# ------------------------------------------------------------------------------
-if __name__ == '__main__':
-  main()
