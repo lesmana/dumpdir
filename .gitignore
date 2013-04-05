@@ -1,1 +1,4 @@
 *.pyc
+tests/*/*/actual
+tests/*/*/expected
+tests/*/*/workdir
