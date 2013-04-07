@@ -3,3 +3,6 @@ tests/*/*/actual
 tests/*/*/expected
 tests/*/*/workdir
 tests/*/*/inputfile
+tests/*/*/dump
+tests/*/*/orig
+tests/*/*/copy
