@@ -5,9 +5,11 @@ set -x
 rm -rf actual
 rm -rf expected
 
-cat > inputfile << EOF
+inputfile="\
 f somefile
-EOF
+"
+
+echo -n "$inputfile" > inputfile
 
 (
   mkdir actual

@@ -11,8 +11,10 @@ mkdir workdir
   ../../../../dumpdir > ../actual
 )
 
-cat > expected << EOF
+expected="\
 f somefile
-EOF
+"
+
+echo -n "$expected" > expected
 
 diff actual expected

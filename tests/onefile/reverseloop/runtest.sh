@@ -5,9 +5,11 @@ set -x
 rm -rf workdir
 mkdir workdir
 
-cat > orig <<EOF
+orig="\
 f somefile
-EOF
+"
+
+echo -n "$orig" > orig
 
 (
   cd workdir
