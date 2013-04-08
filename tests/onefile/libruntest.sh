@@ -6,6 +6,18 @@ setuptestenvironment() {
   cd "$testenvironment"
 }
 
+arrange() {
+  mkdir stage
+  arrange_stage
+
+  mkdir temp
+
+  mkdir actual
+
+  mkdir expected
+  arrange_expected
+}
+
 assert() {
   diff -r actual expected
 }

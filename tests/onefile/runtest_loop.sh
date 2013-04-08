@@ -16,18 +16,6 @@ arrange_expected() {
   echo 0 > expected/reversedumpdirexitstatus
 }
 
-arrange() {
-  mkdir stage
-  arrange_stage
-
-  mkdir temp
-
-  mkdir actual
-
-  mkdir expected
-  arrange_expected
-}
-
 act() {
   (
     cd stage
