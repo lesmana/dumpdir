@@ -21,15 +21,19 @@ arrange_expected() {
 }
 
 act() {
+  workdir="temp"
+  inputdir="stage"
   (
-    cd temp
-    ../../../../reversedumpdir ../stage/dumpfile
+    cd "$workdir"
+    ../../../../reversedumpdir ../"$inputdir"/dumpfile
     echo $? > ../actual/reversedumpdirexitstatus
   )
 
+  workdir="temp"
+  outputdir="actual"
   (
-    cd temp
-    ../../../../dumpdir > ../actual/dumpfile
+    cd "$workdir"
+    ../../../../dumpdir > ../"$outputdir"/dumpfile
     echo $? > ../actual/dumpdirexitstatus
   )
 }
