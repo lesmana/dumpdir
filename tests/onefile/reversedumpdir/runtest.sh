@@ -6,6 +6,13 @@ inputfile="\
 f somefile
 "
 
+setuptestenvironment() {
+  testenvironment="$0_environment"
+  rm -rf "$testenvironment"
+  mkdir "$testenvironment"
+  cd "$testenvironment"
+}
+
 arrange() {
   rm -rf actual
   rm -rf expected
@@ -21,7 +28,7 @@ arrange() {
 act() {
   (
     cd actual
-    ../../../../reversedumpdir ../inputfile
+    ../../../../../reversedumpdir ../inputfile
   ) || {
     echo "fail"
     exit 1
@@ -38,4 +45,5 @@ runtest() {
   assert
 }
 
+setuptestenvironment
 runtest

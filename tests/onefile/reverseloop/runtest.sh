@@ -6,6 +6,13 @@ orig="\
 f somefile
 "
 
+setuptestenvironment() {
+  testenvironment="$0_environment"
+  rm -rf "$testenvironment"
+  mkdir "$testenvironment"
+  cd "$testenvironment"
+}
+
 arrange() {
   rm -rf workdir
   mkdir workdir
@@ -16,7 +23,7 @@ arrange() {
 act() {
   (
     cd workdir
-    ../../../../reversedumpdir ../orig
+    ../../../../../reversedumpdir ../orig
   ) || {
     echo "reversedumpdir fail"
     exit 1
@@ -24,7 +31,7 @@ act() {
 
   (
     cd workdir
-    ../../../../dumpdir > ../copy
+    ../../../../../dumpdir > ../copy
   ) || {
     echo "dumpdir fail"
     exit 1
@@ -41,4 +48,5 @@ runtest() {
   assert
 }
 
+setuptestenvironment
 runtest

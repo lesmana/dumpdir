@@ -6,6 +6,13 @@ expected="\
 f somefile
 "
 
+setuptestenvironment() {
+  testenvironment="$0_environment"
+  rm -rf "$testenvironment"
+  mkdir "$testenvironment"
+  cd "$testenvironment"
+}
+
 arrange() {
   rm -rf workdir
   mkdir workdir
@@ -17,7 +24,7 @@ arrange() {
 act() {
   (
     cd workdir
-    ../../../../dumpdir > ../actual
+    ../../../../../dumpdir > ../actual
   )
 }
 
@@ -31,4 +38,5 @@ runtest() {
   assert
 }
 
+setuptestenvironment
 runtest

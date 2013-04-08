@@ -2,6 +2,13 @@
 
 set -x
 
+setuptestenvironment() {
+  testenvironment="$0_environment"
+  rm -rf "$testenvironment"
+  mkdir "$testenvironment"
+  cd "$testenvironment"
+}
+
 arrange() {
   rm -rf orig
   rm -rf copy
@@ -15,7 +22,7 @@ arrange() {
 act() {
   (
     cd orig
-    ../../../../dumpdir > ../dump
+    ../../../../../dumpdir > ../dump
   ) || {
     echo "dumpdir fail"
     exit 1
@@ -23,7 +30,7 @@ act() {
 
   (
     cd copy
-    ../../../../reversedumpdir ../dump
+    ../../../../../reversedumpdir ../dump
   ) || {
     echo "reversedumpdir fail"
     exit 1
@@ -40,4 +47,5 @@ runtest() {
   assert
 }
 
+setuptestenvironment
 runtest
