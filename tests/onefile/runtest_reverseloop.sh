@@ -20,22 +20,29 @@ arrange_expected() {
   echo 0 > expected/dumpdirexitstatus
 }
 
-act() {
-  inputdir="stage"
-  workdir="temp"
+act_reversedumpdir() {
+  inputdir=$1
+  workdir=$2
   (
     cd "$workdir"
     ../../../../reversedumpdir ../"$inputdir"/dumpfile
     echo $? > ../actual/reversedumpdirexitstatus
   )
+}
 
-  workdir="temp"
-  outputdir="actual"
+act_dumpdir() {
+  workdir=$1
+  outputdir=$2
   (
     cd "$workdir"
     ../../../../dumpdir > ../"$outputdir"/dumpfile
     echo $? > ../actual/dumpdirexitstatus
   )
+}
+
+act() {
+  act_reversedumpdir "stage" "temp"
+  act_dumpdir "temp" "actual"
 }
 
 runtest
