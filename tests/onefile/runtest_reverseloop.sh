@@ -16,8 +16,6 @@ arrange_stage() {
 
 arrange_expected() {
   echo -n "$dumpfile" > expected/dumpfile
-  echo 0 > expected/reversedumpdirexitstatus
-  echo 0 > expected/dumpdirexitstatus
 }
 
 runtest_reverseloop

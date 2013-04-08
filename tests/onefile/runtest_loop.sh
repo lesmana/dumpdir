@@ -12,8 +12,6 @@ arrange_stage() {
 
 arrange_expected() {
   touch expected/somefile
-  echo 0 > expected/dumpdirexitstatus
-  echo 0 > expected/reversedumpdirexitstatus
 }
 
 runtest_loop

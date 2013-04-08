@@ -24,7 +24,6 @@ act_run_dumpdir() {
   (
     cd "$workdir"
     ../../../../dumpdir > ../"$outputdir"/dumpfile
-    echo $? > ../actual/dumpdirexitstatus
   )
 }
 
@@ -34,7 +33,6 @@ act_run_reversedumpdir() {
   (
     cd "$workdir"
     ../../../../reversedumpdir ../"$inputdir"/dumpfile
-    echo $? > ../actual/reversedumpdirexitstatus
   )
 }
 
