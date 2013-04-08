@@ -19,8 +19,4 @@ arrange_expected() {
   echo 0 > expected/reversedumpdirexitstatus
 }
 
-act() {
-  act_reversedumpdir
-}
-
-runtest
+runtest_reversedumpdir

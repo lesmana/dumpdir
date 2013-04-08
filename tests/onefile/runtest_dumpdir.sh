@@ -19,8 +19,4 @@ arrange_expected() {
   echo 0 > expected/dumpdirexitstatus
 }
 
-act() {
-  act_dumpdir
-}
-
-runtest
+runtest_dumpdir

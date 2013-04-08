@@ -20,8 +20,4 @@ arrange_expected() {
   echo 0 > expected/dumpdirexitstatus
 }
 
-act() {
-  act_reverseloop
-}
-
-runtest
+runtest_reverseloop

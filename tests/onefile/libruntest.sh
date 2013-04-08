@@ -60,9 +60,30 @@ assert() {
   diff -r actual expected
 }
 
-runtest() {
+runtest_dumpdir() {
   setuptestenvironment
   arrange
-  act
+  act_dumpdir
+  assert
+}
+
+runtest_loop() {
+  setuptestenvironment
+  arrange
+  act_loop
+  assert
+}
+
+runtest_reversedumpdir() {
+  setuptestenvironment
+  arrange
+  act_reversedumpdir
+  assert
+}
+
+runtest_reverseloop() {
+  setuptestenvironment
+  arrange
+  act_reverseloop
   assert
 }
