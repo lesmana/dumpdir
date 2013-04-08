@@ -10,17 +10,13 @@ setuptestenvironment() {
 }
 
 arrange() {
-  rm -rf stage
   mkdir stage
   touch stage/somefile
 
-  rm -rf temp
   mkdir temp
 
-  rm -rf actual
   mkdir actual
 
-  rm -rf expected
   mkdir expected
   touch expected/somefile
   echo 0 > expected/dumpdirexitstatus
