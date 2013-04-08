@@ -4,7 +4,7 @@ set -e
 set -u
 set -x
 
-. ./libruntest.sh
+. ../libruntest.sh
 . ./libonefile.sh
 
 runtest_loop
