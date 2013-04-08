@@ -6,13 +6,6 @@ setuptestenvironment() {
   cd "$testenvironment"
 }
 
-arrange_common() {
-  mkdir stage
-  mkdir temp
-  mkdir actual
-  mkdir expected
-}
-
 arrange_in_stage() {
   echo "you did not redefine arrange_in_stage"
   echo "you lost the game"
@@ -26,7 +19,10 @@ arrange_in_expected() {
 }
 
 arrange() {
-  arrange_common
+  mkdir stage
+  mkdir temp
+  mkdir actual
+  mkdir expected
   (cd stage; arrange_in_stage)
   (cd expected; arrange_in_expected)
 }
