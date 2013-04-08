@@ -2,16 +2,11 @@
 
 set -x
 
+. ./libruntest.sh
+
 dumpfile="\
 f somefile
 "
-
-setuptestenvironment() {
-  testenvironment="$0_environment"
-  rm -rf "$testenvironment"
-  mkdir "$testenvironment"
-  cd "$testenvironment"
-}
 
 arrange() {
   mkdir stage
@@ -30,17 +25,6 @@ act() {
     ../../../../reversedumpdir ../stage/dumpfile
     echo $? > ../actual/reversedumpdirexitstatus
   )
-}
-
-assert() {
-  diff -r actual expected
-}
-
-runtest() {
-  setuptestenvironment
-  arrange
-  act
-  assert
 }
 
 runtest
