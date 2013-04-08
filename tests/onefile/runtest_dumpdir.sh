@@ -19,16 +19,6 @@ arrange_expected() {
   echo 0 > expected/dumpdirexitstatus
 }
 
-act_dumpdir() {
-  workdir=$1
-  outputdir=$2
-  (
-    cd "$workdir"
-    ../../../../dumpdir > ../"$outputdir"/dumpfile
-    echo $? > ../actual/dumpdirexitstatus
-  )
-}
-
 act() {
   act_dumpdir "stage" "actual"
 }

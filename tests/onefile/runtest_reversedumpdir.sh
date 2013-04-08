@@ -19,16 +19,6 @@ arrange_expected() {
   echo 0 > expected/reversedumpdirexitstatus
 }
 
-act_reversedumpdir() {
-  inputdir=$1
-  workdir=$2
-  (
-    cd "$workdir"
-    ../../../../reversedumpdir ../"$inputdir"/dumpfile
-    echo $? > ../actual/reversedumpdirexitstatus
-  )
-}
-
 act() {
   act_reversedumpdir "stage" "actual"
 }
