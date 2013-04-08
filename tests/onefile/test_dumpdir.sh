@@ -5,7 +5,7 @@ set -u
 set -x
 
 . ../libruntest.sh
-. ../lib_act_dumpdir.sh
+. ../lib_method_dumpdir.sh
 . ./libonefile.sh
 
 runtest
