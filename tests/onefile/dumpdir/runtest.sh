@@ -4,17 +4,17 @@ set -x
 
 rm -rf workdir
 mkdir workdir
-
-(
-  cd workdir
-  touch somefile
-  ../../../../dumpdir > ../actual
-)
+touch workdir/somefile
 
 expected="\
 f somefile
 "
 
 echo -n "$expected" > expected
+
+(
+  cd workdir
+  ../../../../dumpdir > ../actual
+)
 
 diff actual expected

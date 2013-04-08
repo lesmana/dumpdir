@@ -11,16 +11,17 @@ f somefile
 
 echo -n "$inputfile" > inputfile
 
+mkdir expected
+touch expected/somefile
+
+mkdir actual
+
 (
-  mkdir actual
   cd actual
   ../../../../reversedumpdir ../inputfile
 ) || {
   echo "fail"
   exit 1
 }
-
-mkdir expected
-touch expected/somefile
 
 diff -r actual expected
