@@ -25,8 +25,8 @@ act() {
     echo $? > ../actual/dumpdirexitstatus
   )
 
-  workdir="actual"
   inputdir="temp"
+  workdir="actual"
   (
     cd "$workdir"
     ../../../../reversedumpdir ../"$inputdir"/dumpfile

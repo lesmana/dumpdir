@@ -21,8 +21,8 @@ arrange_expected() {
 }
 
 act() {
-  workdir="temp"
   inputdir="stage"
+  workdir="temp"
   (
     cd "$workdir"
     ../../../../reversedumpdir ../"$inputdir"/dumpfile
