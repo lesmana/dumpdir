@@ -10,18 +10,26 @@ dumpfile="\
 f somefile
 "
 
+arrange_stage() {
+  echo -n "$dumpfile" > stage/dumpfile
+}
+
+arrange_expected() {
+  echo -n "$dumpfile" > expected/dumpfile
+  echo 0 > expected/reversedumpdirexitstatus
+  echo 0 > expected/dumpdirexitstatus
+}
+
 arrange() {
   mkdir stage
-  echo -n "$dumpfile" > stage/dumpfile
+  arrange_stage
 
   mkdir temp
 
   mkdir actual
 
   mkdir expected
-  echo -n "$dumpfile" > expected/dumpfile
-  echo 0 > expected/reversedumpdirexitstatus
-  echo 0 > expected/dumpdirexitstatus
+  arrange_expected
 }
 
 act() {

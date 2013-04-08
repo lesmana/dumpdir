@@ -6,18 +6,26 @@ set -x
 
 . ./libruntest.sh
 
+arrange_stage() {
+  touch stage/somefile
+}
+
+arrange_expected() {
+  touch expected/somefile
+  echo 0 > expected/dumpdirexitstatus
+  echo 0 > expected/reversedumpdirexitstatus
+}
+
 arrange() {
   mkdir stage
-  touch stage/somefile
+  arrange_stage
 
   mkdir temp
 
   mkdir actual
 
   mkdir expected
-  touch expected/somefile
-  echo 0 > expected/dumpdirexitstatus
-  echo 0 > expected/reversedumpdirexitstatus
+  arrange_expected
 }
 
 act() {
