@@ -1,4 +1,9 @@
 
+. ../lib_act_dumpdir.sh
+. ../lib_act_loop.sh
+. ../lib_act_reversedumpdir.sh
+. ../lib_act_reverseloop.sh
+
 setuptestenvironment() {
   testenvironment="$0_environment"
   rm -rf "$testenvironment"
@@ -53,24 +58,6 @@ act_run_reversedumpdir() {
     cd "$workdir"
     ../../../../reversedumpdir ../"$inputdir"/dumpfile
   )
-}
-
-act_dumpdir() {
-  act_run_dumpdir "stage" "actual"
-}
-
-act_loop() {
-  act_run_dumpdir "stage" "temp"
-  act_run_reversedumpdir "temp" "actual"
-}
-
-act_reversedumpdir() {
-  act_run_reversedumpdir "stage" "actual"
-}
-
-act_reverseloop() {
-  act_run_reversedumpdir "stage" "temp"
-  act_run_dumpdir "temp" "actual"
 }
 
 assert() {
