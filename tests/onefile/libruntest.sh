@@ -6,38 +6,33 @@ setuptestenvironment() {
   cd "$testenvironment"
 }
 
-arrange_dumpdir() {
+arrange_common() {
   mkdir stage
   mkdir temp
   mkdir actual
   mkdir expected
+}
+
+arrange_dumpdir() {
+  arrange_common
   (cd stage; arrange_dirofdump)
   (cd expected; arrange_dumpofdir)
 }
 
 arrange_loop() {
-  mkdir stage
-  mkdir temp
-  mkdir actual
-  mkdir expected
+  arrange_common
   (cd stage; arrange_dirofdump)
   (cd expected; arrange_dirofdump)
 }
 
 arrange_reversedumpdir() {
-  mkdir stage
-  mkdir temp
-  mkdir actual
-  mkdir expected
+  arrange_common
   (cd stage; arrange_dumpofdir)
   (cd expected; arrange_dirofdump)
 }
 
 arrange_reverseloop() {
-  mkdir stage
-  mkdir temp
-  mkdir actual
-  mkdir expected
+  arrange_common
   (cd stage; arrange_dumpofdir)
   (cd expected; arrange_dumpofdir)
 }
