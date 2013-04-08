@@ -20,7 +20,7 @@ arrange_expected() {
 }
 
 act() {
-  act_dumpdir "stage" "actual"
+  act_run_dumpdir "stage" "actual"
 }
 
 runtest

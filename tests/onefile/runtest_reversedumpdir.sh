@@ -20,7 +20,7 @@ arrange_expected() {
 }
 
 act() {
-  act_reversedumpdir "stage" "actual"
+  act_run_reversedumpdir "stage" "actual"
 }
 
 runtest

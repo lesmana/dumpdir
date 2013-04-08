@@ -18,7 +18,7 @@ arrange() {
   arrange_expected
 }
 
-act_dumpdir() {
+act_run_dumpdir() {
   workdir=$1
   outputdir=$2
   (
@@ -28,7 +28,7 @@ act_dumpdir() {
   )
 }
 
-act_reversedumpdir() {
+act_run_reversedumpdir() {
   inputdir=$1
   workdir=$2
   (
