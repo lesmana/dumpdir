@@ -16,11 +16,6 @@ arrange_expected() {
   echo 0 > expected/reversedumpdirexitstatus
 }
 
-act_loop() {
-  act_run_dumpdir "stage" "temp"
-  act_run_reversedumpdir "temp" "actual"
-}
-
 act() {
   act_loop
 }

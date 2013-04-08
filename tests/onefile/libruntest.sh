@@ -38,6 +38,24 @@ act_run_reversedumpdir() {
   )
 }
 
+act_dumpdir() {
+  act_run_dumpdir "stage" "actual"
+}
+
+act_loop() {
+  act_run_dumpdir "stage" "temp"
+  act_run_reversedumpdir "temp" "actual"
+}
+
+act_reversedumpdir() {
+  act_run_reversedumpdir "stage" "actual"
+}
+
+act_reverseloop() {
+  act_run_reversedumpdir "stage" "temp"
+  act_run_dumpdir "temp" "actual"
+}
+
 assert() {
   diff -r actual expected
 }

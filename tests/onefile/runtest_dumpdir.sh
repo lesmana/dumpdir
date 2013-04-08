@@ -19,10 +19,6 @@ arrange_expected() {
   echo 0 > expected/dumpdirexitstatus
 }
 
-act_dumpdir() {
-  act_run_dumpdir "stage" "actual"
-}
-
 act() {
   act_dumpdir
 }
