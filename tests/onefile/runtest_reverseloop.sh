@@ -2,7 +2,7 @@
 
 set -x
 
-orig="\
+dumpfile="\
 f somefile
 "
 
@@ -14,32 +14,39 @@ setuptestenvironment() {
 }
 
 arrange() {
-  rm -rf workdir
-  mkdir workdir
+  rm -rf stage
+  mkdir stage
+  echo -n "$dumpfile" > stage/dumpfile
 
-  echo -n "$orig" > orig
+  rm -rf temp
+  mkdir temp
+
+  rm -rf actual
+  mkdir actual
+
+  rm -rf expected
+  mkdir expected
+  echo -n "$dumpfile" > expected/dumpfile
+  echo 0 > expected/reversedumpdirexitstatus
+  echo 0 > expected/dumpdirexitstatus
 }
 
 act() {
   (
-    cd workdir
-    ../../../../reversedumpdir ../orig
-  ) || {
-    echo "reversedumpdir fail"
-    exit 1
-  }
+    cd temp
+    ../../../../reversedumpdir ../stage/dumpfile
+    echo $? > ../actual/reversedumpdirexitstatus
+  )
 
   (
-    cd workdir
-    ../../../../dumpdir > ../copy
-  ) || {
-    echo "dumpdir fail"
-    exit 1
-  }
+    cd temp
+    ../../../../dumpdir > ../actual/dumpfile
+    echo $? > ../actual/dumpdirexitstatus
+  )
 }
 
 assert() {
-  diff -r orig copy
+  diff -r actual expected
 }
 
 runtest() {

@@ -2,7 +2,7 @@
 
 set -x
 
-inputfile="\
+dumpfile="\
 f somefile
 "
 
@@ -14,25 +14,25 @@ setuptestenvironment() {
 }
 
 arrange() {
+  rm -rf stage
+  mkdir stage
+  echo -n "$dumpfile" > stage/dumpfile
+
   rm -rf actual
+  mkdir actual
+
   rm -rf expected
-
-  echo -n "$inputfile" > inputfile
-
   mkdir expected
   touch expected/somefile
-
-  mkdir actual
+  echo 0 > expected/reversedumpdirexitstatus
 }
 
 act() {
   (
     cd actual
-    ../../../../reversedumpdir ../inputfile
-  ) || {
-    echo "fail"
-    exit 1
-  }
+    ../../../../reversedumpdir ../stage/dumpfile
+    echo $? > ../actual/reversedumpdirexitstatus
+  )
 }
 
 assert() {

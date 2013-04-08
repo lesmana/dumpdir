@@ -10,35 +10,39 @@ setuptestenvironment() {
 }
 
 arrange() {
-  rm -rf orig
-  rm -rf copy
+  rm -rf stage
+  mkdir stage
+  touch stage/somefile
 
-  mkdir orig
-  mkdir copy
+  rm -rf temp
+  mkdir temp
 
-  touch orig/somefile
+  rm -rf actual
+  mkdir actual
+
+  rm -rf expected
+  mkdir expected
+  touch expected/somefile
+  echo 0 > expected/dumpdirexitstatus
+  echo 0 > expected/reversedumpdirexitstatus
 }
 
 act() {
   (
-    cd orig
-    ../../../../dumpdir > ../dump
-  ) || {
-    echo "dumpdir fail"
-    exit 1
-  }
+    cd stage
+    ../../../../dumpdir > ../temp/dumpfile
+    echo $? > ../actual/dumpdirexitstatus
+  )
 
   (
-    cd copy
-    ../../../../reversedumpdir ../dump
-  ) || {
-    echo "reversedumpdir fail"
-    exit 1
-  }
+    cd actual
+    ../../../../reversedumpdir ../temp/dumpfile
+    echo $? > ../actual/reversedumpdirexitstatus
+  )
 }
 
 assert() {
-  diff -r orig copy
+  diff -r actual expected
 }
 
 runtest() {

@@ -2,7 +2,7 @@
 
 set -x
 
-expected="\
+dumpfile="\
 f somefile
 "
 
@@ -14,22 +14,29 @@ setuptestenvironment() {
 }
 
 arrange() {
-  rm -rf workdir
-  mkdir workdir
-  touch workdir/somefile
+  rm -rf stage
+  mkdir stage
+  touch stage/somefile
 
-  echo -n "$expected" > expected
+  rm -rf actual
+  mkdir actual
+
+  rm -rf expected
+  mkdir expected
+  echo -n "$dumpfile" > expected/dumpfile
+  echo 0 > expected/dumpdirexitstatus
 }
 
 act() {
   (
-    cd workdir
-    ../../../../dumpdir > ../actual
+    cd stage
+    ../../../../dumpdir > ../actual/dumpfile
+    echo $? > ../actual/dumpdirexitstatus
   )
 }
 
 assert() {
-  diff actual expected
+  diff -r actual expected
 }
 
 runtest() {
