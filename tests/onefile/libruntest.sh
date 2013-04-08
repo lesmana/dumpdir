@@ -6,13 +6,40 @@ setuptestenvironment() {
   cd "$testenvironment"
 }
 
-arrange() {
+arrange_dumpdir() {
   mkdir stage
   mkdir temp
   mkdir actual
   mkdir expected
-  (cd stage; arrange_in_stage)
-  (cd expected; arrange_in_expected)
+  (cd stage; arrange_in_stage_dumpdir)
+  (cd expected; arrange_in_expected_dumpdir)
+}
+
+arrange_loop() {
+  mkdir stage
+  mkdir temp
+  mkdir actual
+  mkdir expected
+  (cd stage; arrange_in_stage_loop)
+  (cd expected; arrange_in_expected_loop)
+}
+
+arrange_reversedumpdir() {
+  mkdir stage
+  mkdir temp
+  mkdir actual
+  mkdir expected
+  (cd stage; arrange_in_stage_reversedumpdir)
+  (cd expected; arrange_in_expected_reversedumpdir)
+}
+
+arrange_reverseloop() {
+  mkdir stage
+  mkdir temp
+  mkdir actual
+  mkdir expected
+  (cd stage; arrange_in_stage_reverseloop)
+  (cd expected; arrange_in_expected_reverseloop)
 }
 
 act_run_dumpdir() {
@@ -57,28 +84,28 @@ assert() {
 
 runtest_dumpdir() {
   setuptestenvironment
-  arrange
+  arrange_dumpdir
   act_dumpdir
   assert
 }
 
 runtest_loop() {
   setuptestenvironment
-  arrange
+  arrange_loop
   act_loop
   assert
 }
 
 runtest_reversedumpdir() {
   setuptestenvironment
-  arrange
+  arrange_reversedumpdir
   act_reversedumpdir
   assert
 }
 
 runtest_reverseloop() {
   setuptestenvironment
-  arrange
+  arrange_reverseloop
   act_reverseloop
   assert
 }
