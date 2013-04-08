@@ -6,6 +6,6 @@ set -x
 
 . ../libruntest.sh
 . ../lib_method_dumpdir.sh
-. ./libempty.sh
+. ./lib_data.sh
 
 runtest
