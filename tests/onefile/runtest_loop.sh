@@ -6,12 +6,16 @@ set -x
 
 . ./libruntest.sh
 
-arrange_in_stage() {
+arrange_dirofdump() {
   touch somefile
 }
 
+arrange_in_stage() {
+  arrange_dirofdump
+}
+
 arrange_in_expected() {
-  touch somefile
+  arrange_dirofdump
 }
 
 runtest_loop
