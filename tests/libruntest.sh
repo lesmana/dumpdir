@@ -13,30 +13,6 @@ arrange_common() {
   mkdir expected
 }
 
-arrange_dumpdir() {
-  arrange_common
-  (cd stage; arrange_dirofdump)
-  (cd expected; arrange_dumpofdir)
-}
-
-arrange_loop() {
-  arrange_common
-  (cd stage; arrange_dirofdump)
-  (cd expected; arrange_dirofdump)
-}
-
-arrange_reversedumpdir() {
-  arrange_common
-  (cd stage; arrange_dumpofdir)
-  (cd expected; arrange_dirofdump)
-}
-
-arrange_reverseloop() {
-  arrange_common
-  (cd stage; arrange_dumpofdir)
-  (cd expected; arrange_dumpofdir)
-}
-
 act() {
   echo "you did not redefine act"
   echo "you lost the game"
