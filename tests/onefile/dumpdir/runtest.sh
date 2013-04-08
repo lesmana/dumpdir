@@ -2,13 +2,13 @@
 
 set -x
 
-rm -rf workdir
-mkdir workdir
-touch workdir/somefile
-
 expected="\
 f somefile
 "
+
+rm -rf workdir
+mkdir workdir
+touch workdir/somefile
 
 echo -n "$expected" > expected
 

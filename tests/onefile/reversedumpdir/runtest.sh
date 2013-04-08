@@ -2,12 +2,12 @@
 
 set -x
 
-rm -rf actual
-rm -rf expected
-
 inputfile="\
 f somefile
 "
+
+rm -rf actual
+rm -rf expected
 
 echo -n "$inputfile" > inputfile
 

@@ -2,12 +2,12 @@
 
 set -x
 
-rm -rf workdir
-mkdir workdir
-
 orig="\
 f somefile
 "
+
+rm -rf workdir
+mkdir workdir
 
 echo -n "$orig" > orig
 
