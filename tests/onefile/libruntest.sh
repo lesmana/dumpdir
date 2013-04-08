@@ -11,8 +11,8 @@ arrange_dumpdir() {
   mkdir temp
   mkdir actual
   mkdir expected
-  (cd stage; arrange_in_stage_dumpdir)
-  (cd expected; arrange_in_expected_dumpdir)
+  (cd stage; arrange_dirofdump)
+  (cd expected; arrange_dumpofdir)
 }
 
 arrange_loop() {
@@ -20,8 +20,8 @@ arrange_loop() {
   mkdir temp
   mkdir actual
   mkdir expected
-  (cd stage; arrange_in_stage_loop)
-  (cd expected; arrange_in_expected_loop)
+  (cd stage; arrange_dirofdump)
+  (cd expected; arrange_dirofdump)
 }
 
 arrange_reversedumpdir() {
@@ -29,8 +29,8 @@ arrange_reversedumpdir() {
   mkdir temp
   mkdir actual
   mkdir expected
-  (cd stage; arrange_in_stage_reversedumpdir)
-  (cd expected; arrange_in_expected_reversedumpdir)
+  (cd stage; arrange_dumpofdir)
+  (cd expected; arrange_dirofdump)
 }
 
 arrange_reverseloop() {
@@ -38,8 +38,8 @@ arrange_reverseloop() {
   mkdir temp
   mkdir actual
   mkdir expected
-  (cd stage; arrange_in_stage_reverseloop)
-  (cd expected; arrange_in_expected_reverseloop)
+  (cd stage; arrange_dumpofdir)
+  (cd expected; arrange_dumpofdir)
 }
 
 act_run_dumpdir() {
