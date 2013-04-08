@@ -13,6 +13,12 @@ arrange_common() {
   mkdir expected
 }
 
+arrange() {
+  echo "you did not redefine arrange"
+  echo "you lost the game"
+  return 22
+}
+
 act() {
   echo "you did not redefine act"
   echo "you lost the game"
@@ -25,28 +31,28 @@ assert() {
 
 runtest_dumpdir() {
   setuptestenvironment
-  arrange_dumpdir
+  arrange
   act
   assert
 }
 
 runtest_loop() {
   setuptestenvironment
-  arrange_loop
+  arrange
   act
   assert
 }
 
 runtest_reversedumpdir() {
   setuptestenvironment
-  arrange_reversedumpdir
+  arrange
   act
   assert
 }
 
 runtest_reverseloop() {
   setuptestenvironment
-  arrange_reverseloop
+  arrange
   act
   assert
 }

@@ -1,7 +1,7 @@
 
 . ../lib_act_common.sh
 
-arrange_reverseloop() {
+arrange() {
   arrange_common
   (cd stage; arrange_dumpofdir)
   (cd expected; arrange_dumpofdir)
