@@ -5,6 +5,7 @@ set -u
 set -x
 
 . ../libruntest.sh
+. ../lib_act_reverseloop.sh
 . ./libonedir.sh
 
 runtest_reverseloop

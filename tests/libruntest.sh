@@ -1,9 +1,4 @@
 
-. ../lib_act_dumpdir.sh
-. ../lib_act_loop.sh
-. ../lib_act_reversedumpdir.sh
-. ../lib_act_reverseloop.sh
-
 setuptestenvironment() {
   testenvironment="$0_environment"
   rm -rf "$testenvironment"
