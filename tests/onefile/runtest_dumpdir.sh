@@ -15,12 +15,4 @@ arrange_in_expected_dumpdir() {
   arrange_dumpofdir
 }
 
-arrange_in_stage() {
-  arrange_in_stage_dumpdir
-}
-
-arrange_in_expected() {
-  arrange_in_expected_dumpdir
-}
-
 runtest_dumpdir

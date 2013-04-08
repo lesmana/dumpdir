@@ -15,12 +15,4 @@ arrange_in_expected_reverseloop() {
   arrange_dumpofdir
 }
 
-arrange_in_stage() {
-  arrange_in_stage_reverseloop
-}
-
-arrange_in_expected() {
-  arrange_in_expected_reverseloop
-}
-
 runtest_reverseloop
