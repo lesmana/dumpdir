@@ -6,12 +6,12 @@ set -x
 
 . ./libruntest.sh
 
-arrange_stage() {
-  touch stage/somefile
+arrange_in_stage() {
+  touch somefile
 }
 
-arrange_expected() {
-  touch expected/somefile
+arrange_in_expected() {
+  touch somefile
 }
 
 runtest_loop

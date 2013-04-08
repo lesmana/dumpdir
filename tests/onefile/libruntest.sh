@@ -8,14 +8,14 @@ setuptestenvironment() {
 
 arrange() {
   mkdir stage
-  arrange_stage
+  (cd stage; arrange_in_stage)
 
   mkdir temp
 
   mkdir actual
 
   mkdir expected
-  arrange_expected
+  (cd expected; arrange_in_expected)
 }
 
 act_run_dumpdir() {

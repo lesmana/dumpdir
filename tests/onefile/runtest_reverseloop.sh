@@ -10,12 +10,12 @@ dumpfile="\
 f somefile
 "
 
-arrange_stage() {
-  echo -n "$dumpfile" > stage/dumpfile
+arrange_in_stage() {
+  echo -n "$dumpfile" > dumpfile
 }
 
-arrange_expected() {
-  echo -n "$dumpfile" > expected/dumpfile
+arrange_in_expected() {
+  echo -n "$dumpfile" > dumpfile
 }
 
 runtest_reverseloop

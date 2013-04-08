@@ -10,12 +10,12 @@ dumpfile="\
 f somefile
 "
 
-arrange_stage() {
-  touch stage/somefile
+arrange_in_stage() {
+  touch somefile
 }
 
-arrange_expected() {
-  echo -n "$dumpfile" > expected/dumpfile
+arrange_in_expected() {
+  echo -n "$dumpfile" > dumpfile
 }
 
 runtest_dumpdir
