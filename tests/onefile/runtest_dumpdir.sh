@@ -5,18 +5,7 @@ set -u
 set -x
 
 . ./libruntest.sh
-
-dumpfile="\
-f somefile
-"
-
-arrange_dirofdump() {
-  touch somefile
-}
-
-arrange_dumpofdir() {
-  echo -n "$dumpfile" > dumpfile
-}
+. ./libonefile.sh
 
 arrange_in_stage() {
   arrange_dirofdump
