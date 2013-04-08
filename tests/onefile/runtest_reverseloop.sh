@@ -2,6 +2,10 @@
 
 set -x
 
+orig="\
+f somefile
+"
+
 setuptestenvironment() {
   testenvironment="$0_environment"
   rm -rf "$testenvironment"
@@ -10,29 +14,26 @@ setuptestenvironment() {
 }
 
 arrange() {
-  rm -rf orig
-  rm -rf copy
+  rm -rf workdir
+  mkdir workdir
 
-  mkdir orig
-  mkdir copy
-
-  touch orig/somefile
+  echo -n "$orig" > orig
 }
 
 act() {
   (
-    cd orig
-    ../../../../../dumpdir > ../dump
+    cd workdir
+    ../../../../reversedumpdir ../orig
   ) || {
-    echo "dumpdir fail"
+    echo "reversedumpdir fail"
     exit 1
   }
 
   (
-    cd copy
-    ../../../../../reversedumpdir ../dump
+    cd workdir
+    ../../../../dumpdir > ../copy
   ) || {
-    echo "reversedumpdir fail"
+    echo "dumpdir fail"
     exit 1
   }
 }

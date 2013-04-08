@@ -28,7 +28,7 @@ arrange() {
 act() {
   (
     cd actual
-    ../../../../../reversedumpdir ../inputfile
+    ../../../../reversedumpdir ../inputfile
   ) || {
     echo "fail"
     exit 1

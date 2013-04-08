@@ -2,7 +2,7 @@
 
 set -x
 
-orig="\
+expected="\
 f somefile
 "
 
@@ -16,30 +16,20 @@ setuptestenvironment() {
 arrange() {
   rm -rf workdir
   mkdir workdir
+  touch workdir/somefile
 
-  echo -n "$orig" > orig
+  echo -n "$expected" > expected
 }
 
 act() {
   (
     cd workdir
-    ../../../../../reversedumpdir ../orig
-  ) || {
-    echo "reversedumpdir fail"
-    exit 1
-  }
-
-  (
-    cd workdir
-    ../../../../../dumpdir > ../copy
-  ) || {
-    echo "dumpdir fail"
-    exit 1
-  }
+    ../../../../dumpdir > ../actual
+  )
 }
 
 assert() {
-  diff -r orig copy
+  diff actual expected
 }
 
 runtest() {

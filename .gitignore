@@ -6,4 +6,4 @@ tests/*/*/inputfile
 tests/*/*/dump
 tests/*/*/orig
 tests/*/*/copy
-tests/*/*/*_environment
+tests/*/*_environment
