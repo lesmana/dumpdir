@@ -8,4 +8,4 @@ set -x
 . ../lib_act_reversedumpdir.sh
 . ./libempty.sh
 
-runtest_reversedumpdir
+runtest

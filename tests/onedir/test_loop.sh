@@ -8,4 +8,4 @@ set -x
 . ../lib_act_loop.sh
 . ./libonedir.sh
 
-runtest_loop
+runtest

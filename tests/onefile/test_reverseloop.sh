@@ -8,4 +8,4 @@ set -x
 . ../lib_act_reverseloop.sh
 . ./libonefile.sh
 
-runtest_reverseloop
+runtest

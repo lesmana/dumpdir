@@ -8,4 +8,4 @@ set -x
 . ../lib_act_dumpdir.sh
 . ./libonedir.sh
 
-runtest_dumpdir
+runtest
