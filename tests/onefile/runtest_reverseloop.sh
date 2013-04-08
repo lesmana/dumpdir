@@ -46,10 +46,10 @@ assert() {
 }
 
 runtest() {
+  setuptestenvironment
   arrange
   act
   assert
 }
 
-setuptestenvironment
 runtest
