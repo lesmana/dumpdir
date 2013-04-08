@@ -1,6 +1,6 @@
 
 . ../lib_act_common.sh
 
-act_dumpdir() {
+act() {
   act_run_dumpdir "stage" "actual"
 }

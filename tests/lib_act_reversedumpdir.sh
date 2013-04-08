@@ -1,6 +1,6 @@
 
 . ../lib_act_common.sh
 
-act_reversedumpdir() {
+act() {
   act_run_reversedumpdir "stage" "actual"
 }

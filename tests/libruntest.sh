@@ -37,6 +37,12 @@ arrange_reverseloop() {
   (cd expected; arrange_dumpofdir)
 }
 
+act() {
+  echo "you did not redefine act"
+  echo "you lost the game"
+  return 22
+}
+
 assert() {
   diff -r actual expected
 }
@@ -44,27 +50,27 @@ assert() {
 runtest_dumpdir() {
   setuptestenvironment
   arrange_dumpdir
-  act_dumpdir
+  act
   assert
 }
 
 runtest_loop() {
   setuptestenvironment
   arrange_loop
-  act_loop
+  act
   assert
 }
 
 runtest_reversedumpdir() {
   setuptestenvironment
   arrange_reversedumpdir
-  act_reversedumpdir
+  act
   assert
 }
 
 runtest_reverseloop() {
   setuptestenvironment
   arrange_reverseloop
-  act_reverseloop
+  act
   assert
 }

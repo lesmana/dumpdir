@@ -1,7 +1,7 @@
 
 . ../lib_act_common.sh
 
-act_reverseloop() {
+act() {
   act_run_reversedumpdir "stage" "temp"
   act_run_dumpdir "temp" "actual"
 }
