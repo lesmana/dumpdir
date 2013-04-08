@@ -2,28 +2,42 @@
 
 set -x
 
-rm -rf orig
-rm -rf copy
+arrange() {
+  rm -rf orig
+  rm -rf copy
 
-mkdir orig
-mkdir copy
+  mkdir orig
+  mkdir copy
 
-touch orig/somefile
-
-(
-  cd orig
-  ../../../../dumpdir > ../dump
-) || {
-  echo "dumpdir fail"
-  exit 1
+  touch orig/somefile
 }
 
-(
-  cd copy
-  ../../../../reversedumpdir ../dump
-) || {
-  echo "reversedumpdir fail"
-  exit 1
+act() {
+  (
+    cd orig
+    ../../../../dumpdir > ../dump
+  ) || {
+    echo "dumpdir fail"
+    exit 1
+  }
+
+  (
+    cd copy
+    ../../../../reversedumpdir ../dump
+  ) || {
+    echo "reversedumpdir fail"
+    exit 1
+  }
 }
 
-diff -r orig copy
+assert() {
+  diff -r orig copy
+}
+
+runtest() {
+  arrange
+  act
+  assert
+}
+
+runtest

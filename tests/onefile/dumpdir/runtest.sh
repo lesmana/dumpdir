@@ -6,15 +6,29 @@ expected="\
 f somefile
 "
 
-rm -rf workdir
-mkdir workdir
-touch workdir/somefile
+arrange() {
+  rm -rf workdir
+  mkdir workdir
+  touch workdir/somefile
 
-echo -n "$expected" > expected
+  echo -n "$expected" > expected
+}
 
-(
-  cd workdir
-  ../../../../dumpdir > ../actual
-)
+act() {
+  (
+    cd workdir
+    ../../../../dumpdir > ../actual
+  )
+}
 
-diff actual expected
+assert() {
+  diff actual expected
+}
+
+runtest() {
+  arrange
+  act
+  assert
+}
+
+runtest

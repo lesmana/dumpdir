@@ -6,25 +6,39 @@ orig="\
 f somefile
 "
 
-rm -rf workdir
-mkdir workdir
+arrange() {
+  rm -rf workdir
+  mkdir workdir
 
-echo -n "$orig" > orig
-
-(
-  cd workdir
-  ../../../../reversedumpdir ../orig
-) || {
-  echo "reversedumpdir fail"
-  exit 1
+  echo -n "$orig" > orig
 }
 
-(
-  cd workdir
-  ../../../../dumpdir > ../copy
-) || {
-  echo "dumpdir fail"
-  exit 1
+act() {
+  (
+    cd workdir
+    ../../../../reversedumpdir ../orig
+  ) || {
+    echo "reversedumpdir fail"
+    exit 1
+  }
+
+  (
+    cd workdir
+    ../../../../dumpdir > ../copy
+  ) || {
+    echo "dumpdir fail"
+    exit 1
+  }
 }
 
-diff -r orig copy
+assert() {
+  diff -r orig copy
+}
+
+runtest() {
+  arrange
+  act
+  assert
+}
+
+runtest
