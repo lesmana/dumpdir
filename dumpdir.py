@@ -6,10 +6,11 @@ import os
 def main():
   cwd = os.getcwd()
   for (dirpath, dirnames, filenames) in os.walk(cwd):
+    dirnames.sort()
     if dirpath != cwd:
       relpath = os.path.relpath(dirpath)
       print "d %s" % (relpath)
-    for filename in filenames:
+    for filename in sorted(filenames):
       dirpath_filename = os.path.join(dirpath, filename)
       relpath_filename = os.path.relpath(dirpath_filename)
       if os.path.islink(relpath_filename):
