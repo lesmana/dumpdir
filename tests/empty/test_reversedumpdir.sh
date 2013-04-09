@@ -4,7 +4,7 @@ set -e
 set -u
 set -x
 
-. ../libruntest.sh
+. ../lib_runtest.sh
 . ../lib_method_reversedumpdir.sh
 . ./lib_data.sh
 
