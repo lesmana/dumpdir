@@ -1,14 +1,10 @@
 
+. ../lib_data_common.sh
+
 content="\
 some content
 some more content
 "
-
-marklines() {
-  while read line; do
-    echo "> $line"
-  done
-}
 
 dumpfile="\
 f somefile
