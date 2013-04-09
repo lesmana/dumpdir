@@ -4,7 +4,7 @@ act_run_dumpdir() {
   outputdir=$2
   (
     cd "$workdir"
-    ../../../../dumpdir > ../"$outputdir"/dumpfile
+    dumpdir > ../"$outputdir"/dumpfile
   ) || {
     exitstatus=$?
     echo "dumpdir fail with exitstatus $exitstatus"
@@ -17,7 +17,7 @@ act_run_reversedumpdir() {
   workdir=$2
   (
     cd "$workdir"
-    ../../../../reversedumpdir ../"$inputdir"/dumpfile
+    reversedumpdir ../"$inputdir"/dumpfile
   ) || {
     exitstatus=$?
     echo "reversedumpdir fail with exitstatus $exitstatus"
