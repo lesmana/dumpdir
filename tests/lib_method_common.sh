@@ -5,7 +5,7 @@ act_run_dumpdir() {
   (
     cd "$workdir"
     ../../../../dumpdir > ../"$outputdir"/dumpfile
-  )
+  ) || exit
 }
 
 act_run_reversedumpdir() {
@@ -14,5 +14,5 @@ act_run_reversedumpdir() {
   (
     cd "$workdir"
     ../../../../reversedumpdir ../"$inputdir"/dumpfile
-  )
+  ) || exit
 }

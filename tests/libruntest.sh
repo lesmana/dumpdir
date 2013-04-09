@@ -11,8 +11,8 @@ arrange() {
   mkdir temp
   mkdir actual
   mkdir expected
-  (cd stage; arrange_in_stage)
-  (cd expected; arrange_in_expected)
+  (cd stage; arrange_in_stage) || exit
+  (cd expected; arrange_in_expected) || exit
 }
 
 assert() {
