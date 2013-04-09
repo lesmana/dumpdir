@@ -21,3 +21,6 @@ def main():
         print "l %s -> %s" % (relpath_filename, target)
       else:
         print "f %s" % (relpath_filename)
+        with open(relpath_filename) as fileobject:
+          for line in fileobject:
+            print "> %s" % (line.rstrip('\n'))
