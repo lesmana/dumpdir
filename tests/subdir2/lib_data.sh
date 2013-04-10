@@ -1,8 +1,8 @@
 
 dumpfile="\
-d dir1
-d dir1/dir2
-d dir1/dir2/dir3
+d dir0
+d dir0/dir1
+d dir0/dir2
 "
 
 arrange_dumpofdir() {
@@ -10,7 +10,7 @@ arrange_dumpofdir() {
 }
 
 arrange_dirofdump() {
-  mkdir dir1
-  mkdir dir1/dir2
-  mkdir dir1/dir2/dir3
+  mkdir dir0
+  mkdir dir0/dir1
+  mkdir dir0/dir2
 }
