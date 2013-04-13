@@ -1,7 +1,10 @@
 
 dumpfile="\
-d dir0
-d dir0/dir1
+f dir0
+d dir1
+d dir2
+f dir2/dir0
+d dir2/dir1
 "
 
 arrange_dumpofdir() {
@@ -9,6 +12,9 @@ arrange_dumpofdir() {
 }
 
 arrange_dirofdump() {
-  mkdir dir0
-  mkdir dir0/dir1
+  touch dir0
+  mkdir dir1
+  mkdir dir2
+  touch dir2/dir0
+  mkdir dir2/dir1
 }
