@@ -1,6 +1,6 @@
 
 setuptestenvironment() {
-  testenvironment="$0_environment"
+  testenvironment="$0.d"
   rm -rf "$testenvironment"
   mkdir "$testenvironment"
   cd "$testenvironment"
