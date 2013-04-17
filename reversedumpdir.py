@@ -17,8 +17,8 @@ class Main(object):
       sys.exit(1)
     return inputfilename
 
-  def run(self):
-    inputfilename = self.filenamefromargv(sys.argv)
+  def run(self, argv):
+    inputfilename = self.filenamefromargv(argv)
 
     with open(inputfilename) as inputfile:
       for line in inputfile:
@@ -43,4 +43,4 @@ class Main(object):
 # ------------------------------------------------------------------------------
 def main():
   mainrunner = Main()
-  mainrunner.run()
+  mainrunner.run(sys.argv)
