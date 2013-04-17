@@ -9,12 +9,16 @@ class Main(object):
   def __init__(self):
     pass
 
-  def run(self):
+  def filenamefromargv(self, argv):
     if len(sys.argv) == 2:
       inputfilename = sys.argv[1]
     else:
       print 'need filename'
       sys.exit(1)
+    return inputfilename
+
+  def run(self):
+    inputfilename = self.filenamefromargv(sys.argv)
 
     with open(inputfilename) as inputfile:
       for line in inputfile:
