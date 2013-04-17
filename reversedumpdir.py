@@ -4,17 +4,10 @@ import os
 import sys
 
 # ------------------------------------------------------------------------------
-class Main(object):
+class ReverseDumpDir(object):
 
   def __init__(self):
     pass
-
-  def filenamefromargv(self, argv):
-    if len(argv) == 2:
-      inputfilename = argv[1]
-    else:
-      raise Exception('need filename')
-    return inputfilename
 
   def reversedumpdir(self, inputfile):
     for line in inputfile:
@@ -36,9 +29,23 @@ class Main(object):
       else:
         raise Exception('unknown type: %s' % type)
 
+# ------------------------------------------------------------------------------
+class Main(object):
+
+  def __init__(self):
+    pass
+
+  def filenamefromargv(self, argv):
+    if len(argv) == 2:
+      inputfilename = argv[1]
+    else:
+      raise Exception('need filename')
+    return inputfilename
+
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
-      self.reversedumpdir(inputfile)
+      reversedumpdir = ReverseDumpDir()
+      reversedumpdir.reversedumpdir(inputfile)
 
   def runexcept(self, argv):
     inputfilename = self.filenamefromargv(argv)
