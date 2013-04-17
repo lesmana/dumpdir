@@ -16,26 +16,29 @@ class Main(object):
       raise Exception('need filename')
     return inputfilename
 
+  def reversedumpdir(self, inputfile):
+    for line in inputfile:
+      line = line.strip()
+      if not line:
+        continue
+      type, _, name = line.partition(' ')
+      if type == 'd':
+        currentfilename = None
+        os.mkdir(name)
+      elif type == 'f':
+        currentfilename = name
+        currentfile = open(currentfilename, 'w')
+        currentfile.close()
+      elif type == '>':
+        currentfile = open(currentfilename, 'a')
+        currentfile.write(name + '\n')
+        currentfile.close()
+      else:
+        raise Exception('unknown type: %s' % type)
+
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
-      for line in inputfile:
-        line = line.strip()
-        if not line:
-          continue
-        type, _, name = line.partition(' ')
-        if type == 'd':
-          currentfilename = None
-          os.mkdir(name)
-        elif type == 'f':
-          currentfilename = name
-          currentfile = open(currentfilename, 'w')
-          currentfile.close()
-        elif type == '>':
-          currentfile = open(currentfilename, 'a')
-          currentfile.write(name + '\n')
-          currentfile.close()
-        else:
-          raise Exception('unknown type: %s' % type)
+      self.reversedumpdir(inputfile)
 
   def runexcept(self, argv):
     inputfilename = self.filenamefromargv(argv)
