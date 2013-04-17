@@ -13,8 +13,7 @@ class Main(object):
     if len(argv) == 2:
       inputfilename = argv[1]
     else:
-      print 'need filename'
-      sys.exit(1)
+      raise Exception('need filename')
     return inputfilename
 
   def parsefileandcreatedirs(self, inputfilename):
@@ -45,11 +44,13 @@ class Main(object):
   def run(self, argv):
     try:
       self.runexcept(argv)
+      return 0
     except Exception as error:
       print 'ERROR: %s\n' % str(error)
-      sys.exit(1)
+      return 1
 
 # ------------------------------------------------------------------------------
 def main():
   mainrunner = Main()
-  mainrunner.run(sys.argv)
+  exitstatus = mainrunner.run(sys.argv)
+  sys.exit(exitstatus)
