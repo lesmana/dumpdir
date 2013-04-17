@@ -10,8 +10,8 @@ class Main(object):
     pass
 
   def filenamefromargv(self, argv):
-    if len(sys.argv) == 2:
-      inputfilename = sys.argv[1]
+    if len(argv) == 2:
+      inputfilename = argv[1]
     else:
       print 'need filename'
       sys.exit(1)
