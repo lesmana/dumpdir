@@ -17,9 +17,7 @@ class Main(object):
       sys.exit(1)
     return inputfilename
 
-  def run(self, argv):
-    inputfilename = self.filenamefromargv(argv)
-
+  def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
       for line in inputfile:
         line = line.strip()
@@ -39,6 +37,10 @@ class Main(object):
           currentfile.close()
         else:
           raise Exception('unknown type: %s' % type)
+
+  def run(self, argv):
+    inputfilename = self.filenamefromargv(argv)
+    self.parsefileandcreatedirs(inputfilename)
 
 # ------------------------------------------------------------------------------
 def main():
