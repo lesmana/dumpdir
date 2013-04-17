@@ -38,9 +38,16 @@ class Main(object):
         else:
           raise Exception('unknown type: %s' % type)
 
-  def run(self, argv):
+  def runexcept(self, argv):
     inputfilename = self.filenamefromargv(argv)
     self.parsefileandcreatedirs(inputfilename)
+
+  def run(self, argv):
+    try:
+      self.runexcept(argv)
+    except Exception as error:
+      print 'ERROR: %s\n' % str(error)
+      sys.exit(1)
 
 # ------------------------------------------------------------------------------
 def main():
