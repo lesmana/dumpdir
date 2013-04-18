@@ -51,16 +51,16 @@ class Main(object):
     inputfilename = self.filenamefromargv(argv)
     self.parsefileandcreatedirs(inputfilename)
 
-  def run(self, argv):
+  def run(self, argv, stdout, stderr):
     try:
       self.runexcept(argv)
       return 0
     except Exception as error:
-      print 'ERROR: %s\n' % str(error)
+      stdout.write('ERROR: %s\n' % str(error))
       return 1
 
 # ------------------------------------------------------------------------------
 def main():
   mainrunner = Main()
-  exitstatus = mainrunner.run(sys.argv)
+  exitstatus = mainrunner.run(sys.argv, sys.stdout, sys.stderr)
   sys.exit(exitstatus)
