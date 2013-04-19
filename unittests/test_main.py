@@ -13,7 +13,7 @@ class TestMainRunExcept(unittest.TestCase):
         return 'inputfilename'
       def parsefileandcreatedirs(self, inputfilename):
         report.append(('parsefileandcreatedirs', inputfilename))
-    main = PartFakeMain()
+    main = PartFakeMain(None)
     main.runexcept('argv')
     self.assertEqual(report, [
           ('filenamefromargv', 'argv'),
