@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
 import os
-import sys
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
@@ -62,6 +61,7 @@ class Main(object):
 
 # ------------------------------------------------------------------------------
 def main():
+  import sys
   mainrunner = Main()
   exitstatus = mainrunner.run(sys.argv, sys.stdout, sys.stderr)
   sys.exit(exitstatus)
