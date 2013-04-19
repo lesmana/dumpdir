@@ -17,13 +17,13 @@ class ReverseDumpDir(object):
       type, _, name = line.partition(' ')
       if type == 'd':
         currentfilename = None
-        os.mkdir(name)
+        self.osmod.mkdir(name)
       elif type == 'f':
         currentfilename = name
-        currentfile = open(currentfilename, 'w')
+        currentfile = self.openfunc(currentfilename, 'w')
         currentfile.close()
       elif type == '>':
-        currentfile = open(currentfilename, 'a')
+        currentfile = self.openfunc(currentfilename, 'a')
         currentfile.write(name + '\n')
         currentfile.close()
       else:
