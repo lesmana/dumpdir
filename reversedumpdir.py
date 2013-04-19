@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-import os
-
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
@@ -44,6 +42,7 @@ class Main(object):
 
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
+      import os
       reversedumpdir = ReverseDumpDir(os, open)
       reversedumpdir.reversedumpdir(inputfile)
 
