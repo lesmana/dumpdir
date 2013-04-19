@@ -6,8 +6,9 @@ import sys
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
-  def __init__(self):
-    pass
+  def __init__(self, osmod, openfunc):
+    self.osmod = osmod
+    self.openfunc = openfunc
 
   def reversedumpdir(self, inputfile):
     for line in inputfile:
@@ -44,7 +45,7 @@ class Main(object):
 
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
-      reversedumpdir = ReverseDumpDir()
+      reversedumpdir = ReverseDumpDir(os, open)
       reversedumpdir.reversedumpdir(inputfile)
 
   def runexcept(self, argv):
