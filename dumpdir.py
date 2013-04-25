@@ -6,8 +6,8 @@ import sys
 # ------------------------------------------------------------------------------
 class DumpDir(object):
 
-  def __init__(self):
-    self.stdout = sys.stdout
+  def __init__(self, stdout):
+    self.stdout = stdout
 
   def dumpdir(self):
     cwd = os.getcwd()
@@ -42,6 +42,6 @@ class Main(object):
 
 # ------------------------------------------------------------------------------
 def main():
-  dumpdir = DumpDir()
+  dumpdir = DumpDir(sys.stdout)
   mainrunner = Main(dumpdir)
   mainrunner.run()
