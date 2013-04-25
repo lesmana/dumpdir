@@ -33,14 +33,14 @@ class DumpDir(object):
 # ------------------------------------------------------------------------------
 class Main(object):
 
-  def __init__(self):
-    pass
+  def __init__(self, dumpdir):
+    self.dumpdir = dumpdir
 
   def run(self):
-    dumpdir = DumpDir()
-    dumpdir.dumpdir()
+    self.dumpdir.dumpdir()
 
 # ------------------------------------------------------------------------------
 def main():
-  mainrunner = Main()
+  dumpdir = DumpDir()
+  mainrunner = Main(dumpdir)
   mainrunner.run()
