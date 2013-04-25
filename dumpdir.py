@@ -36,8 +36,16 @@ class Main(object):
   def __init__(self, dumpdir):
     self.dumpdir = dumpdir
 
-  def run(self):
+  def runexcept(self):
     self.dumpdir.dumpdir()
+
+  def run(self):
+    try:
+      self.runexcept()
+      return 0
+    except Exception as error:
+      self.stdout.write('ERROR: %s\n' % str(error))
+      return 1
 
 # ------------------------------------------------------------------------------
 def main():
@@ -45,4 +53,5 @@ def main():
   import sys
   dumpdir = DumpDir(os, open, sys.stdout)
   mainrunner = Main(dumpdir)
-  mainrunner.run()
+  exitstatus = mainrunner.run()
+  sys.exit(exitstatus)
