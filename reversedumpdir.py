@@ -48,7 +48,7 @@ class Main(object):
     inputfilename = self.filenamefromargv(argv)
     self.parsefileandcreatedirs(inputfilename)
 
-  def run(self, argv, stdout, stderr):
+  def run(self, argv, stdout):
     try:
       self.runexcept(argv)
       return 0
@@ -62,5 +62,5 @@ def main():
   import sys
   reversedumpdir = ReverseDumpDir(os, open)
   mainrunner = Main(reversedumpdir)
-  exitstatus = mainrunner.run(sys.argv, sys.stdout, sys.stderr)
+  exitstatus = mainrunner.run(sys.argv, sys.stdout)
   sys.exit(exitstatus)
