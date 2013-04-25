@@ -7,7 +7,7 @@ import sys
 class DumpDir(object):
 
   def __init__(self):
-    pass
+    self.stdout = sys.stdout
 
   def dumpdir(self):
     cwd = os.getcwd()
@@ -15,7 +15,7 @@ class DumpDir(object):
       dirnames.sort()
       if dirpath != cwd:
         relpath = os.path.relpath(dirpath)
-        sys.stdout.write('d %s\n' % (relpath))
+        self.stdout.write('d %s\n' % (relpath))
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
@@ -24,12 +24,12 @@ class DumpDir(object):
           commonprefix = os.path.commonprefix([cwd, target])
           if commonprefix != '/':
             target = '(...)' + os.path.relpath(target)
-          sys.stdout.write('l %s -> %s\n' % (relpath_filename, target))
+          self.stdout.write('l %s -> %s\n' % (relpath_filename, target))
         else:
-          sys.stdout.write('f %s\n' % (relpath_filename))
+          self.stdout.write('f %s\n' % (relpath_filename))
           with open(relpath_filename) as fileobject:
             for line in fileobject:
-              sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+              self.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
 class Main(object):
