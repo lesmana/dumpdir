@@ -3,12 +3,12 @@
 import os
 
 # ------------------------------------------------------------------------------
-class Main(object):
+class DumpDir(object):
 
   def __init__(self):
     pass
 
-  def run(self):
+  def dumpdir(self):
     cwd = os.getcwd()
     for (dirpath, dirnames, filenames) in os.walk(cwd):
       dirnames.sort()
@@ -29,6 +29,16 @@ class Main(object):
           with open(relpath_filename) as fileobject:
             for line in fileobject:
               print "> %s" % (line.rstrip('\n'))
+
+# ------------------------------------------------------------------------------
+class Main(object):
+
+  def __init__(self):
+    pass
+
+  def run(self):
+    dumpdir = DumpDir()
+    dumpdir.dumpdir()
 
 # ------------------------------------------------------------------------------
 def main():
