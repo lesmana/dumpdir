@@ -30,8 +30,9 @@ class ReverseDumpDir(object):
 # ------------------------------------------------------------------------------
 class Main(object):
 
-  def __init__(self, reversedumpdir):
+  def __init__(self, reversedumpdir, stdout):
     self.reversedumpdir = reversedumpdir
+    self.stdout = stdout
 
   def filenamefromargv(self, argv):
     if len(argv) == 2:
@@ -48,12 +49,12 @@ class Main(object):
     inputfilename = self.filenamefromargv(argv)
     self.parsefileandcreatedirs(inputfilename)
 
-  def run(self, argv, stdout):
+  def run(self, argv):
     try:
       self.runexcept(argv)
       return 0
     except Exception as error:
-      stdout.write('ERROR: %s\n' % str(error))
+      self.stdout.write('ERROR: %s\n' % str(error))
       return 1
 
 # ------------------------------------------------------------------------------
@@ -61,6 +62,6 @@ def main():
   import os
   import sys
   reversedumpdir = ReverseDumpDir(os, open)
-  mainrunner = Main(reversedumpdir)
-  exitstatus = mainrunner.run(sys.argv, sys.stdout)
+  mainrunner = Main(reversedumpdir, sys.stdout)
+  exitstatus = mainrunner.run(sys.argv)
   sys.exit(exitstatus)
