@@ -5,7 +5,8 @@ import os
 # ------------------------------------------------------------------------------
 class DumpDir(object):
 
-  def __init__(self, stdout):
+  def __init__(self, openfunc, stdout):
+    self.openfunc = openfunc
     self.stdout = stdout
 
   def dumpdir(self):
@@ -26,7 +27,7 @@ class DumpDir(object):
           self.stdout.write('l %s -> %s\n' % (relpath_filename, target))
         else:
           self.stdout.write('f %s\n' % (relpath_filename))
-          with open(relpath_filename) as fileobject:
+          with self.openfunc(relpath_filename) as fileobject:
             for line in fileobject:
               self.stdout.write('> %s\n' % (line.rstrip('\n')))
 
@@ -42,6 +43,6 @@ class Main(object):
 # ------------------------------------------------------------------------------
 def main():
   import sys
-  dumpdir = DumpDir(sys.stdout)
+  dumpdir = DumpDir(open, sys.stdout)
   mainrunner = Main(dumpdir)
   mainrunner.run()
