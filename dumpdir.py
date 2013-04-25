@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import os
+import sys
 
 # ------------------------------------------------------------------------------
 class DumpDir(object):
@@ -14,7 +15,7 @@ class DumpDir(object):
       dirnames.sort()
       if dirpath != cwd:
         relpath = os.path.relpath(dirpath)
-        print "d %s" % (relpath)
+        sys.stdout.write("d %s\n" % (relpath))
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
@@ -23,12 +24,12 @@ class DumpDir(object):
           commonprefix = os.path.commonprefix([cwd, target])
           if commonprefix != '/':
             target = '(...)' + os.path.relpath(target)
-          print "l %s -> %s" % (relpath_filename, target)
+          sys.stdout.write("l %s -> %s\n" % (relpath_filename, target))
         else:
-          print "f %s" % (relpath_filename)
+          sys.stdout.write("f %s\n" % (relpath_filename))
           with open(relpath_filename) as fileobject:
             for line in fileobject:
-              print "> %s" % (line.rstrip('\n'))
+              sys.stdout.write("> %s\n" % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
 class Main(object):
