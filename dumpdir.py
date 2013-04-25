@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-import os
-
 # ------------------------------------------------------------------------------
 class DumpDir(object):
 
@@ -43,6 +41,7 @@ class Main(object):
 
 # ------------------------------------------------------------------------------
 def main():
+  import os
   import sys
   dumpdir = DumpDir(os, open, sys.stdout)
   mainrunner = Main(dumpdir)
