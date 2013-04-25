@@ -5,25 +5,26 @@ import os
 # ------------------------------------------------------------------------------
 class DumpDir(object):
 
-  def __init__(self, openfunc, stdout):
+  def __init__(self, osmod, openfunc, stdout):
+    self.osmod = osmod
     self.openfunc = openfunc
     self.stdout = stdout
 
   def dumpdir(self):
-    cwd = os.getcwd()
-    for (dirpath, dirnames, filenames) in os.walk(cwd):
+    cwd = self.osmod.getcwd()
+    for (dirpath, dirnames, filenames) in self.osmod.walk(cwd):
       dirnames.sort()
       if dirpath != cwd:
-        relpath = os.path.relpath(dirpath)
+        relpath = self.osmod.path.relpath(dirpath)
         self.stdout.write('d %s\n' % (relpath))
       for filename in sorted(filenames):
-        dirpath_filename = os.path.join(dirpath, filename)
-        relpath_filename = os.path.relpath(dirpath_filename)
-        if os.path.islink(relpath_filename):
-          target = os.readlink(relpath_filename)
-          commonprefix = os.path.commonprefix([cwd, target])
+        dirpath_filename = self.osmod.path.join(dirpath, filename)
+        relpath_filename = self.osmod.path.relpath(dirpath_filename)
+        if self.osmod.path.islink(relpath_filename):
+          target = self.osmod.readlink(relpath_filename)
+          commonprefix = self.osmod.path.commonprefix([cwd, target])
           if commonprefix != '/':
-            target = '(...)' + os.path.relpath(target)
+            target = '(...)' + self.osmod.path.relpath(target)
           self.stdout.write('l %s -> %s\n' % (relpath_filename, target))
         else:
           self.stdout.write('f %s\n' % (relpath_filename))
@@ -43,6 +44,6 @@ class Main(object):
 # ------------------------------------------------------------------------------
 def main():
   import sys
-  dumpdir = DumpDir(open, sys.stdout)
+  dumpdir = DumpDir(os, open, sys.stdout)
   mainrunner = Main(dumpdir)
   mainrunner.run()
