@@ -1,8 +1,9 @@
 
 class FakeFs(object):
 
-  def __init__(self, fakefsdata):
+  def __init__(self, fakefsdata, cwd):
     self.fakefsdata = fakefsdata
+    self.cwd = cwd
 
 class FakePathMod(object):
 
@@ -11,16 +12,15 @@ class FakePathMod(object):
 
 class FakeOsMod(object):
 
-  def __init__(self, fakefs, cwd, fakepathmod):
+  def __init__(self, fakefs, fakepathmod):
     self.fakefs = fakefs
-    self.cwd = cwd
     self.path = fakepathmod
 
   def getcwd(self):
-    return self.cwd
+    return self.fakefs.cwd
 
 def fakeos(fakefsdata, cwd):
-  fakefs = FakeFs(fakefsdata)
+  fakefs = FakeFs(fakefsdata, cwd)
   fakepathmod = FakePathMod(fakefs)
-  fakeosmod = FakeOsMod(fakefs, cwd, fakepathmod)
+  fakeosmod = FakeOsMod(fakefs, fakepathmod)
   return fakeosmod
