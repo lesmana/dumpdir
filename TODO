@@ -1,0 +1,11 @@
+todo
+
+----
+write readme
+
+----
+implement executable flag
+
+----
+rewrite tests to use templating engine
+to generate self contained tests
