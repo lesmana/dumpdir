@@ -6,6 +6,6 @@ set -x
 
 . ../lib_runtest.sh
 . ../lib_method_loop.sh
-. ./lib_data.sh
+. ./test_empty_data.sh
 
 runtest

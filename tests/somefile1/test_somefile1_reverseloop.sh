@@ -6,6 +6,6 @@ set -x
 
 . ../lib_runtest.sh
 . ../lib_method_reverseloop.sh
-. ./lib_data.sh
+. ./test_somefile1_data.sh
 
 runtest

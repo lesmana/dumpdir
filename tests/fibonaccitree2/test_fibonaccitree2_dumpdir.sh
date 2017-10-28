@@ -6,6 +6,6 @@ set -x
 
 . ../lib_runtest.sh
 . ../lib_method_dumpdir.sh
-. ./lib_data.sh
+. ./test_fibonaccitree2_data.sh
 
 runtest
