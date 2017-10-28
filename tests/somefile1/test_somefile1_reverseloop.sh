@@ -4,8 +4,8 @@ set -e
 set -u
 set -x
 
-. ../lib_runtest.sh
-. ../lib_method_reverseloop.sh
+. ./lib_runtest.sh
+. ./lib_method_reverseloop.sh
 . ./test_somefile1_data.sh
 
 runtest
