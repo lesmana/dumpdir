@@ -1,5 +1,5 @@
 
-. ./lib_method_common.sh
+. ./lib_method.sh
 
 arrange_in_stage() {
   arrange_dumpofdir
