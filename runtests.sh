@@ -3,4 +3,8 @@
 PATH="$PWD:$PATH"
 
 cd tests
-../shut -r
+rm -rf actualtests
+mkdir -p actualtests
+cp -a templates/* actualtests
+cd actualtests
+shut -r
