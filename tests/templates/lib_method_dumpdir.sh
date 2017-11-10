@@ -1,5 +1,5 @@
 
-. ./lib_method.sh
+include(lib_method.sh)
 
 arrange_in_stage() {
   arrange_dirofdump

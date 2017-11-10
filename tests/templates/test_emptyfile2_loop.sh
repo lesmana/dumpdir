@@ -4,8 +4,8 @@ set -e
 set -u
 set -x
 
-. ./lib_runtest.sh
-. ./lib_method_loop.sh
-. ./test_emptyfile2_data.sh
+include(lib_runtest.sh)
+include(lib_method_loop.sh)
+include(test_emptyfile2_data.sh)
 
 runtest

@@ -1,5 +1,5 @@
 
-. ./lib_data_common.sh
+include(lib_data_common.sh)
 
 content1="\
 some content1
