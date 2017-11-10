@@ -5,18 +5,18 @@ arrange() {
   mkdir expected
   (
     cd stage
-    arrange_in_stage
+    arrange_stage
   ) || {
     exitstatus=$?
-    echo "arange in stage failed"
+    echo "arange stage failed"
     exit $exitstatus
   }
   (
     cd expected
-    arrange_in_expected
+    arrange_expected
   ) || {
     exitstatus=$?
-    echo "arange in expected failed"
+    echo "arange expected failed"
     exit $exitstatus
   }
 }
