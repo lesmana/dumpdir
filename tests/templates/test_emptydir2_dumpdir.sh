@@ -2,7 +2,7 @@
 
 
 include(lib_runtest.sh)
-include(lib_method_dumpdir.sh)
+include(lib_method_`'METHOD`'.sh)
 include(test_emptydir2_data.sh)
 
 runtest
