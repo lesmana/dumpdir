@@ -16,4 +16,4 @@ for datafile in templates/*_data.sh; do
   done
 done
 cd actualtests
-shut -r
+shut
