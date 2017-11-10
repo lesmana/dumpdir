@@ -1,7 +1,6 @@
 
 arrange() {
   mkdir stage
-  mkdir temp
   mkdir actual
   mkdir expected
   (cd stage; arrange_in_stage) || exit
