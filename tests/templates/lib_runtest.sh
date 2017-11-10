@@ -1,11 +1,4 @@
 
-setuptestenvironment() {
-  testenvironment="$0.d"
-  rm -rf "$testenvironment"
-  mkdir "$testenvironment"
-  cd "$testenvironment"
-}
-
 arrange() {
   mkdir stage
   mkdir temp
@@ -20,7 +13,6 @@ assert() {
 }
 
 runtest() {
-  setuptestenvironment
   arrange
   act
   assert
