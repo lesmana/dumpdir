@@ -11,6 +11,6 @@ arrange_expected() {
 
 act() {
   mkdir temp
-  act_run_dumpdir "stage" "temp"
-  act_run_reversedumpdir "temp" "actual"
+  act_dumpdir "stage" "temp"
+  act_reversedumpdir "temp" "actual"
 }

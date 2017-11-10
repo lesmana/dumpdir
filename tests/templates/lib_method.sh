@@ -1,5 +1,5 @@
 
-act_run_dumpdir() {
+act_dumpdir() {
   workdir=$1
   outputdir=$2
   (
@@ -12,7 +12,7 @@ act_run_dumpdir() {
   }
 }
 
-act_run_reversedumpdir() {
+act_reversedumpdir() {
   inputdir=$1
   workdir=$2
   (
