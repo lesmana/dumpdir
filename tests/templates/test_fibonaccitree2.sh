@@ -3,6 +3,6 @@
 
 include(lib_runtest.sh)
 include(METHOD)
-include(test_fibonaccitree2_data.sh)
+include(data_fibonaccitree2.sh)
 
 runtest

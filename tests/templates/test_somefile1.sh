@@ -3,6 +3,6 @@
 
 include(lib_runtest.sh)
 include(METHOD)
-include(test_somefile1_data.sh)
+include(data_somefile1.sh)
 
 runtest
