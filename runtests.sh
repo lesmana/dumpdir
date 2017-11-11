@@ -10,7 +10,7 @@ for datafile in templates/*_data.sh; do
     datapart=${datafile%_*}
     methodpart=${methodfile##*_}
     methodname=${methodpart%.sh}
-    sourcefilename=${datapart}_dumpdir.sh
+    sourcefilename=${datapart}.sh
     targetfilename=${datapart/templates/actualtests}_${methodpart}
     m4 -I templates -DMETHOD=$methodname $sourcefilename > $targetfilename
     chmod +x $targetfilename
