@@ -1,6 +1,4 @@
 
-include(lib_data_common.sh)
-
 content="\
 some content
 some more content
@@ -8,7 +6,8 @@ some more content
 
 dumpfile="\
 f somefile
-$(echo -n "$content" | marklines)
+> some content
+> some more content
 "
 
 arrange_dumpofdir() {
