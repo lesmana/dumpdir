@@ -1,8 +1,7 @@
 #! /bin/sh
 
-
-include(lib_runtest.sh)
-include(METHOD)
 include(DATA)
+include(METHOD)
+include(lib_runtest.sh)
 
 runtest
