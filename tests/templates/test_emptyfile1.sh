@@ -2,7 +2,7 @@
 
 
 include(lib_runtest.sh)
-include(lib_method_`'METHOD`'.sh)
+include(METHOD)
 include(test_emptyfile1_data.sh)
 
 runtest
