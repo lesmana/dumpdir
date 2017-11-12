@@ -1,6 +1,6 @@
 #! /bin/sh
 
-PATH="$PWD:$PATH"
+PATH="$PWD:$PWD/tests/helpers:$PATH"
 
 cd tests
 rm -rf actualtests
