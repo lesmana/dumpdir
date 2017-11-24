@@ -37,3 +37,13 @@ compare with `tree`:
 `dumpdir` works best in small directory trees with small text files.
 it does not handle binary files well. also it does not care about
 file attributes like ownership or timestamps.
+
+license
+-------
+
+Copyright 2017 Lesmana Zimmer lesmana@gmx.de
+
+This program is licensed under GNU GPL version 3 or later.
+That means this program can be used, changed, shared (including changes)
+provided that it is done under the same license.
+For details see https://www.gnu.org/licenses/gpl-3.0.html
