@@ -28,7 +28,7 @@ class ReverseDumpDir(object):
         raise Exception('unknown type: %s' % type)
 
 # ------------------------------------------------------------------------------
-class Main(object):
+class ReverseMain(object):
 
   def __init__(self, reversedumpdir, stdout):
     self.reversedumpdir = reversedumpdir
@@ -58,10 +58,10 @@ class Main(object):
       return 1
 
 # ------------------------------------------------------------------------------
-def main():
+def reversemain():
   import os
   import sys
   reversedumpdir = ReverseDumpDir(os, open)
-  mainrunner = Main(reversedumpdir, sys.stdout)
+  mainrunner = ReverseMain(reversedumpdir, sys.stdout)
   exitstatus = mainrunner.run(sys.argv)
   sys.exit(exitstatus)

@@ -1,13 +1,13 @@
 
 import unittest
 
-from reversedumpdir import Main
+from reversedumpdir import ReverseMain
 
 class TestMainRunExcept(unittest.TestCase):
 
   def test_good(self):
     report = []
-    class PartFakeMain(Main):
+    class PartFakeMain(ReverseMain):
       def filenamefromargv(self, argv):
         report.append(('filenamefromargv', argv))
         return 'inputfilename'
