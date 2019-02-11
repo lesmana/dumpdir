@@ -1,8 +1,0 @@
-#! /usr/bin/env python2
-
-import dumpdir
-
-import sys
-sys.argv.append('-r')
-
-dumpdir.bothmain()

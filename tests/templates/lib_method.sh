@@ -17,7 +17,7 @@ act_reversedumpdir() {
   workdir=$2
   (
     cd "$workdir"
-    reversedumpdir ../"$inputdir"/dumpfile
+    dumpdir -r ../"$inputdir"/dumpfile
   ) || {
     exitstatus=$?
     echo "reversedumpdir fail with exitstatus $exitstatus"
