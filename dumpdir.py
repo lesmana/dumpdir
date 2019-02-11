@@ -122,3 +122,12 @@ def reversemain():
   mainrunner = ReverseMain(reversedumpdir, sys.stdout)
   exitstatus = mainrunner.run(sys.argv)
   sys.exit(exitstatus)
+
+# ------------------------------------------------------------------------------
+def bothmain():
+  import sys
+  if '-r' in sys.argv:
+    sys.argv.remove('-r')
+    reversemain()
+  else:
+    main()

@@ -2,4 +2,7 @@
 
 import dumpdir
 
-dumpdir.reversemain()
+import sys
+sys.argv.append('-r')
+
+dumpdir.bothmain()

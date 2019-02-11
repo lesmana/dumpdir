@@ -2,4 +2,4 @@
 
 import dumpdir
 
-dumpdir.main()
+dumpdir.bothmain()
