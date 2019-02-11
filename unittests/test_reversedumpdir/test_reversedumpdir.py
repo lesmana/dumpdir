@@ -1,7 +1,7 @@
 
 import unittest
 
-from reversedumpdir import ReverseDumpDir
+from dumpdir import ReverseDumpDir
 
 class TestReverseDumpDir(unittest.TestCase):
 

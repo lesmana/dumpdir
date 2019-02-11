@@ -1,7 +1,7 @@
 
 import unittest
 
-from reversedumpdir import ReverseMain
+from dumpdir import ReverseMain
 
 class TestMainRunExcept(unittest.TestCase):
 
