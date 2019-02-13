@@ -108,7 +108,7 @@ def reversedumpdir():
   return exitstatus
 
 # ------------------------------------------------------------------------------
-def bothmain():
+def main():
   import sys
   if '-r' in sys.argv:
     sys.argv.remove('-r')

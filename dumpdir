@@ -4,4 +4,4 @@ import sys
 
 import dumpdir
 
-sys.exit(dumpdir.bothmain())
+sys.exit(dumpdir.main())
