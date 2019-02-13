@@ -1,13 +1,13 @@
 
 content="\
-some content
-some more content
+hello
+world
 "
 
 dumpfile="\
-f somefile
-> some content
-> some more content
+f textfile
+> hello
+> world
 "
 
 arrange_dumpofdir() {
@@ -15,5 +15,5 @@ arrange_dumpofdir() {
 }
 
 arrange_dirofdump() {
-  echo -n "$content" > somefile
+  echo -n "$content" > textfile
 }
