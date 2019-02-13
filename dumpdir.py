@@ -33,30 +33,6 @@ class DumpDir(object):
     self.dumpdir()
 
 # ------------------------------------------------------------------------------
-class Main(object):
-
-  def __init__(self, dumpdir, stdout):
-    self.dumpdir = dumpdir
-    self.stdout = stdout
-
-  def run(self, argv):
-    try:
-      self.dumpdir.runexcept(argv)
-      return 0
-    except Exception as error:
-      self.stdout.write('ERROR: %s\n' % str(error))
-      return 1
-
-# ------------------------------------------------------------------------------
-def main():
-  import os
-  import sys
-  dumpdir = DumpDir(os, open, sys.stdout)
-  mainrunner = Main(dumpdir, sys.stdout)
-  exitstatus = mainrunner.run(sys.argv)
-  sys.exit(exitstatus)
-
-# ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
   def __init__(self, osmod, openfunc):
@@ -97,6 +73,30 @@ class ReverseDumpDir(object):
   def runexcept(self, argv):
     inputfilename = self.filenamefromargv(argv)
     self.parsefileandcreatedirs(inputfilename)
+
+# ------------------------------------------------------------------------------
+class Main(object):
+
+  def __init__(self, dumpdir, stdout):
+    self.dumpdir = dumpdir
+    self.stdout = stdout
+
+  def run(self, argv):
+    try:
+      self.dumpdir.runexcept(argv)
+      return 0
+    except Exception as error:
+      self.stdout.write('ERROR: %s\n' % str(error))
+      return 1
+
+# ------------------------------------------------------------------------------
+def main():
+  import os
+  import sys
+  dumpdir = DumpDir(os, open, sys.stdout)
+  mainrunner = Main(dumpdir, sys.stdout)
+  exitstatus = mainrunner.run(sys.argv)
+  sys.exit(exitstatus)
 
 # ------------------------------------------------------------------------------
 def reversemain():
