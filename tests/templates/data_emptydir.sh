@@ -1,7 +1,6 @@
 
 dumpfile="\
-d somedir1
-d somedir2
+d emptydir
 "
 
 arrange_dumpofdir() {
@@ -9,6 +8,5 @@ arrange_dumpofdir() {
 }
 
 arrange_dirofdump() {
-  mkdir somedir1
-  mkdir somedir2
+  mkdir emptydir
 }
