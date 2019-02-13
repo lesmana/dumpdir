@@ -16,11 +16,11 @@ f mt/xd/sdf/fe
 > wat
 "
 
-arrange_dumpofdir() {
+arrange_dumpfile() {
   echo -n "$dumpfile" > dumpfile
 }
 
-arrange_dirofdump() {
+arrange_dirs() {
   mkdir mt
   echo foo > mt/ff
   mkdir mt/sd1

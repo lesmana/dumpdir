@@ -1,10 +1,10 @@
 
 arrange_input() {
-  arrange_dirofdump
+  arrange_dirs
 }
 
 arrange_expected() {
-  arrange_dumpofdir
+  arrange_dumpfile
 }
 
 act() {

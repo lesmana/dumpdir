@@ -3,10 +3,10 @@ dumpfile="\
 f emptyfile
 "
 
-arrange_dumpofdir() {
+arrange_dumpfile() {
   echo -n "$dumpfile" > dumpfile
 }
 
-arrange_dirofdump() {
+arrange_dirs() {
   touch emptyfile
 }
