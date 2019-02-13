@@ -4,15 +4,15 @@ include(DATA)
 include(METHOD)
 
 arrange() {
-  mkdir stage
+  mkdir input
   mkdir actual
   mkdir expected
   (
-    cd stage
-    arrange_stage
+    cd input
+    arrange_input
   ) || {
     exitstatus=$?
-    echo "arange stage failed"
+    echo "arange input failed"
     exit $exitstatus
   }
   (

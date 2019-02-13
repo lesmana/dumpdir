@@ -1,5 +1,5 @@
 
-arrange_stage() {
+arrange_input() {
   arrange_dirofdump
 }
 
@@ -9,7 +9,7 @@ arrange_expected() {
 
 act() {
   (
-    cd stage
+    cd input
     dumpdir > ../actual/dumpfile
   ) || {
     exitstatus=$?

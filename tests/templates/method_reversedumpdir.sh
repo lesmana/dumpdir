@@ -1,5 +1,5 @@
 
-arrange_stage() {
+arrange_input() {
   arrange_dumpofdir
 }
 
@@ -10,7 +10,7 @@ arrange_expected() {
 act() {
   (
     cd actual
-    dumpdir -r ../stage/dumpfile
+    dumpdir -r ../input/dumpfile
   ) || {
     exitstatus=$?
     echo "reversedumpdir fail with exitstatus $exitstatus"
