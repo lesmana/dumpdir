@@ -90,7 +90,7 @@ class Main(object):
       return 1
 
 # ------------------------------------------------------------------------------
-def main():
+def dumpdir():
   import os
   import sys
   dumpdir = DumpDir(os, open, sys.stdout)
@@ -99,7 +99,7 @@ def main():
   return exitstatus
 
 # ------------------------------------------------------------------------------
-def reversemain():
+def reversedumpdir():
   import os
   import sys
   reversedumpdir = ReverseDumpDir(os, open)
@@ -112,6 +112,6 @@ def bothmain():
   import sys
   if '-r' in sys.argv:
     sys.argv.remove('-r')
-    return reversemain()
+    return reversedumpdir()
   else:
-    return main()
+    return dumpdir()
