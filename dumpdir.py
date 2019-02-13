@@ -29,6 +29,9 @@ class DumpDir(object):
             for line in fileobject:
               self.stdout.write('> %s\n' % (line.rstrip('\n')))
 
+  def runexcept(self):
+    self.dumpdir()
+
 # ------------------------------------------------------------------------------
 class Main(object):
 
@@ -36,12 +39,9 @@ class Main(object):
     self.dumpdir = dumpdir
     self.stdout = stdout
 
-  def runexcept(self):
-    self.dumpdir.dumpdir()
-
   def run(self):
     try:
-      self.runexcept()
+      self.dumpdir.runexcept()
       return 0
     except Exception as error:
       self.stdout.write('ERROR: %s\n' % str(error))
@@ -83,13 +83,6 @@ class ReverseDumpDir(object):
       else:
         raise Exception('unknown type: %s' % type)
 
-# ------------------------------------------------------------------------------
-class ReverseMain(object):
-
-  def __init__(self, reversedumpdir, stdout):
-    self.reversedumpdir = reversedumpdir
-    self.stdout = stdout
-
   def filenamefromargv(self, argv):
     if len(argv) == 2:
       inputfilename = argv[1]
@@ -98,16 +91,23 @@ class ReverseMain(object):
     return inputfilename
 
   def parsefileandcreatedirs(self, inputfilename):
-    with open(inputfilename) as inputfile:
-      self.reversedumpdir.reversedumpdir(inputfile)
+    with self.openfunc(inputfilename) as inputfile:
+      self.reversedumpdir(inputfile)
 
   def runexcept(self, argv):
     inputfilename = self.filenamefromargv(argv)
     self.parsefileandcreatedirs(inputfilename)
 
+# ------------------------------------------------------------------------------
+class ReverseMain(object):
+
+  def __init__(self, reversedumpdir, stdout):
+    self.reversedumpdir = reversedumpdir
+    self.stdout = stdout
+
   def run(self, argv):
     try:
-      self.runexcept(argv)
+      self.reversedumpdir.runexcept(argv)
       return 0
     except Exception as error:
       self.stdout.write('ERROR: %s\n' % str(error))
