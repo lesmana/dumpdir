@@ -1,10 +1,8 @@
 
 act_dumpdir() {
-  workdir=$1
-  outputdir=$2
   (
-    cd "$workdir"
-    dumpdir > ../"$outputdir"/dumpfile
+    cd stage
+    dumpdir > ../actual/dumpfile
   ) || {
     exitstatus=$?
     echo "dumpdir fail with exitstatus $exitstatus"
@@ -13,11 +11,9 @@ act_dumpdir() {
 }
 
 act_reversedumpdir() {
-  inputdir=$1
-  workdir=$2
   (
-    cd "$workdir"
-    dumpdir -r ../"$inputdir"/dumpfile
+    cd actual
+    dumpdir -r ../stage/dumpfile
   ) || {
     exitstatus=$?
     echo "reversedumpdir fail with exitstatus $exitstatus"

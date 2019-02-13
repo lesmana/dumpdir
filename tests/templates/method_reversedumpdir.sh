@@ -10,5 +10,5 @@ arrange_expected() {
 }
 
 act() {
-  act_reversedumpdir "stage" "actual"
+  act_reversedumpdir
 }

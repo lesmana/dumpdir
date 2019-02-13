@@ -10,5 +10,5 @@ arrange_expected() {
 }
 
 act() {
-  act_dumpdir "stage" "actual"
+  act_dumpdir
 }
