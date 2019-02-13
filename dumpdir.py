@@ -99,26 +99,11 @@ class ReverseDumpDir(object):
     self.parsefileandcreatedirs(inputfilename)
 
 # ------------------------------------------------------------------------------
-class ReverseMain(object):
-
-  def __init__(self, reversedumpdir, stdout):
-    self.reversedumpdir = reversedumpdir
-    self.stdout = stdout
-
-  def run(self, argv):
-    try:
-      self.reversedumpdir.runexcept(argv)
-      return 0
-    except Exception as error:
-      self.stdout.write('ERROR: %s\n' % str(error))
-      return 1
-
-# ------------------------------------------------------------------------------
 def reversemain():
   import os
   import sys
   reversedumpdir = ReverseDumpDir(os, open)
-  mainrunner = ReverseMain(reversedumpdir, sys.stdout)
+  mainrunner = Main(reversedumpdir, sys.stdout)
   exitstatus = mainrunner.run(sys.argv)
   sys.exit(exitstatus)
 
