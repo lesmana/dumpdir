@@ -1,8 +1,8 @@
 #! /usr/bin/env python2
 
-import unittestchooser
+import unittest
 
-import test_reversedumpdir
+from test_reversedumpdir import TestReverseDumpDir
 
 if __name__ == '__main__':
-  unittestchooser.main()
+  unittest.main()

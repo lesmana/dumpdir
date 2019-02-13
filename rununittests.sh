@@ -1,6 +1,6 @@
 #! /bin/sh
 
-export PYTHONPATH=$PWD:$PWD/unittests/helpers:$PYTHONPATH
+export PYTHONPATH=$PWD:$PYTHONPATH
 
 cd unittests
 ./rununittests.py
