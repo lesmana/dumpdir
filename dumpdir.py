@@ -96,7 +96,7 @@ def main():
   dumpdir = DumpDir(os, open, sys.stdout)
   mainrunner = Main(dumpdir, sys.stdout)
   exitstatus = mainrunner.run(sys.argv)
-  sys.exit(exitstatus)
+  return exitstatus
 
 # ------------------------------------------------------------------------------
 def reversemain():
@@ -105,13 +105,13 @@ def reversemain():
   reversedumpdir = ReverseDumpDir(os, open)
   mainrunner = Main(reversedumpdir, sys.stdout)
   exitstatus = mainrunner.run(sys.argv)
-  sys.exit(exitstatus)
+  return exitstatus
 
 # ------------------------------------------------------------------------------
 def bothmain():
   import sys
   if '-r' in sys.argv:
     sys.argv.remove('-r')
-    reversemain()
+    return reversemain()
   else:
-    main()
+    return main()
