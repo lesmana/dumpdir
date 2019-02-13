@@ -75,27 +75,20 @@ class ReverseDumpDir(object):
     self.parsefileandcreatedirs(inputfilename)
 
 # ------------------------------------------------------------------------------
-class Main(object):
-
-  def __init__(self, dumpdir, stdout):
-    self.dumpdir = dumpdir
-    self.stdout = stdout
-
-  def run(self, argv):
-    try:
-      self.dumpdir.runexcept(argv)
-      return 0
-    except Exception as error:
-      self.stdout.write('ERROR: %s\n' % str(error))
-      return 1
+def run(dumpdir, stdout, argv):
+  try:
+    dumpdir.runexcept(argv)
+    return 0
+  except Exception as error:
+    stdout.write('ERROR: %s\n' % str(error))
+    return 1
 
 # ------------------------------------------------------------------------------
 def dumpdir():
   import os
   import sys
   dumpdir = DumpDir(os, open, sys.stdout)
-  mainrunner = Main(dumpdir, sys.stdout)
-  exitstatus = mainrunner.run(sys.argv)
+  exitstatus = run(dumpdir, sys.stdout, sys.argv)
   return exitstatus
 
 # ------------------------------------------------------------------------------
@@ -103,8 +96,7 @@ def reversedumpdir():
   import os
   import sys
   reversedumpdir = ReverseDumpDir(os, open)
-  mainrunner = Main(reversedumpdir, sys.stdout)
-  exitstatus = mainrunner.run(sys.argv)
+  exitstatus = run(reversedumpdir, sys.stdout, sys.argv)
   return exitstatus
 
 # ------------------------------------------------------------------------------
