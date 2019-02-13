@@ -1,6 +1,6 @@
 
 dumpfile="\
-f somefile
+f emptyfile
 "
 
 arrange_dumpofdir() {
@@ -8,5 +8,5 @@ arrange_dumpofdir() {
 }
 
 arrange_dirofdump() {
-  touch somefile
+  touch emptyfile
 }
