@@ -1,6 +1,4 @@
 
-include(lib_method.sh)
-
 arrange_stage() {
   arrange_dirofdump
 }
@@ -10,5 +8,12 @@ arrange_expected() {
 }
 
 act() {
-  act_dumpdir
+  (
+    cd stage
+    dumpdir > ../actual/dumpfile
+  ) || {
+    exitstatus=$?
+    echo "dumpdir fail with exitstatus $exitstatus"
+    exit $exitstatus
+  }
 }

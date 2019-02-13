@@ -1,6 +1,4 @@
 
-include(lib_method.sh)
-
 arrange_stage() {
   arrange_dumpofdir
 }
@@ -10,5 +8,12 @@ arrange_expected() {
 }
 
 act() {
-  act_reversedumpdir
+  (
+    cd actual
+    dumpdir -r ../stage/dumpfile
+  ) || {
+    exitstatus=$?
+    echo "reversedumpdir fail with exitstatus $exitstatus"
+    exit $exitstatus
+  }
 }
