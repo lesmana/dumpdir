@@ -29,7 +29,7 @@ class DumpDir(object):
             for line in fileobject:
               self.stdout.write('> %s\n' % (line.rstrip('\n')))
 
-  def runexcept(self):
+  def runexcept(self, argv):
     self.dumpdir()
 
 # ------------------------------------------------------------------------------
@@ -39,9 +39,9 @@ class Main(object):
     self.dumpdir = dumpdir
     self.stdout = stdout
 
-  def run(self):
+  def run(self, argv):
     try:
-      self.dumpdir.runexcept()
+      self.dumpdir.runexcept(argv)
       return 0
     except Exception as error:
       self.stdout.write('ERROR: %s\n' % str(error))
@@ -53,7 +53,7 @@ def main():
   import sys
   dumpdir = DumpDir(os, open, sys.stdout)
   mainrunner = Main(dumpdir, sys.stdout)
-  exitstatus = mainrunner.run()
+  exitstatus = mainrunner.run(sys.argv)
   sys.exit(exitstatus)
 
 # ------------------------------------------------------------------------------
