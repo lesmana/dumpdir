@@ -4,10 +4,8 @@ rm -rf generated
 mkdir -p generated
 for datafile in data_*; do
   for methodfile in method_*; do
-    datapart=${datafile##*_}
-    methodpart=${methodfile##*_}
-    targetfile=generated/test_${datapart}_${methodpart}.sh
-    m4 -I templates -DDATA=$datafile -DMETHOD=$methodfile test > $targetfile
+    targetfile=generated/test_${datafile#data_}_${methodfile#method_}.sh
+    m4 -DDATA=$datafile -DMETHOD=$methodfile test > $targetfile
     chmod +x $targetfile
   done
 done
