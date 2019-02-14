@@ -85,26 +85,13 @@ def run(dumpdir):
     return 1
 
 # ------------------------------------------------------------------------------
-def dumpdir():
-  import os
-  import sys
-  dumpdir = DumpDir(os, open, sys.stdout)
-  exitstatus = run(dumpdir)
-  return exitstatus
-
-# ------------------------------------------------------------------------------
-def reversedumpdir():
-  import os
-  import sys
-  reversedumpdir = ReverseDumpDir(os, open)
-  exitstatus = run(reversedumpdir)
-  return exitstatus
-
-# ------------------------------------------------------------------------------
 def main():
+  import os
   import sys
   if '-r' in sys.argv:
     sys.argv.remove('-r')
-    return reversedumpdir()
+    dumpdirthing = ReverseDumpDir(os, open)
   else:
-    return dumpdir()
+    dumpdirthing = DumpDir(os, open, sys.stdout)
+  exitstatus = run(dumpdirthing)
+  return exitstatus
