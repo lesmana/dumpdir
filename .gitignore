@@ -1,2 +1,2 @@
 *.pyc
-blackboxtests/actualtests
+blackboxtests/generated
