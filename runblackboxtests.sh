@@ -1,8 +1,8 @@
 #! /bin/sh
 
-PATH="$PWD:$PWD/tests/helpers:$PATH"
+PATH="$PWD:$PWD/blackboxtests/helpers:$PATH"
 
-cd tests
+cd blackboxtests
 rm -rf actualtests
 mkdir -p actualtests
 for datafile in templates/data_*.sh; do
