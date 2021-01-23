@@ -86,6 +86,6 @@ def main():
   try:
     exitstatus = dumpdirthing.runexcept(sys.argv)
   except Exception as error:
-    sys.stdout.write('ERROR: %s\n' % str(error))
+    sys.stderr.write('ERROR: %s\n' % str(error))
     exitstatus = 1
   return exitstatus
