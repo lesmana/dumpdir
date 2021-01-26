@@ -4,6 +4,7 @@ import os
 import sys
 import io
 
+# ------------------------------------------------------------------------------
 class Dir:
   def __init__(self, path):
     self.path = path
@@ -13,6 +14,7 @@ class Dir:
     out.write('d %s\n' % (self.path))
     return out.getvalue()
 
+# ------------------------------------------------------------------------------
 class Symlink:
   def __init__(self, path, cwd):
     self.path = path
@@ -28,6 +30,7 @@ class Symlink:
     return out.getvalue()
 
 
+# ------------------------------------------------------------------------------
 class File:
   def __init__(self, path):
     self.path = path
@@ -40,6 +43,7 @@ class File:
         out.write('> %s\n' % (line.rstrip('\n')))
     return out.getvalue()
 
+# ------------------------------------------------------------------------------
 class FileSink:
 
   def __init__(self, target):
