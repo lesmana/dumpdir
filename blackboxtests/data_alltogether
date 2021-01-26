@@ -1,9 +1,4 @@
 
-content="\
-hello
-world
-"
-
 dumpfile="\
 f emptyfile
 f textfile
@@ -18,6 +13,15 @@ f dir/dir/dir/dir/file
 d emptydir
 "
 
+textfile="\
+hello
+world
+"
+
+subdirfile="\
+foo
+"
+
 arrange_dumpfile() {
   echo -n "$dumpfile" > dumpfile
 }
@@ -25,7 +29,7 @@ arrange_dumpfile() {
 arrange_dirs() {
   mkdir emptydir
   touch emptyfile
-  echo -n "$content" > textfile
+  echo -n "$textfile" > textfile
   mkdir -p dir/dir/dir/dir
-  echo foo > dir/dir/dir/dir/file
+  echo -n "$subdirfile" > dir/dir/dir/dir/file
 }
