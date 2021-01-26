@@ -58,17 +58,17 @@ class DumpDir(object):
       dirnames.sort()
       if dirpath != cwd:
         relpath = os.path.relpath(dirpath)
-        dirob = Dir(relpath)
-        sink.sink(dirob)
+        fsob = Dir(relpath)
+        sink.sink(fsob)
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          fileob = Symlink(relpath_filename, cwd)
-          sink.sink(fileob)
+          fsob = Symlink(relpath_filename, cwd)
+          sink.sink(fsob)
         else:
-          fileob = File(relpath_filename)
-          sink.sink(fileob)
+          fsob = File(relpath_filename)
+          sink.sink(fsob)
 
   def runexcept(self, argv):
     self.dumpdir()
