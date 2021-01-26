@@ -3,16 +3,26 @@
 import os
 import sys
 
+
+class FileSink:
+
+  def __init__(self, target):
+    self.target = target
+
+  def sink(self, fsob):
+    self.target.write(fsob)
+
 # ------------------------------------------------------------------------------
 class DumpDir(object):
 
   def dumpdir(self):
+    sink = FileSink(sys.stdout)
     cwd = os.getcwd()
     for (dirpath, dirnames, filenames) in os.walk(cwd):
       dirnames.sort()
       if dirpath != cwd:
         relpath = os.path.relpath(dirpath)
-        sys.stdout.write('d %s\n' % (relpath))
+        sink.sink('d %s\n' % (relpath))
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
@@ -21,12 +31,12 @@ class DumpDir(object):
           commonprefix = os.path.commonprefix([cwd, target])
           if commonprefix != '/':
             target = '(...)' + os.path.relpath(target)
-          sys.stdout.write('l %s -> %s\n' % (relpath_filename, target))
+          sink.sink('l %s -> %s\n' % (relpath_filename, target))
         else:
-          sys.stdout.write('f %s\n' % (relpath_filename))
+          sink.sink('f %s\n' % (relpath_filename))
           with open(relpath_filename) as fileobject:
             for line in fileobject:
-              sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+              sink.sink('> %s\n' % (line.rstrip('\n')))
 
   def runexcept(self, argv):
     self.dumpdir()
