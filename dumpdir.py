@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 
 # ------------------------------------------------------------------------------
 class DumpDir(object):
@@ -89,3 +90,9 @@ def main():
     sys.stderr.write('ERROR: %s\n' % str(error))
     exitstatus = 1
   return exitstatus
+
+# ------------------------------------------------------------------------------
+if __name__ == '__main__':
+  import sys
+  exitstatus = main()
+  sys.exit(exitstatus)

@@ -10,7 +10,7 @@ arrange_expected() {
 act() {
   (
     cd actual
-    dumpdir -r ../input/dumpfile
+    dumpdir.py -r ../input/dumpfile
   ) || {
     exitstatus=$?
     echo "reversedumpdir fail with exitstatus $exitstatus"

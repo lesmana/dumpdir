@@ -10,7 +10,7 @@ arrange_expected() {
 act() {
   (
     cd input
-    dumpdir > ../actual/dumpfile
+    dumpdir.py > ../actual/dumpfile
   ) || {
     exitstatus=$?
     echo "dumpdir fail with exitstatus $exitstatus"
