@@ -1,0 +1,31 @@
+
+content="\
+hello
+world
+"
+
+dumpfile="\
+f emptyfile
+f textfile
+> hello
+> world
+d dir
+d dir/dir
+d dir/dir/dir
+d dir/dir/dir/dir
+f dir/dir/dir/dir/file
+> foo
+d emptydir
+"
+
+arrange_dumpfile() {
+  echo -n "$dumpfile" > dumpfile
+}
+
+arrange_dirs() {
+  mkdir emptydir
+  touch emptyfile
+  echo -n "$content" > textfile
+  mkdir -p dir/dir/dir/dir
+  echo foo > dir/dir/dir/dir/file
+}
