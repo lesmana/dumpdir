@@ -55,24 +55,29 @@ class FileSink:
 # ------------------------------------------------------------------------------
 class DumpDir(object):
 
-  def dumpdir(self):
-    sink = FileSink(sys.stdout)
+  def source(self):
     cwd = os.getcwd()
     for (dirpath, dirnames, filenames) in os.walk(cwd):
       dirnames.sort()
       if dirpath != cwd:
         relpath = os.path.relpath(dirpath)
         fsob = Dir(relpath)
-        sink.sink(fsob)
+        yield fsob
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
           fsob = Symlink(relpath_filename, cwd)
-          sink.sink(fsob)
+          yield fsob
         else:
           fsob = File(relpath_filename)
-          sink.sink(fsob)
+          yield fsob
+
+
+  def dumpdir(self):
+    sink = FileSink(sys.stdout)
+    for fsob in self.source():
+      sink.sink(fsob)
 
   def runexcept(self, argv):
     self.dumpdir()
