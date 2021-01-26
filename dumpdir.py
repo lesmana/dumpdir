@@ -10,7 +10,7 @@ class FileSink:
     self.target = target
 
   def sink(self, fsob):
-    self.target.write(fsob)
+    self.target.write(str(fsob))
 
 # ------------------------------------------------------------------------------
 class DumpDir(object):
