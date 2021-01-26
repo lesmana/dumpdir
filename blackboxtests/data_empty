@@ -1,9 +1,6 @@
 
-dumpfile="\
-"
-
 arrange_dumpfile() {
-  echo -n "$dumpfile" > dumpfile
+  echo -n "" > dumpfile
 }
 
 arrange_dirs() {
