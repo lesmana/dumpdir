@@ -2,7 +2,19 @@
 
 import os
 import sys
+import io
 
+class File:
+  def __init__(self, path):
+    self.path = path
+
+  def __str__(self):
+    out = io.StringIO()
+    out.write('f %s\n' % (self.path))
+    with open(self.path) as fileobject:
+      for line in fileobject:
+        out.write('> %s\n' % (line.rstrip('\n')))
+    return out.getvalue()
 
 class FileSink:
 
@@ -33,10 +45,8 @@ class DumpDir(object):
             target = '(...)' + os.path.relpath(target)
           sink.sink('l %s -> %s\n' % (relpath_filename, target))
         else:
-          sink.sink('f %s\n' % (relpath_filename))
-          with open(relpath_filename) as fileobject:
-            for line in fileobject:
-              sink.sink('> %s\n' % (line.rstrip('\n')))
+          fileob = File(relpath_filename)
+          sink.sink(fileob)
 
   def runexcept(self, argv):
     self.dumpdir()
