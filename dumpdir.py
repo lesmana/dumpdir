@@ -70,14 +70,14 @@ class ReverseDumpDir(object):
     self.parsefileandcreatedirs(inputfilename)
 
 # ------------------------------------------------------------------------------
-def main():
-  if '-r' in sys.argv:
-    sys.argv.remove('-r')
+def main(argv):
+  if '-r' in argv:
+    argv.remove('-r')
     dumpdirthing = ReverseDumpDir()
   else:
     dumpdirthing = DumpDir()
   try:
-    exitstatus = dumpdirthing.runexcept(sys.argv)
+    exitstatus = dumpdirthing.runexcept(argv)
   except Exception as error:
     sys.stderr.write('ERROR: %s\n' % str(error))
     exitstatus = 1
@@ -85,5 +85,5 @@ def main():
 
 # ------------------------------------------------------------------------------
 if __name__ == '__main__':
-  exitstatus = main()
+  exitstatus = main(sys.argv)
   sys.exit(exitstatus)
