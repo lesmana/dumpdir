@@ -34,6 +34,13 @@ class DumpDir(object):
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
+  def filenamefromargv(self, argv):
+    if len(argv) == 2:
+      inputfilename = argv[1]
+    else:
+      raise Exception('need filename')
+    return inputfilename
+
   def reversedumpdir(self, inputfile):
     for line in inputfile:
       line = line.strip()
@@ -53,13 +60,6 @@ class ReverseDumpDir(object):
         currentfile.close()
       else:
         raise Exception('unknown type: %s' % type)
-
-  def filenamefromargv(self, argv):
-    if len(argv) == 2:
-      inputfilename = argv[1]
-    else:
-      raise Exception('need filename')
-    return inputfilename
 
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
