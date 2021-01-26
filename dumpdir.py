@@ -4,6 +4,21 @@ import os
 import sys
 import io
 
+class Symlink:
+  def __init__(self, path, cwd):
+    self.path = path
+    self.cwd = cwd
+
+  def __str__(self):
+    out = io.StringIO()
+    target = os.readlink(self.path)
+    commonprefix = os.path.commonprefix([self.cwd, target])
+    if commonprefix != '/':
+      target = '(...)' + os.path.relpath(target)
+    out.write('l %s -> %s\n' % (self.path, target))
+    return out.getvalue()
+
+
 class File:
   def __init__(self, path):
     self.path = path
@@ -39,11 +54,8 @@ class DumpDir(object):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          target = os.readlink(relpath_filename)
-          commonprefix = os.path.commonprefix([cwd, target])
-          if commonprefix != '/':
-            target = '(...)' + os.path.relpath(target)
-          sink.sink('l %s -> %s\n' % (relpath_filename, target))
+          fileob = Symlink(relpath_filename, cwd)
+          sink.sink(fileob)
         else:
           fileob = File(relpath_filename)
           sink.sink(fileob)
