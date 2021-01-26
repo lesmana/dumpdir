@@ -1,6 +1,6 @@
 #! /bin/sh
 
-PATH="$PWD:$PWD/blackboxtests/helpers:$PATH"
+PATH="$PWD:$PWD/helpers:$PATH"
 
 cd blackboxtests
 ./runblackboxtests.sh
