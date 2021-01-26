@@ -4,6 +4,15 @@ import os
 import sys
 import io
 
+class Dir:
+  def __init__(self, path):
+    self.path = path
+
+  def __str__(self):
+    out = io.StringIO()
+    out.write('d %s\n' % (self.path))
+    return out.getvalue()
+
 class Symlink:
   def __init__(self, path, cwd):
     self.path = path
@@ -49,7 +58,8 @@ class DumpDir(object):
       dirnames.sort()
       if dirpath != cwd:
         relpath = os.path.relpath(dirpath)
-        sink.sink('d %s\n' % (relpath))
+        dirob = Dir(relpath)
+        sink.sink(dirob)
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
