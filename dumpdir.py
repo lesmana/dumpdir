@@ -94,6 +94,7 @@ class FileBuilder:
   def build(self):
     return self.content.getvalue()
 
+# ------------------------------------------------------------------------------
 class FileSystemSink:
   def __init__(self):
     self.currentfile = None
@@ -119,6 +120,7 @@ class FileSystemSink:
       with open(self.currentfile.path, 'w') as fileob:
         fileob.write(self.currentfile.build())
 
+# ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
   def filenamefromargv(self, argv):
