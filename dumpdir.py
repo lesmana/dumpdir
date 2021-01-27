@@ -92,7 +92,8 @@ class FileBuilder:
     self.content.write(line)
 
   def build(self):
-    return self.content.getvalue()
+    with open(self.path, 'w') as fileob:
+      fileob.write(self.content.getvalue())
 
 # ------------------------------------------------------------------------------
 class FileSystemSink:
@@ -101,8 +102,7 @@ class FileSystemSink:
 
   def maybewritefile(self):
     if self.currentfile is not None:
-      with open(self.currentfile.path, 'w') as fileob:
-        fileob.write(self.currentfile.build())
+      self.currentfile.build();
 
   def adddir(self, name):
     self.maybewritefile()
