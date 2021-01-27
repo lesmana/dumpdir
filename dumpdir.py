@@ -83,6 +83,17 @@ class DumpDir(object):
     self.dumpdir()
 
 # ------------------------------------------------------------------------------
+class FileBuilder:
+  def __init__(self, path):
+    self.path = path
+    self.content = io.StringIO()
+
+  def addline(self, line):
+    self.content.write(line)
+
+  def build(self):
+    return self.content.getvalue()
+
 class ReverseDumpDir(object):
 
   def filenamefromargv(self, argv):
@@ -93,24 +104,30 @@ class ReverseDumpDir(object):
     return inputfilename
 
   def reversedumpdir(self, inputfile):
+    currentfile = None
     for line in inputfile:
       line = line.strip()
       if not line:
         continue
       otype, _, name = line.partition(' ')
       if otype == 'd':
-        currentfilename = None
+        if currentfile is not None:
+          with open(currentfile.path, 'w') as fileob:
+            fileob.write(currentfile.build())
+        currentfile = None
         os.mkdir(name)
       elif otype == 'f':
-        currentfilename = name
-        currentfile = open(currentfilename, 'w')
-        currentfile.close()
+        if currentfile is not None:
+          with open(currentfile.path, 'w') as fileob:
+            fileob.write(currentfile.build())
+        currentfile = FileBuilder(name)
       elif otype == '>':
-        currentfile = open(currentfilename, 'a')
-        currentfile.write(name + '\n')
-        currentfile.close()
+        currentfile.addline(name + '\n')
       else:
         raise Exception('unknown type: %s' % otype)
+    if currentfile is not None:
+      with open(currentfile.path, 'w') as fileob:
+        fileob.write(currentfile.build())
 
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
