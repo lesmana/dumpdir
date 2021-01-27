@@ -103,10 +103,10 @@ class FileSystemSink:
   def maybewritefile(self):
     if self.currentfile is not None:
       self.currentfile.build();
+      self.currentfile = None
 
   def adddir(self, name):
     self.maybewritefile()
-    self.currentfile = None
     os.mkdir(name)
 
   def addfile(self, name):
@@ -118,7 +118,6 @@ class FileSystemSink:
 
   def done(self):
     self.maybewritefile()
-    self.currentfile = None
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
