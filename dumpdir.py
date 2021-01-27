@@ -97,20 +97,20 @@ class ReverseDumpDir(object):
       line = line.strip()
       if not line:
         continue
-      type, _, name = line.partition(' ')
-      if type == 'd':
+      otype, _, name = line.partition(' ')
+      if otype == 'd':
         currentfilename = None
         os.mkdir(name)
-      elif type == 'f':
+      elif otype == 'f':
         currentfilename = name
         currentfile = open(currentfilename, 'w')
         currentfile.close()
-      elif type == '>':
+      elif otype == '>':
         currentfile = open(currentfilename, 'a')
         currentfile.write(name + '\n')
         currentfile.close()
       else:
-        raise Exception('unknown type: %s' % type)
+        raise Exception('unknown type: %s' % otype)
 
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
