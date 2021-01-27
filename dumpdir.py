@@ -99,26 +99,26 @@ class FileSystemSink:
   def __init__(self):
     self.currentfile = None
 
-  def adddir(self, name):
+  def maybewritefile(self):
     if self.currentfile is not None:
       with open(self.currentfile.path, 'w') as fileob:
         fileob.write(self.currentfile.build())
+
+  def adddir(self, name):
+    self.maybewritefile()
     self.currentfile = None
     os.mkdir(name)
 
   def addfile(self, name):
-    if self.currentfile is not None:
-      with open(self.currentfile.path, 'w') as fileob:
-        fileob.write(self.currentfile.build())
+    self.maybewritefile()
     self.currentfile = FileBuilder(name)
 
   def addline(self, name):
     self.currentfile.addline(name)
 
   def done(self):
-    if self.currentfile is not None:
-      with open(self.currentfile.path, 'w') as fileob:
-        fileob.write(self.currentfile.build())
+    self.maybewritefile()
+    self.currentfile = None
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
