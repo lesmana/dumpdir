@@ -94,6 +94,31 @@ class FileBuilder:
   def build(self):
     return self.content.getvalue()
 
+class FileSystemSink:
+  def __init__(self):
+    self.currentfile = None
+
+  def adddir(self, name):
+    if self.currentfile is not None:
+      with open(self.currentfile.path, 'w') as fileob:
+        fileob.write(self.currentfile.build())
+    self.currentfile = None
+    os.mkdir(name)
+
+  def addfile(self, name):
+    if self.currentfile is not None:
+      with open(self.currentfile.path, 'w') as fileob:
+        fileob.write(self.currentfile.build())
+    self.currentfile = FileBuilder(name)
+
+  def addline(self, name):
+    self.currentfile.addline(name)
+
+  def done(self):
+    if self.currentfile is not None:
+      with open(self.currentfile.path, 'w') as fileob:
+        fileob.write(self.currentfile.build())
+
 class ReverseDumpDir(object):
 
   def filenamefromargv(self, argv):
@@ -104,30 +129,21 @@ class ReverseDumpDir(object):
     return inputfilename
 
   def reversedumpdir(self, inputfile):
-    currentfile = None
+    sink = FileSystemSink()
     for line in inputfile:
       line = line.strip()
       if not line:
         continue
       otype, _, name = line.partition(' ')
       if otype == 'd':
-        if currentfile is not None:
-          with open(currentfile.path, 'w') as fileob:
-            fileob.write(currentfile.build())
-        currentfile = None
-        os.mkdir(name)
+        sink.adddir(name)
       elif otype == 'f':
-        if currentfile is not None:
-          with open(currentfile.path, 'w') as fileob:
-            fileob.write(currentfile.build())
-        currentfile = FileBuilder(name)
+        sink.addfile(name)
       elif otype == '>':
-        currentfile.addline(name + '\n')
+        sink.addline(name + '\n')
       else:
         raise Exception('unknown type: %s' % otype)
-    if currentfile is not None:
-      with open(currentfile.path, 'w') as fileob:
-        fileob.write(currentfile.build())
+    sink.done()
 
   def parsefileandcreatedirs(self, inputfilename):
     with open(inputfilename) as inputfile:
