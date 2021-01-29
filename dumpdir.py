@@ -78,7 +78,7 @@ class FileBuilder:
     self.content = io.StringIO()
 
   def addline(self, line):
-    self.content.write(line)
+    self.content.write(line + '\n')
 
   def build(self):
     with open(self.path, 'w') as fileob:
@@ -130,7 +130,7 @@ class ReverseDumpDir(object):
       elif otype == 'f':
         sink.addfile(content)
       elif otype == '>':
-        sink.addline(content + '\n')
+        sink.addline(content)
       else:
         raise Exception('unknown type: %s' % otype)
     sink.done()
