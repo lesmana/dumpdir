@@ -87,12 +87,12 @@ class FileBuilder:
 # ------------------------------------------------------------------------------
 class FileSystemSink:
   def __init__(self):
-    self.currentfile = None
+    self.filebuilder = None
 
   def maybewritefile(self):
-    if self.currentfile is not None:
-      self.currentfile.build();
-      self.currentfile = None
+    if self.filebuilder is not None:
+      self.filebuilder.build();
+      self.filebuilder = None
 
   def adddir(self, name):
     self.maybewritefile()
@@ -100,10 +100,10 @@ class FileSystemSink:
 
   def addfile(self, name):
     self.maybewritefile()
-    self.currentfile = FileBuilder(name)
+    self.filebuilder = FileBuilder(name)
 
   def addline(self, line):
-    self.currentfile.addline(line)
+    self.filebuilder.addline(line)
 
   def done(self):
     self.maybewritefile()
