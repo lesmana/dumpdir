@@ -68,7 +68,7 @@ class DumpDir(object):
     for fsob in self.source():
       sink.sink(fsob)
 
-  def runexcept(self, argv):
+  def runexcept(self):
     self.dumpdir()
 
 # ------------------------------------------------------------------------------
@@ -111,6 +111,9 @@ class FileSystemSink:
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
+  def __init__(self, argv):
+    self.argv = argv
+
   def reversedumpdir(self, inputfile):
     sink = FileSystemSink()
     for line in inputfile:
@@ -132,8 +135,8 @@ class ReverseDumpDir(object):
     with open(inputfilename) as inputfile:
       self.reversedumpdir(inputfile)
 
-  def runexcept(self, argv):
-    inputfilename = filenamefromargv(argv)
+  def runexcept(self):
+    inputfilename = filenamefromargv(self.argv)
     self.parsefileandcreatedirs(inputfilename)
 
 # ------------------------------------------------------------------------------
@@ -148,11 +151,11 @@ def filenamefromargv(argv):
 def main(argv):
   if '-r' in argv:
     argv.remove('-r')
-    dumpdirthing = ReverseDumpDir()
+    dumpdirthing = ReverseDumpDir(argv)
   else:
     dumpdirthing = DumpDir()
   try:
-    exitstatus = dumpdirthing.runexcept(argv)
+    exitstatus = dumpdirthing.runexcept()
   except Exception as error:
     sys.stderr.write('ERROR: %s\n' % str(error))
     exitstatus = 1
