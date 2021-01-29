@@ -131,12 +131,9 @@ class ReverseDumpDir(object):
         raise Exception('unknown type: %s' % otype)
     sink.done()
 
-  def parsefileandcreatedirs(self, inputfilename):
-    with open(inputfilename) as inputfile:
-      self.reversedumpdir(inputfile)
-
   def runexcept(self):
-    self.parsefileandcreatedirs(self.inputfilename)
+    with open(self.inputfilename) as inputfile:
+      self.reversedumpdir(inputfile)
 
 # ------------------------------------------------------------------------------
 def filenamefromargv(argv):
