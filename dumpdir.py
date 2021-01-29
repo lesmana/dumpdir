@@ -14,13 +14,12 @@ class Dir:
 
 # ------------------------------------------------------------------------------
 class Symlink:
-  def __init__(self, path, cwd):
+  def __init__(self, path):
     self.path = path
-    self.cwd = cwd
 
   def tostring(self):
     target = os.readlink(self.path)
-    commonprefix = os.path.commonprefix([self.cwd, target])
+    commonprefix = os.path.commonprefix([os.getcwd(), target])
     if commonprefix != '/':
       target = '(...)' + os.path.relpath(target)
     sys.stdout.write('l %s -> %s\n' % (self.path, target))
@@ -47,10 +46,9 @@ class FileSink:
 class DumpDir(object):
 
   def source(self):
-    cwd = os.getcwd()
-    for (dirpath, dirnames, filenames) in os.walk(cwd):
+    for (dirpath, dirnames, filenames) in os.walk(os.getcwd()):
       dirnames.sort()
-      if dirpath != cwd:
+      if dirpath != os.getcwd():
         relpath = os.path.relpath(dirpath)
         fsob = Dir(relpath)
         yield fsob
@@ -58,7 +56,7 @@ class DumpDir(object):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          fsob = Symlink(relpath_filename, cwd)
+          fsob = Symlink(relpath_filename)
           yield fsob
         else:
           fsob = File(relpath_filename)
