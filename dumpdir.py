@@ -102,8 +102,8 @@ class FileSystemSink:
     self.maybewritefile()
     self.currentfile = FileBuilder(name)
 
-  def addline(self, name):
-    self.currentfile.addline(name)
+  def addline(self, line):
+    self.currentfile.addline(line)
 
   def done(self):
     self.maybewritefile()
