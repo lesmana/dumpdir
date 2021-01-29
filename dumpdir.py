@@ -111,13 +111,6 @@ class FileSystemSink:
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
-  def filenamefromargv(self, argv):
-    if len(argv) == 2:
-      inputfilename = argv[1]
-    else:
-      raise Exception('need filename')
-    return inputfilename
-
   def reversedumpdir(self, inputfile):
     sink = FileSystemSink()
     for line in inputfile:
@@ -140,8 +133,16 @@ class ReverseDumpDir(object):
       self.reversedumpdir(inputfile)
 
   def runexcept(self, argv):
-    inputfilename = self.filenamefromargv(argv)
+    inputfilename = filenamefromargv(argv)
     self.parsefileandcreatedirs(inputfilename)
+
+# ------------------------------------------------------------------------------
+def filenamefromargv(argv):
+  if len(argv) == 2:
+    inputfilename = argv[1]
+  else:
+    raise Exception('need filename')
+  return inputfilename
 
 # ------------------------------------------------------------------------------
 def main(argv):
