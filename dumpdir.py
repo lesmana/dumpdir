@@ -9,10 +9,8 @@ class Dir:
   def __init__(self, path):
     self.path = path
 
-  def __str__(self):
-    out = io.StringIO()
-    out.write('d %s\n' % (self.path))
-    return out.getvalue()
+  def tostring(self):
+    sys.stdout.write('d %s\n' % (self.path))
 
 # ------------------------------------------------------------------------------
 class Symlink:
@@ -20,14 +18,12 @@ class Symlink:
     self.path = path
     self.cwd = cwd
 
-  def __str__(self):
-    out = io.StringIO()
+  def tostring(self):
     target = os.readlink(self.path)
     commonprefix = os.path.commonprefix([self.cwd, target])
     if commonprefix != '/':
       target = '(...)' + os.path.relpath(target)
-    out.write('l %s -> %s\n' % (self.path, target))
-    return out.getvalue()
+    sys.stdout.write('l %s -> %s\n' % (self.path, target))
 
 
 # ------------------------------------------------------------------------------
@@ -35,22 +31,17 @@ class File:
   def __init__(self, path):
     self.path = path
 
-  def __str__(self):
-    out = io.StringIO()
-    out.write('f %s\n' % (self.path))
+  def tostring(self):
+    sys.stdout.write('f %s\n' % (self.path))
     with open(self.path) as fileobject:
       for line in fileobject:
-        out.write('> %s\n' % (line.rstrip('\n')))
-    return out.getvalue()
+        sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
 class FileSink:
 
-  def __init__(self, target):
-    self.target = target
-
   def sink(self, fsob):
-    self.target.write(str(fsob))
+    fsob.tostring()
 
 # ------------------------------------------------------------------------------
 class DumpDir(object):
@@ -75,7 +66,7 @@ class DumpDir(object):
 
 
   def dumpdir(self):
-    sink = FileSink(sys.stdout)
+    sink = FileSink()
     for fsob in self.source():
       sink.sink(fsob)
 
