@@ -124,13 +124,13 @@ class ReverseDumpDir(object):
       line = line.strip()
       if not line:
         continue
-      otype, _, name = line.partition(' ')
+      otype, _, content = line.partition(' ')
       if otype == 'd':
-        sink.adddir(name)
+        sink.adddir(content)
       elif otype == 'f':
-        sink.addfile(name)
+        sink.addfile(content)
       elif otype == '>':
-        sink.addline(name + '\n')
+        sink.addline(content + '\n')
       else:
         raise Exception('unknown type: %s' % otype)
     sink.done()
