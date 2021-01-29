@@ -111,8 +111,8 @@ class FileSystemSink:
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
-  def __init__(self, argv):
-    self.argv = argv
+  def __init__(self, inputfilename):
+    self.inputfilename = inputfilename
 
   def reversedumpdir(self, inputfile):
     sink = FileSystemSink()
@@ -136,8 +136,7 @@ class ReverseDumpDir(object):
       self.reversedumpdir(inputfile)
 
   def runexcept(self):
-    inputfilename = filenamefromargv(self.argv)
-    self.parsefileandcreatedirs(inputfilename)
+    self.parsefileandcreatedirs(self.inputfilename)
 
 # ------------------------------------------------------------------------------
 def filenamefromargv(argv):
@@ -151,7 +150,8 @@ def filenamefromargv(argv):
 def main(argv):
   if '-r' in argv:
     argv.remove('-r')
-    dumpdirthing = ReverseDumpDir(argv)
+    inputfilename = filenamefromargv(argv)
+    dumpdirthing = ReverseDumpDir(inputfilename)
   else:
     dumpdirthing = DumpDir()
   try:
