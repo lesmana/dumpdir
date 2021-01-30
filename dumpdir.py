@@ -5,7 +5,7 @@ import sys
 import io
 
 # ------------------------------------------------------------------------------
-class Dir:
+class DirLine:
   def __init__(self, path):
     self.path = path
 
@@ -13,7 +13,7 @@ class Dir:
     sys.stdout.write('d %s\n' % (self.path))
 
 # ------------------------------------------------------------------------------
-class Symlink:
+class SymlinkLine:
   def __init__(self, path):
     self.path = path
 
@@ -26,7 +26,7 @@ class Symlink:
 
 
 # ------------------------------------------------------------------------------
-class File:
+class FileLines:
   def __init__(self, path):
     self.path = path
 
@@ -50,16 +50,16 @@ class DumpDir(object):
       dirnames.sort()
       if dirpath != os.getcwd():
         relpath = os.path.relpath(dirpath)
-        fsob = Dir(relpath)
+        fsob = DirLine(relpath)
         yield fsob
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          fsob = Symlink(relpath_filename)
+          fsob = SymlinkLine(relpath_filename)
           yield fsob
         else:
-          fsob = File(relpath_filename)
+          fsob = FileLines(relpath_filename)
           yield fsob
 
 
