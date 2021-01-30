@@ -62,14 +62,10 @@ class DumpDir(object):
           linewriter = FileLines(relpath_filename)
           yield linewriter
 
-
-  def dumpdir(self):
+  def runexcept(self):
     dumpfilewriter = DumpFileWriter()
     for linewriter in self.source():
       dumpfilewriter.add(linewriter)
-
-  def runexcept(self):
-    self.dumpdir()
 
 # ------------------------------------------------------------------------------
 class FileBuilder:
