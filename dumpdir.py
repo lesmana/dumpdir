@@ -119,7 +119,7 @@ class ReverseDumpDir(object):
         otype, _, content = line.partition(' ')
         yield otype, content
 
-  def reversedumpdir(self):
+  def runexcept(self):
     sink = FileSystemSink()
     for otype, content in self.source():
       if otype == 'd':
@@ -131,9 +131,6 @@ class ReverseDumpDir(object):
       else:
         raise Exception('unknown type: %s' % otype)
     sink.done()
-
-  def runexcept(self):
-    self.reversedumpdir()
 
 # ------------------------------------------------------------------------------
 def filenamefromargv(argv):
