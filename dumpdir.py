@@ -39,8 +39,8 @@ class FileLines:
 # ------------------------------------------------------------------------------
 class DumpFileWriter:
 
-  def sink(self, fsob):
-    fsob.tostring()
+  def add(self, linewriter):
+    linewriter.tostring()
 
 # ------------------------------------------------------------------------------
 class DumpDir(object):
@@ -50,23 +50,23 @@ class DumpDir(object):
       dirnames.sort()
       if dirpath != os.getcwd():
         relpath = os.path.relpath(dirpath)
-        fsob = DirLine(relpath)
-        yield fsob
+        linewriter = DirLine(relpath)
+        yield linewriter
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          fsob = SymlinkLine(relpath_filename)
-          yield fsob
+          linewriter = SymlinkLine(relpath_filename)
+          yield linewriter
         else:
-          fsob = FileLines(relpath_filename)
-          yield fsob
+          linewriter = FileLines(relpath_filename)
+          yield linewriter
 
 
   def dumpdir(self):
     dumpfilewriter = DumpFileWriter()
-    for fsob in self.source():
-      dumpfilewriter.sink(fsob)
+    for linewriter in self.source():
+      dumpfilewriter.add(linewriter)
 
   def runexcept(self):
     self.dumpdir()
