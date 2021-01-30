@@ -110,17 +110,18 @@ class ReverseDumpDir(object):
   def __init__(self, inputfilename):
     self.inputfilename = inputfilename
 
-  def source(self, inputfile):
-    for line in inputfile:
-      line = line.strip()
-      if not line:
-        continue
-      otype, _, content = line.partition(' ')
-      yield otype, content
+  def source(self):
+    with open(self.inputfilename) as inputfile:
+      for line in inputfile:
+        line = line.strip()
+        if not line:
+          continue
+        otype, _, content = line.partition(' ')
+        yield otype, content
 
-  def reversedumpdir(self, inputfile):
+  def reversedumpdir(self):
     sink = FileSystemSink()
-    for otype, content in self.source(inputfile):
+    for otype, content in self.source():
       if otype == 'd':
         sink.adddir(content)
       elif otype == 'f':
@@ -132,8 +133,7 @@ class ReverseDumpDir(object):
     sink.done()
 
   def runexcept(self):
-    with open(self.inputfilename) as inputfile:
-      self.reversedumpdir(inputfile)
+    self.reversedumpdir()
 
 # ------------------------------------------------------------------------------
 def filenamefromargv(argv):
