@@ -37,7 +37,7 @@ class FileLines:
         sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
-class FileSink:
+class DumpFileWriter:
 
   def sink(self, fsob):
     fsob.tostring()
@@ -64,9 +64,9 @@ class DumpDir(object):
 
 
   def dumpdir(self):
-    sink = FileSink()
+    dumpfilewriter = DumpFileWriter()
     for fsob in self.source():
-      sink.sink(fsob)
+      dumpfilewriter.sink(fsob)
 
   def runexcept(self):
     self.dumpdir()
