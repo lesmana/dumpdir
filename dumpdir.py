@@ -9,7 +9,7 @@ class DirLine:
   def __init__(self, path):
     self.path = path
 
-  def tostring(self):
+  def write(self):
     sys.stdout.write('d %s\n' % (self.path))
 
 # ------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ class SymlinkLine:
   def __init__(self, path):
     self.path = path
 
-  def tostring(self):
+  def write(self):
     target = os.readlink(self.path)
     commonprefix = os.path.commonprefix([os.getcwd(), target])
     if commonprefix != '/':
@@ -30,7 +30,7 @@ class FileLines:
   def __init__(self, path):
     self.path = path
 
-  def tostring(self):
+  def write(self):
     sys.stdout.write('f %s\n' % (self.path))
     with open(self.path) as fileobject:
       for line in fileobject:
@@ -40,7 +40,7 @@ class FileLines:
 class DumpFileWriter:
 
   def add(self, linewriter):
-    linewriter.tostring()
+    linewriter.write()
 
 # ------------------------------------------------------------------------------
 class DumpDir(object):
