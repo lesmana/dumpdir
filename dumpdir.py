@@ -81,6 +81,14 @@ class FileBuilder:
       fileob.write(self.content.getvalue())
 
 # ------------------------------------------------------------------------------
+class DirMaker:
+  def __init__(self, path):
+    self.path = path
+
+  def make(self):
+    os.mkdir(self.path)
+
+# ------------------------------------------------------------------------------
 class FileSystemSink:
   def __init__(self):
     self.filebuilder = None
@@ -92,7 +100,8 @@ class FileSystemSink:
 
   def adddir(self, name):
     self.maybewritefile()
-    os.mkdir(name)
+    dirmaker = DirMaker(name)
+    dirmaker.make()
 
   def addfile(self, name):
     self.maybewritefile()
