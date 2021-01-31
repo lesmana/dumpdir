@@ -77,8 +77,8 @@ class FileBuilder:
     self.content.write(line + '\n')
 
   def build(self):
-    with open(self.path, 'w') as fileob:
-      fileob.write(self.content.getvalue())
+    filemaker = FileMaker(self.path, self.content.getvalue())
+    filemaker.make()
 
 # ------------------------------------------------------------------------------
 class DirMaker:
@@ -87,6 +87,16 @@ class DirMaker:
 
   def make(self):
     os.mkdir(self.path)
+
+# ------------------------------------------------------------------------------
+class FileMaker:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def make(self):
+    with open(self.path, 'w') as fileob:
+      fileob.write(self.content)
 
 # ------------------------------------------------------------------------------
 class FileSystemSink:
