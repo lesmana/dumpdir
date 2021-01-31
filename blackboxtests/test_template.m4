@@ -26,7 +26,7 @@ arrange() {
 }
 
 assert() {
-  diff -r actual expected
+  diff -r --no-dereference actual expected
 }
 
 runtest() {
