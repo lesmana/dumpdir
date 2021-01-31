@@ -2,3 +2,9 @@ todo
 
 ----
 implement executable flag
+
+----
+test symlinks
+document limitations
+for example no circular symlink
+or no symlink outside target dir
