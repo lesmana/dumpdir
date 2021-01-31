@@ -106,23 +106,23 @@ class FileSystemSink:
   def maybewritefile(self):
     if self.filebuilder is not None:
       filemaker = self.filebuilder.build();
-      filemaker.make()
+      yield filemaker
       self.filebuilder = None
 
   def adddir(self, name):
-    self.maybewritefile()
+    yield from self.maybewritefile()
     dirmaker = DirMaker(name)
-    dirmaker.make()
+    yield dirmaker
 
   def addfile(self, name):
-    self.maybewritefile()
+    yield from self.maybewritefile()
     self.filebuilder = FileBuilder(name)
 
   def addline(self, line):
     self.filebuilder.addline(line)
 
   def done(self):
-    self.maybewritefile()
+    yield from self.maybewritefile()
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
@@ -139,18 +139,22 @@ class ReverseDumpDir(object):
         otype, _, content = line.partition(' ')
         yield otype, content
 
-  def runexcept(self):
+  def makemaker(self):
     sink = FileSystemSink()
     for otype, content in self.source():
       if otype == 'd':
-        sink.adddir(content)
+        yield from sink.adddir(content)
       elif otype == 'f':
-        sink.addfile(content)
+        yield from sink.addfile(content)
       elif otype == '>':
         sink.addline(content)
       else:
         raise Exception('unknown type: %s' % otype)
-    sink.done()
+    yield from sink.done()
+
+  def runexcept(self):
+    for maker in self.makemaker():
+      maker.make()
 
 # ------------------------------------------------------------------------------
 def filenamefromargv(argv):
