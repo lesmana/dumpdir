@@ -11,6 +11,10 @@ d dir/dir/dir/dir
 f dir/dir/dir/dir/file
 > foo
 d emptydir
+d symlink
+f symlink/dummy
+l symlink/todummy
+> dummy
 "
 
 textfile="\
@@ -32,4 +36,7 @@ arrange_dirs() {
   echo -n "$textfile" > textfile
   mkdir -p dir/dir/dir/dir
   echo -n "$subdirfile" > dir/dir/dir/dir/file
+  mkdir symlink
+  touch symlink/dummy
+  ln -s dummy symlink/todummy
 }

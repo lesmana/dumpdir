@@ -21,8 +21,9 @@ class SymlinkLine:
     target = os.readlink(self.path)
     commonprefix = os.path.commonprefix([os.getcwd(), target])
     if commonprefix != '/':
-      target = '(...)' + os.path.relpath(target)
-    sys.stdout.write('l %s -> %s\n' % (self.path, target))
+      target = os.path.relpath(target)
+    sys.stdout.write('l %s\n' % (self.path))
+    sys.stdout.write('> %s\n' % (target))
 
 
 # ------------------------------------------------------------------------------
@@ -81,6 +82,19 @@ class FileBuilder:
     return filemaker
 
 # ------------------------------------------------------------------------------
+class SymlinkBuilder:
+  def __init__(self, path):
+    self.path = path
+    self.target = None
+
+  def addline(self, target):
+    self.target = target
+
+  def build(self):
+    symlinkmaker = SymlinkMaker(self.path, self.target)
+    return symlinkmaker
+
+# ------------------------------------------------------------------------------
 class DirMaker:
   def __init__(self, path):
     self.path = path
@@ -97,6 +111,15 @@ class FileMaker:
   def make(self):
     with open(self.path, 'w') as fileob:
       fileob.write(self.content)
+
+# ------------------------------------------------------------------------------
+class SymlinkMaker:
+  def __init__(self, path, target):
+    self.path = path
+    self.target = target
+
+  def make(self):
+    os.symlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
 class FileSystemSink:
@@ -120,6 +143,10 @@ class FileSystemSink:
 
   def addline(self, line):
     self.filebuilder.addline(line)
+
+  def addsymlink(self, name):
+    yield from self.maybewritefile()
+    self.filebuilder = SymlinkBuilder(name)
 
   def done(self):
     yield from self.maybewritefile()
@@ -148,6 +175,8 @@ class ReverseDumpDir(object):
         yield from sink.addfile(content)
       elif otype == '>':
         sink.addline(content)
+      elif otype == 'l':
+        yield from sink.addsymlink(content)
       else:
         raise Exception('unknown type: %s' % otype)
     yield from sink.done()
