@@ -88,9 +88,13 @@ class SymlinkBuilder:
     self.target = None
 
   def addline(self, target):
+    if self.target is not None:
+      raise Exception(f'this symlink already has target {self.path} -> {self.target}')
     self.target = target
 
   def build(self):
+    if self.target is None:
+      raise Exception(f'this symlink has no target {self.path}')
     symlinkmaker = SymlinkMaker(self.path, self.target)
     return symlinkmaker
 
