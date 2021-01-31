@@ -78,7 +78,7 @@ class FileBuilder:
 
   def build(self):
     filemaker = FileMaker(self.path, self.content.getvalue())
-    filemaker.make()
+    return filemaker
 
 # ------------------------------------------------------------------------------
 class DirMaker:
@@ -105,7 +105,8 @@ class FileSystemSink:
 
   def maybewritefile(self):
     if self.filebuilder is not None:
-      self.filebuilder.build();
+      filemaker = self.filebuilder.build();
+      filemaker.make()
       self.filebuilder = None
 
   def adddir(self, name):
