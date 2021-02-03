@@ -170,9 +170,9 @@ class ReverseDumpDir(object):
         otype, _, content = line.partition(' ')
         yield otype, content
 
-  def makemaker(self):
+  def makemaker(self, source):
     sink = FileSystemSink()
-    for otype, content in self.source():
+    for otype, content in source:
       if otype == 'd':
         yield from sink.adddir(content)
       elif otype == 'f':
@@ -186,7 +186,7 @@ class ReverseDumpDir(object):
     yield from sink.done()
 
   def runexcept(self):
-    for maker in self.makemaker():
+    for maker in self.makemaker(self.source()):
       maker.make()
 
 # ------------------------------------------------------------------------------
