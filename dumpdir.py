@@ -69,6 +69,33 @@ class DumpDir(object):
       dumpfilewriter.add(linewriter)
 
 # ------------------------------------------------------------------------------
+class DirMaker:
+  def __init__(self, path):
+    self.path = path
+
+  def make(self):
+    os.mkdir(self.path)
+
+# ------------------------------------------------------------------------------
+class FileMaker:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def make(self):
+    with open(self.path, 'w') as fileob:
+      fileob.write(self.content)
+
+# ------------------------------------------------------------------------------
+class SymlinkMaker:
+  def __init__(self, path, target):
+    self.path = path
+    self.target = target
+
+  def make(self):
+    os.symlink(self.target, self.path)
+
+# ------------------------------------------------------------------------------
 class FileBuilder:
   def __init__(self, path):
     self.path = path
@@ -97,33 +124,6 @@ class SymlinkBuilder:
       raise Exception(f'this symlink has no target {self.path}')
     symlinkmaker = SymlinkMaker(self.path, self.target)
     return symlinkmaker
-
-# ------------------------------------------------------------------------------
-class DirMaker:
-  def __init__(self, path):
-    self.path = path
-
-  def make(self):
-    os.mkdir(self.path)
-
-# ------------------------------------------------------------------------------
-class FileMaker:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def make(self):
-    with open(self.path, 'w') as fileob:
-      fileob.write(self.content)
-
-# ------------------------------------------------------------------------------
-class SymlinkMaker:
-  def __init__(self, path, target):
-    self.path = path
-    self.target = target
-
-  def make(self):
-    os.symlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
 class FileSystemSink:
