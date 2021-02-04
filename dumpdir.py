@@ -99,7 +99,7 @@ class SymlinkMaker:
 class DumpFileLexer:
 
   def source(self):
-    with open(self.inputfilename) as inputfile:
+    with open(self.filename) as inputfile:
       for line in inputfile:
         line = line.strip()
         if not line:
@@ -108,8 +108,8 @@ class DumpFileLexer:
         yield symbol
         yield content
 
-  def __init__(self, inputfilename):
-    self.inputfilename = inputfilename
+  def __init__(self, filename):
+    self.filename = filename
     self.sauce = self.source()
     self.nextitem = self._next()
 
