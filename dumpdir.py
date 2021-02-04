@@ -160,7 +160,10 @@ class DumpDirFileSource:
     return self.nextitem is not None
 
 # ------------------------------------------------------------------------------
-class FileSystemSink:
+class ReverseDumpDir(object):
+
+  def __init__(self, inputfilename):
+    self.inputfilename = inputfilename
 
   def adddir(self, name):
     dirmaker = DirMaker(name)
@@ -186,28 +189,21 @@ class FileSystemSink:
     symlinkmaker = self.filebuilder.build()
     return symlinkmaker
 
-# ------------------------------------------------------------------------------
-class ReverseDumpDir(object):
-
-  def __init__(self, inputfilename):
-    self.inputfilename = inputfilename
-
-  def next(self, source, sink):
+  def next(self, source):
     otype, content = source.next()
     if otype == 'd':
-      return sink.adddir(content)
+      return self.adddir(content)
     elif otype == 'f':
-      return sink.addfile(content, source)
+      return self.addfile(content, source)
     elif otype == 'l':
-      return sink.addsymlink(content, source)
+      return self.addsymlink(content, source)
     else:
       raise Exception('unknown type: %s' % otype)
 
 
   def makemaker(self, source):
-    sink = FileSystemSink()
     while source.hasnext():
-      yield self.next(source, sink)
+      yield self.next(source)
 
   def runexcept(self):
     for maker in self.makemaker(DumpDirFileSource(self.inputfilename)):
