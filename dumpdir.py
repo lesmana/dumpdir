@@ -156,7 +156,7 @@ class ReverseDumpDir(object):
     symlinkmaker = SymlinkMaker(name, content)
     return symlinkmaker
 
-  def next(self, lexer):
+  def parse(self, lexer):
     otype, content = lexer.next()
     if otype == 'd':
       return self.adddir(content)
@@ -170,7 +170,7 @@ class ReverseDumpDir(object):
   def runexcept(self):
     lexer = DumpFileLexer(self.inputfilename)
     while lexer.hasnext():
-      maker = self.next(lexer)
+      maker = self.parse(lexer)
       maker.make()
 
 # ------------------------------------------------------------------------------
