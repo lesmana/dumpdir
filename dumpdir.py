@@ -105,7 +105,8 @@ class DumpFileLexer:
         if not line:
           continue
         symbol, _, content = line.partition(' ')
-        yield symbol, content
+        yield symbol
+        yield content
 
   def __init__(self, inputfilename):
     self.inputfilename = inputfilename
@@ -135,35 +136,40 @@ class ReverseDumpDir(object):
   def __init__(self, lexer):
     self.lexer = lexer
 
-  def adddir(self, name):
+  def adddir(self):
+    name = self.lexer.next()
     dirmaker = DirMaker(name)
     return dirmaker
 
-  def addfile(self, name):
+  def addfile(self):
+    name = self.lexer.next()
     lines = io.StringIO()
     while self.lexer.hasnext():
-      symbol, _ = self.lexer.peek()
+      symbol = self.lexer.peek()
       if symbol != '>':
         break
-      _, content = self.lexer.next()
+      _ = self.lexer.next()
+      content = self.lexer.next()
       lines.write(content + '\n')
     filemaker = FileMaker(name, lines.getvalue())
     return filemaker
 
-  def addsymlink(self, name):
-    symbol, content = self.lexer.next()
+  def addsymlink(self):
+    name = self.lexer.next()
+    symbol = self.lexer.next()
     assert symbol == '>'
+    content = self.lexer.next()
     symlinkmaker = SymlinkMaker(name, content)
     return symlinkmaker
 
   def parse(self):
-    symbol, content = self.lexer.next()
+    symbol = self.lexer.next()
     if symbol == 'd':
-      return self.adddir(content)
+      return self.adddir()
     elif symbol == 'f':
-      return self.addfile(content)
+      return self.addfile()
     elif symbol == 'l':
-      return self.addsymlink(content)
+      return self.addsymlink()
     else:
       raise Exception('unknown type: %s' % symbol)
 
