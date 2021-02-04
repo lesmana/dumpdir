@@ -98,18 +98,22 @@ class SymlinkMaker:
 # ------------------------------------------------------------------------------
 class DumpFileLexer:
 
-  def source(self, filename):
+  def linegen(self, filename):
     with open(filename) as inputfile:
       for line in inputfile:
         line = line.strip()
         if not line:
           continue
-        symbol, _, content = line.partition(' ')
-        yield symbol
-        yield content
+        yield line
+
+  def tokengen(self, linegen):
+    for line in linegen:
+      symbol, _, content = line.partition(' ')
+      yield symbol
+      yield content
 
   def __init__(self, filename):
-    self.tokensource = self.source(filename)
+    self.tokensource = self.tokengen(self.linegen(filename))
     self.nexttoken = self._next()
 
   def _next(self):
