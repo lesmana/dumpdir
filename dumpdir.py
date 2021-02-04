@@ -156,10 +156,7 @@ class FileSystemSink:
     yield from self.maybewritefile()
 
 # ------------------------------------------------------------------------------
-class ReverseDumpDir(object):
-
-  def __init__(self, inputfilename):
-    self.inputfilename = inputfilename
+class DumpDirFileSource:
 
   def source(self):
     with open(self.inputfilename) as inputfile:
@@ -170,9 +167,35 @@ class ReverseDumpDir(object):
         otype, _, content = line.partition(' ')
         yield otype, content
 
+  def __init__(self, inputfilename):
+    self.inputfilename = inputfilename
+    self.sauce = self.source()
+    self.nextitem = self._next()
+
+  def _next(self):
+    try:
+      return next(self.sauce)
+    except StopIteration:
+      return None
+
+  def next(self):
+    nextitem = self.nextitem
+    self.nextitem = self._next()
+    return nextitem
+
+  def hasnext(self):
+    return self.nextitem is not None
+
+# ------------------------------------------------------------------------------
+class ReverseDumpDir(object):
+
+  def __init__(self, inputfilename):
+    self.inputfilename = inputfilename
+
   def makemaker(self, source):
     sink = FileSystemSink()
-    for otype, content in source:
+    while source.hasnext():
+      otype, content = source.next()
       if otype == 'd':
         yield from sink.adddir(content)
       elif otype == 'f':
@@ -186,7 +209,7 @@ class ReverseDumpDir(object):
     yield from sink.done()
 
   def runexcept(self):
-    for maker in self.makemaker(self.source()):
+    for maker in self.makemaker(DumpDirFileSource(self.inputfilename)):
       maker.make()
 
 # ------------------------------------------------------------------------------
