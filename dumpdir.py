@@ -96,7 +96,7 @@ class SymlinkMaker:
     os.symlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
-class DumpDirFileSource:
+class DumpFileLexer:
 
   def source(self):
     with open(self.inputfilename) as inputfile:
@@ -139,38 +139,38 @@ class ReverseDumpDir(object):
     dirmaker = DirMaker(name)
     return dirmaker
 
-  def addfile(self, name, source):
+  def addfile(self, name, lexer):
     lines = io.StringIO()
-    while source.hasnext():
-      otype, _ = source.peek()
+    while lexer.hasnext():
+      otype, _ = lexer.peek()
       if otype != '>':
         break
-      _, content = source.next()
+      _, content = lexer.next()
       lines.write(content + '\n')
     filemaker = FileMaker(name, lines.getvalue())
     return filemaker
 
-  def addsymlink(self, name, source):
-    otype, content = source.next()
+  def addsymlink(self, name, lexer):
+    otype, content = lexer.next()
     assert otype == '>'
     symlinkmaker = SymlinkMaker(name, content)
     return symlinkmaker
 
-  def next(self, source):
-    otype, content = source.next()
+  def next(self, lexer):
+    otype, content = lexer.next()
     if otype == 'd':
       return self.adddir(content)
     elif otype == 'f':
-      return self.addfile(content, source)
+      return self.addfile(content, lexer)
     elif otype == 'l':
-      return self.addsymlink(content, source)
+      return self.addsymlink(content, lexer)
     else:
       raise Exception('unknown type: %s' % otype)
 
   def runexcept(self):
-    source = DumpDirFileSource(self.inputfilename)
-    while source.hasnext():
-      maker = self.next(source)
+    lexer = DumpFileLexer(self.inputfilename)
+    while lexer.hasnext():
+      maker = self.next(lexer)
       maker.make()
 
 # ------------------------------------------------------------------------------
