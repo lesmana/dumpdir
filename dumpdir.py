@@ -126,33 +126,6 @@ class SymlinkBuilder:
     return symlinkmaker
 
 # ------------------------------------------------------------------------------
-class FileSystemSink:
-
-  def adddir(self, name):
-    dirmaker = DirMaker(name)
-    return dirmaker
-
-  def addfile(self, name, source):
-    self.filebuilder = FileBuilder(name)
-    while source.hasnext():
-      otype, _ = source.peek()
-      if otype != '>':
-        break
-      _, content = source.next()
-      self.filebuilder.addline(content)
-    filemaker = self.filebuilder.build()
-    return filemaker
-
-
-  def addsymlink(self, name, source):
-    self.filebuilder = SymlinkBuilder(name)
-    otype, content = source.next()
-    assert otype == '>'
-    self.filebuilder.addline(content)
-    symlinkmaker = self.filebuilder.build()
-    return symlinkmaker
-
-# ------------------------------------------------------------------------------
 class DumpDirFileSource:
 
   def source(self):
@@ -185,6 +158,33 @@ class DumpDirFileSource:
 
   def hasnext(self):
     return self.nextitem is not None
+
+# ------------------------------------------------------------------------------
+class FileSystemSink:
+
+  def adddir(self, name):
+    dirmaker = DirMaker(name)
+    return dirmaker
+
+  def addfile(self, name, source):
+    self.filebuilder = FileBuilder(name)
+    while source.hasnext():
+      otype, _ = source.peek()
+      if otype != '>':
+        break
+      _, content = source.next()
+      self.filebuilder.addline(content)
+    filemaker = self.filebuilder.build()
+    return filemaker
+
+
+  def addsymlink(self, name, source):
+    self.filebuilder = SymlinkBuilder(name)
+    otype, content = source.next()
+    assert otype == '>'
+    self.filebuilder.addline(content)
+    symlinkmaker = self.filebuilder.build()
+    return symlinkmaker
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
