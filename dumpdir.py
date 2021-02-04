@@ -110,25 +110,25 @@ class DumpFileLexer:
 
   def __init__(self, filename):
     self.filename = filename
-    self.sauce = self.source()
-    self.nextitem = self._next()
+    self.tokensource = self.source()
+    self.nexttoken = self._next()
 
   def _next(self):
     try:
-      return next(self.sauce)
+      return next(self.tokensource)
     except StopIteration:
       return None
 
   def peek(self):
-    return self.nextitem
+    return self.nexttoken
 
   def next(self):
-    nextitem = self.nextitem
-    self.nextitem = self._next()
-    return nextitem
+    nexttoken = self.nexttoken
+    self.nexttoken = self._next()
+    return nexttoken
 
   def hasnext(self):
-    return self.nextitem is not None
+    return self.nexttoken is not None
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
