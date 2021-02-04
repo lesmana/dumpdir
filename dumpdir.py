@@ -109,23 +109,6 @@ class FileBuilder:
     return filemaker
 
 # ------------------------------------------------------------------------------
-class SymlinkBuilder:
-  def __init__(self, path):
-    self.path = path
-    self.target = None
-
-  def addline(self, target):
-    if self.target is not None:
-      raise Exception(f'this symlink already has target {self.path} -> {self.target}')
-    self.target = target
-
-  def build(self):
-    if self.target is None:
-      raise Exception(f'this symlink has no target {self.path}')
-    symlinkmaker = SymlinkMaker(self.path, self.target)
-    return symlinkmaker
-
-# ------------------------------------------------------------------------------
 class DumpDirFileSource:
 
   def source(self):
@@ -182,11 +165,9 @@ class ReverseDumpDir(object):
 
 
   def addsymlink(self, name, source):
-    self.filebuilder = SymlinkBuilder(name)
     otype, content = source.next()
     assert otype == '>'
-    self.filebuilder.addline(content)
-    symlinkmaker = self.filebuilder.build()
+    symlinkmaker = SymlinkMaker(name, content)
     return symlinkmaker
 
   def next(self, source):
