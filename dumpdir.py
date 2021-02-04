@@ -67,6 +67,7 @@ class DumpDir(object):
     dumpfilewriter = DumpFileWriter()
     for linewriter in self.source():
       dumpfilewriter.add(linewriter)
+    return 0
 
 # ------------------------------------------------------------------------------
 class DirMaker:
@@ -180,6 +181,7 @@ class ReverseDumpDir(object):
     while self.lexer.hasnext():
       maker = self.parse()
       maker.make()
+    return 0
 
 # ------------------------------------------------------------------------------
 def filenamefromargv(argv):
