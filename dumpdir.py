@@ -96,19 +96,6 @@ class SymlinkMaker:
     os.symlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
-class FileBuilder:
-  def __init__(self, path):
-    self.path = path
-    self.content = io.StringIO()
-
-  def addline(self, line):
-    self.content.write(line + '\n')
-
-  def build(self):
-    filemaker = FileMaker(self.path, self.content.getvalue())
-    return filemaker
-
-# ------------------------------------------------------------------------------
 class DumpDirFileSource:
 
   def source(self):
@@ -153,14 +140,14 @@ class ReverseDumpDir(object):
     return dirmaker
 
   def addfile(self, name, source):
-    self.filebuilder = FileBuilder(name)
+    lines = io.StringIO()
     while source.hasnext():
       otype, _ = source.peek()
       if otype != '>':
         break
       _, content = source.next()
-      self.filebuilder.addline(content)
-    filemaker = self.filebuilder.build()
+      lines.write(content + '\n')
+    filemaker = FileMaker(name, lines.getvalue())
     return filemaker
 
 
