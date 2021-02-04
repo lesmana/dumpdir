@@ -104,8 +104,8 @@ class DumpFileLexer:
         line = line.strip()
         if not line:
           continue
-        otype, _, content = line.partition(' ')
-        yield otype, content
+        symbol, _, content = line.partition(' ')
+        yield symbol, content
 
   def __init__(self, inputfilename):
     self.inputfilename = inputfilename
@@ -142,8 +142,8 @@ class ReverseDumpDir(object):
   def addfile(self, name, lexer):
     lines = io.StringIO()
     while lexer.hasnext():
-      otype, _ = lexer.peek()
-      if otype != '>':
+      symbol, _ = lexer.peek()
+      if symbol != '>':
         break
       _, content = lexer.next()
       lines.write(content + '\n')
@@ -151,21 +151,21 @@ class ReverseDumpDir(object):
     return filemaker
 
   def addsymlink(self, name, lexer):
-    otype, content = lexer.next()
-    assert otype == '>'
+    symbol, content = lexer.next()
+    assert symbol == '>'
     symlinkmaker = SymlinkMaker(name, content)
     return symlinkmaker
 
   def parse(self, lexer):
-    otype, content = lexer.next()
-    if otype == 'd':
+    symbol, content = lexer.next()
+    if symbol == 'd':
       return self.adddir(content)
-    elif otype == 'f':
+    elif symbol == 'f':
       return self.addfile(content, lexer)
-    elif otype == 'l':
+    elif symbol == 'l':
       return self.addsymlink(content, lexer)
     else:
-      raise Exception('unknown type: %s' % otype)
+      raise Exception('unknown type: %s' % symbol)
 
   def runexcept(self):
     lexer = DumpFileLexer(self.inputfilename)
