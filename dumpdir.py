@@ -127,33 +127,30 @@ class SymlinkBuilder:
 
 # ------------------------------------------------------------------------------
 class FileSystemSink:
-  def __init__(self):
-    self.filebuilder = None
-
-  def maybewritefile(self):
-    if self.filebuilder is not None:
-      filemaker = self.filebuilder.build();
-      yield filemaker
-      self.filebuilder = None
 
   def adddir(self, name):
-    yield from self.maybewritefile()
     dirmaker = DirMaker(name)
     yield dirmaker
 
-  def addfile(self, name):
-    yield from self.maybewritefile()
+  def addfile(self, name, source):
     self.filebuilder = FileBuilder(name)
+    while source.hasnext():
+      otype, _ = source.peek()
+      if otype != '>':
+        break
+      _, content = source.next()
+      self.filebuilder.addline(content)
+    filemaker = self.filebuilder.build()
+    yield filemaker
 
-  def addline(self, line):
-    self.filebuilder.addline(line)
 
-  def addsymlink(self, name):
-    yield from self.maybewritefile()
+  def addsymlink(self, name, source):
     self.filebuilder = SymlinkBuilder(name)
-
-  def done(self):
-    yield from self.maybewritefile()
+    otype, content = source.next()
+    assert otype == '>'
+    self.filebuilder.addline(content)
+    symlinkmaker = self.filebuilder.build()
+    yield symlinkmaker
 
 # ------------------------------------------------------------------------------
 class DumpDirFileSource:
@@ -178,6 +175,9 @@ class DumpDirFileSource:
     except StopIteration:
       return None
 
+  def peek(self):
+    return self.nextitem
+
   def next(self):
     nextitem = self.nextitem
     self.nextitem = self._next()
@@ -197,11 +197,9 @@ class ReverseDumpDir(object):
     if otype == 'd':
       yield from sink.adddir(content)
     elif otype == 'f':
-      yield from sink.addfile(content)
-    elif otype == '>':
-      sink.addline(content)
+      yield from sink.addfile(content, source)
     elif otype == 'l':
-      yield from sink.addsymlink(content)
+      yield from sink.addsymlink(content, source)
     else:
       raise Exception('unknown type: %s' % otype)
 
@@ -210,7 +208,6 @@ class ReverseDumpDir(object):
     sink = FileSystemSink()
     while source.hasnext():
       yield from self.next(source, sink)
-    yield from sink.done()
 
   def runexcept(self):
     for maker in self.makemaker(DumpDirFileSource(self.inputfilename)):
