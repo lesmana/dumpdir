@@ -132,45 +132,44 @@ class DumpFileLexer:
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
 
-  def __init__(self, inputfilename):
-    self.inputfilename = inputfilename
+  def __init__(self, lexer):
+    self.lexer = lexer
 
   def adddir(self, name):
     dirmaker = DirMaker(name)
     return dirmaker
 
-  def addfile(self, name, lexer):
+  def addfile(self, name):
     lines = io.StringIO()
-    while lexer.hasnext():
-      symbol, _ = lexer.peek()
+    while self.lexer.hasnext():
+      symbol, _ = self.lexer.peek()
       if symbol != '>':
         break
-      _, content = lexer.next()
+      _, content = self.lexer.next()
       lines.write(content + '\n')
     filemaker = FileMaker(name, lines.getvalue())
     return filemaker
 
-  def addsymlink(self, name, lexer):
-    symbol, content = lexer.next()
+  def addsymlink(self, name):
+    symbol, content = self.lexer.next()
     assert symbol == '>'
     symlinkmaker = SymlinkMaker(name, content)
     return symlinkmaker
 
-  def parse(self, lexer):
-    symbol, content = lexer.next()
+  def parse(self):
+    symbol, content = self.lexer.next()
     if symbol == 'd':
       return self.adddir(content)
     elif symbol == 'f':
-      return self.addfile(content, lexer)
+      return self.addfile(content)
     elif symbol == 'l':
-      return self.addsymlink(content, lexer)
+      return self.addsymlink(content)
     else:
       raise Exception('unknown type: %s' % symbol)
 
   def runexcept(self):
-    lexer = DumpFileLexer(self.inputfilename)
-    while lexer.hasnext():
-      maker = self.parse(lexer)
+    while self.lexer.hasnext():
+      maker = self.parse()
       maker.make()
 
 # ------------------------------------------------------------------------------
@@ -186,7 +185,8 @@ def main(argv):
   if '-r' in argv:
     argv.remove('-r')
     inputfilename = filenamefromargv(argv)
-    dumpdirthing = ReverseDumpDir(inputfilename)
+    lexer = DumpFileLexer(inputfilename)
+    dumpdirthing = ReverseDumpDir(lexer)
   else:
     dumpdirthing = DumpDir()
   try:
