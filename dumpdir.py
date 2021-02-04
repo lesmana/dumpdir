@@ -201,12 +201,10 @@ class ReverseDumpDir(object):
       raise Exception('unknown type: %s' % otype)
 
 
-  def makemaker(self, source):
-    while source.hasnext():
-      yield self.next(source)
-
   def runexcept(self):
-    for maker in self.makemaker(DumpDirFileSource(self.inputfilename)):
+    source = DumpDirFileSource(self.inputfilename)
+    while source.hasnext():
+      maker = self.next(source)
       maker.make()
 
 # ------------------------------------------------------------------------------
