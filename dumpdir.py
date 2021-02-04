@@ -130,7 +130,7 @@ class FileSystemSink:
 
   def adddir(self, name):
     dirmaker = DirMaker(name)
-    yield dirmaker
+    return dirmaker
 
   def addfile(self, name, source):
     self.filebuilder = FileBuilder(name)
@@ -141,7 +141,7 @@ class FileSystemSink:
       _, content = source.next()
       self.filebuilder.addline(content)
     filemaker = self.filebuilder.build()
-    yield filemaker
+    return filemaker
 
 
   def addsymlink(self, name, source):
@@ -150,7 +150,7 @@ class FileSystemSink:
     assert otype == '>'
     self.filebuilder.addline(content)
     symlinkmaker = self.filebuilder.build()
-    yield symlinkmaker
+    return symlinkmaker
 
 # ------------------------------------------------------------------------------
 class DumpDirFileSource:
@@ -195,11 +195,11 @@ class ReverseDumpDir(object):
   def next(self, source, sink):
     otype, content = source.next()
     if otype == 'd':
-      yield from sink.adddir(content)
+      return sink.adddir(content)
     elif otype == 'f':
-      yield from sink.addfile(content, source)
+      return sink.addfile(content, source)
     elif otype == 'l':
-      yield from sink.addsymlink(content, source)
+      return sink.addsymlink(content, source)
     else:
       raise Exception('unknown type: %s' % otype)
 
@@ -207,7 +207,7 @@ class ReverseDumpDir(object):
   def makemaker(self, source):
     sink = FileSystemSink()
     while source.hasnext():
-      yield from self.next(source, sink)
+      yield self.next(source, sink)
 
   def runexcept(self):
     for maker in self.makemaker(DumpDirFileSource(self.inputfilename)):
