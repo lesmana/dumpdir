@@ -150,7 +150,6 @@ class ReverseDumpDir(object):
     filemaker = FileMaker(name, lines.getvalue())
     return filemaker
 
-
   def addsymlink(self, name, source):
     otype, content = source.next()
     assert otype == '>'
@@ -167,7 +166,6 @@ class ReverseDumpDir(object):
       return self.addsymlink(content, source)
     else:
       raise Exception('unknown type: %s' % otype)
-
 
   def runexcept(self):
     source = DumpDirFileSource(self.inputfilename)
