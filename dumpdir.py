@@ -198,11 +198,7 @@ def main(argv):
     dumpdirthing = ReverseDumpDir(lexer)
   else:
     dumpdirthing = DumpDir()
-  try:
-    exitstatus = dumpdirthing.runexcept()
-  except Exception as error:
-    sys.stderr.write('ERROR: %s\n' % str(error))
-    exitstatus = 1
+  exitstatus = dumpdirthing.runexcept()
   return exitstatus
 
 # ------------------------------------------------------------------------------
