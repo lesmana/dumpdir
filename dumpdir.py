@@ -192,20 +192,24 @@ class ReverseDumpDir(object):
   def __init__(self, inputfilename):
     self.inputfilename = inputfilename
 
+  def next(self, source, sink):
+    otype, content = source.next()
+    if otype == 'd':
+      yield from sink.adddir(content)
+    elif otype == 'f':
+      yield from sink.addfile(content)
+    elif otype == '>':
+      sink.addline(content)
+    elif otype == 'l':
+      yield from sink.addsymlink(content)
+    else:
+      raise Exception('unknown type: %s' % otype)
+
+
   def makemaker(self, source):
     sink = FileSystemSink()
     while source.hasnext():
-      otype, content = source.next()
-      if otype == 'd':
-        yield from sink.adddir(content)
-      elif otype == 'f':
-        yield from sink.addfile(content)
-      elif otype == '>':
-        sink.addline(content)
-      elif otype == 'l':
-        yield from sink.addsymlink(content)
-      else:
-        raise Exception('unknown type: %s' % otype)
+      yield from self.next(source, sink)
     yield from sink.done()
 
   def runexcept(self):
