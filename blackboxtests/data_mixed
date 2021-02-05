@@ -1,6 +1,9 @@
 
 dumpfile="\
 f emptyfile
+x executablefile
+> #!/bin/sh
+> echo hello world
 f textfile
 > hello
 > world
@@ -15,6 +18,11 @@ d symlink
 f symlink/dummy
 l symlink/todummy
 > dummy
+"
+
+executablefile="\
+#!/bin/sh
+echo hello world
 "
 
 textfile="\
@@ -33,6 +41,8 @@ arrange_dumpfile() {
 arrange_dirs() {
   mkdir emptydir
   touch emptyfile
+  echo -n "$executablefile" > executablefile
+  chmod +x executablefile
   echo -n "$textfile" > textfile
   mkdir -p dir/dir/dir/dir
   echo -n "$subdirfile" > dir/dir/dir/dir/file

@@ -3,6 +3,7 @@
 import os
 import sys
 import io
+import stat
 
 # ------------------------------------------------------------------------------
 class DirLine:
@@ -38,6 +39,17 @@ class FileLines:
         sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
+class ExecFileLines:
+  def __init__(self, path):
+    self.path = path
+
+  def write(self):
+    sys.stdout.write('x %s\n' % (self.path))
+    with open(self.path) as fileobject:
+      for line in fileobject:
+        sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+
+# ------------------------------------------------------------------------------
 class DumpFileWriter:
 
   def add(self, linewriter):
@@ -58,6 +70,9 @@ class DumpDir(object):
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
           linewriter = SymlinkLine(relpath_filename)
+          yield linewriter
+        elif os.access(relpath_filename, os.X_OK):
+          linewriter = ExecFileLines(relpath_filename)
           yield linewriter
         else:
           linewriter = FileLines(relpath_filename)
@@ -86,6 +101,19 @@ class FileMaker:
   def make(self):
     with open(self.path, 'w') as fileob:
       fileob.write(self.content)
+
+# ------------------------------------------------------------------------------
+class ExecFileMaker:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def make(self):
+    with open(self.path, 'w') as fileob:
+      fileob.write(self.content)
+      mode = os.stat(fileob.fileno()).st_mode
+      mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+      os.chmod(fileob.fileno(), stat.S_IMODE(mode))
 
 # ------------------------------------------------------------------------------
 class SymlinkMaker:
@@ -145,8 +173,7 @@ class ReverseDumpDir(object):
     dirmaker = DirMaker(name)
     return dirmaker
 
-  def addfile(self):
-    name = self.lexer.next()
+  def getlines(self):
     lines = io.StringIO()
     while self.lexer.hasnext():
       symbol = self.lexer.peek()
@@ -155,7 +182,18 @@ class ReverseDumpDir(object):
       _ = self.lexer.next()
       content = self.lexer.next()
       lines.write(content + '\n')
+    return lines
+
+  def addfile(self):
+    name = self.lexer.next()
+    lines = self.getlines()
     filemaker = FileMaker(name, lines.getvalue())
+    return filemaker
+
+  def addexecfile(self):
+    name = self.lexer.next()
+    lines = self.getlines()
+    filemaker = ExecFileMaker(name, lines.getvalue())
     return filemaker
 
   def addsymlink(self):
@@ -172,6 +210,8 @@ class ReverseDumpDir(object):
       return self.adddir()
     elif symbol == 'f':
       return self.addfile()
+    elif symbol == 'x':
+      return self.addexecfile()
     elif symbol == 'l':
       return self.addsymlink()
     else:
