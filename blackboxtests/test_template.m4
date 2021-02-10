@@ -26,7 +26,7 @@ arrange() {
 }
 
 assert() {
-  diff -r --no-dereference actual expected
+  git diff --no-index actual expected
 }
 
 runtest() {
