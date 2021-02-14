@@ -246,25 +246,14 @@ class WriteToFileSystem:
     maker.make()
 
 # ------------------------------------------------------------------------------
-class DumpDir:
+class Runner:
   def __init__(self, reader, writer):
     self.reader = reader
     self.writer = writer
 
   def runexcept(self):
-    for linewriter in self.reader.read():
-      self.writer.add(linewriter)
-    return 0
-
-# ------------------------------------------------------------------------------
-class ReverseDumpDir:
-  def __init__(self, reader, writer):
-    self.reader = reader
-    self.writer = writer
-
-  def runexcept(self):
-    for maker in self.reader.read():
-      self.writer.add(maker)
+    for thing in self.reader.read():
+      self.writer.add(thing)
     return 0
 
 # ------------------------------------------------------------------------------
@@ -282,12 +271,11 @@ def main(argv):
     inputfilename = filenamefromargv(argv)
     reader = ReadFromFile(inputfilename)
     writer = WriteToFileSystem()
-    dumpdirthing = ReverseDumpDir(reader, writer)
   else:
     reader = ReadFromFileSystem()
     writer = WriteToFile()
-    dumpdirthing = DumpDir(reader, writer)
-  exitstatus = dumpdirthing.runexcept()
+  runner = Runner(reader, writer)
+  exitstatus = runner.runexcept()
   return exitstatus
 
 # ------------------------------------------------------------------------------
