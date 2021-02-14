@@ -6,6 +6,53 @@ import io
 import stat
 
 # ------------------------------------------------------------------------------
+class DirLine:
+  def __init__(self, path):
+    self.path = path
+
+  def writetofile(self, writer):
+    writer.writedir(self.path)
+
+  def writetofilesystem(self, writer):
+    writer.writedir(self.path)
+
+# ------------------------------------------------------------------------------
+class SymlinkLine:
+  def __init__(self, path, target):
+    self.path = path
+    self.target = target
+
+  def writetofile(self, writer):
+    writer.writesymlink(self.target, self.path)
+
+  def writetofilesystem(self, writer):
+    writer.writesymlink(self.target, self.path)
+
+# ------------------------------------------------------------------------------
+class FileLines:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def writetofile(self, writer):
+    writer.writefile(self.path, self.content)
+
+  def writetofilesystem(self, writer):
+    writer.writefile(self.path, self.content)
+
+# ------------------------------------------------------------------------------
+class ExecFileLines:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def writetofile(self, writer):
+    writer.writeexecfile(self.path, self.content)
+
+  def writetofilesystem(self, writer):
+    writer.writeexecfile(self.path, self.content)
+
+# ------------------------------------------------------------------------------
 class ReadFromFileSystem:
 
   def emitdir(self, path):
@@ -151,53 +198,6 @@ class ReadFromFile:
     while self.lexer.hasnext():
       maker = self.parser.parse()
       yield maker
-
-# ------------------------------------------------------------------------------
-class DirLine:
-  def __init__(self, path):
-    self.path = path
-
-  def writetofile(self, writer):
-    writer.writedir(self.path)
-
-  def writetofilesystem(self, writer):
-    writer.writedir(self.path)
-
-# ------------------------------------------------------------------------------
-class SymlinkLine:
-  def __init__(self, path, target):
-    self.path = path
-    self.target = target
-
-  def writetofile(self, writer):
-    writer.writesymlink(self.target, self.path)
-
-  def writetofilesystem(self, writer):
-    writer.writesymlink(self.target, self.path)
-
-# ------------------------------------------------------------------------------
-class FileLines:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def writetofile(self, writer):
-    writer.writefile(self.path, self.content)
-
-  def writetofilesystem(self, writer):
-    writer.writefile(self.path, self.content)
-
-# ------------------------------------------------------------------------------
-class ExecFileLines:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def writetofile(self, writer):
-    writer.writeexecfile(self.path, self.content)
-
-  def writetofilesystem(self, writer):
-    writer.writeexecfile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
 class WriteToFile:
