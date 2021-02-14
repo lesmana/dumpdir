@@ -32,7 +32,8 @@ class FileLines:
 
   def write(self):
     sys.stdout.write('f %s\n' % (self.path))
-    sys.stdout.write('%s' % (self.content))
+    for line in self.content:
+      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
 class ExecFileLines:
@@ -42,7 +43,8 @@ class ExecFileLines:
 
   def write(self):
     sys.stdout.write('x %s\n' % (self.path))
-    sys.stdout.write('%s' % (self.content))
+    for line in self.content:
+      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
 class DumpFileWriter:
@@ -66,19 +68,15 @@ class DumpDir(object):
     return linewriter
 
   def emitexecfile(self, path):
-    content = io.StringIO()
     with open(path) as fileobject:
-      for line in fileobject:
-        content.write('> %s\n' % (line.rstrip('\n')))
-    linewriter = ExecFileLines(path, content.getvalue())
+      content = fileobject.readlines()
+    linewriter = ExecFileLines(path, content)
     return linewriter
 
   def emitfile(self, path):
-    content = io.StringIO()
     with open(path) as fileobject:
-      for line in fileobject:
-        content.write('> %s\n' % (line.rstrip('\n')))
-    linewriter = FileLines(path, content.getvalue())
+      content = fileobject.readlines()
+    linewriter = FileLines(path, content)
     return linewriter
 
   def source(self):
