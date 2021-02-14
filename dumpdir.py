@@ -96,17 +96,6 @@ class ReadFromFileSystem(object):
           yield self.emitfile(relpath_filename)
 
 # ------------------------------------------------------------------------------
-class DumpDir(object):
-  def __init__(self, reader):
-    self.reader = reader
-
-  def runexcept(self):
-    dumpfilewriter = DumpFileWriter()
-    for linewriter in self.reader.source():
-      dumpfilewriter.add(linewriter)
-    return 0
-
-# ------------------------------------------------------------------------------
 class DirMaker:
   def __init__(self, path):
     self.path = path
@@ -249,6 +238,17 @@ class ReadFromFile(object):
     while self.lexer.hasnext():
       maker = self.parser.parse()
       yield maker
+
+# ------------------------------------------------------------------------------
+class DumpDir(object):
+  def __init__(self, reader):
+    self.reader = reader
+
+  def runexcept(self):
+    dumpfilewriter = DumpFileWriter()
+    for linewriter in self.reader.source():
+      dumpfilewriter.add(linewriter)
+    return 0
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir(object):
