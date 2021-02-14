@@ -180,8 +180,7 @@ class DumpFileLexer:
     return self.nexttoken is not None
 
 # ------------------------------------------------------------------------------
-class ReverseDumpDir(object):
-
+class DumpFileParser(object):
   def __init__(self, lexer):
     self.lexer = lexer
 
@@ -234,9 +233,16 @@ class ReverseDumpDir(object):
     else:
       raise Exception('unknown type: %s' % symbol)
 
+
+# ------------------------------------------------------------------------------
+class ReverseDumpDir(object):
+  def __init__(self, lexer, parser):
+    self.lexer = lexer
+    self.parser = parser
+
   def runexcept(self):
     while self.lexer.hasnext():
-      maker = self.parse()
+      maker = self.parser.parse()
       maker.make()
     return 0
 
@@ -254,7 +260,8 @@ def main(argv):
     argv.remove('-r')
     inputfilename = filenamefromargv(argv)
     lexer = DumpFileLexer(inputfilename)
-    dumpdirthing = ReverseDumpDir(lexer)
+    parser = DumpFileParser(lexer)
+    dumpdirthing = ReverseDumpDir(lexer, parser)
   else:
     dumpdirthing = DumpDir()
   exitstatus = dumpdirthing.runexcept()
