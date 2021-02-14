@@ -47,12 +47,6 @@ class ExecFileLines:
       sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
-class DumpFileWriter:
-
-  def add(self, linewriter):
-    linewriter.write()
-
-# ------------------------------------------------------------------------------
 class ReadFromFileSystem:
 
   def emitdir(self, path):
@@ -238,6 +232,12 @@ class ReadFromFile:
     while self.lexer.hasnext():
       maker = self.parser.parse()
       yield maker
+
+# ------------------------------------------------------------------------------
+class DumpFileWriter:
+
+  def add(self, linewriter):
+    linewriter.write()
 
 # ------------------------------------------------------------------------------
 class DumpDir:
