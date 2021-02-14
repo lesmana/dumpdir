@@ -157,8 +157,8 @@ class DirLine:
   def __init__(self, path):
     self.path = path
 
-  def write(self):
-    sys.stdout.write('d %s\n' % (self.path))
+  def write(self, writer):
+    writer.writedir(self.path)
 
 # ------------------------------------------------------------------------------
 class SymlinkLine:
@@ -166,9 +166,8 @@ class SymlinkLine:
     self.path = path
     self.target = target
 
-  def write(self):
-    sys.stdout.write('l %s\n' % (self.path))
-    sys.stdout.write('> %s\n' % (self.target))
+  def write(self, writer):
+    writer.writesymlink(self.target, self.path)
 
 
 # ------------------------------------------------------------------------------
@@ -177,10 +176,8 @@ class FileLines:
     self.path = path
     self.content = content
 
-  def write(self):
-    sys.stdout.write('f %s\n' % (self.path))
-    for line in self.content:
-      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+  def write(self, writer):
+    writer.writefile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
 class ExecFileLines:
@@ -188,16 +185,31 @@ class ExecFileLines:
     self.path = path
     self.content = content
 
-  def write(self):
-    sys.stdout.write('x %s\n' % (self.path))
-    for line in self.content:
-      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+  def write(self, writer):
+    writer.writeexecfile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
 class WriteToFile:
 
+  def writedir(self, path):
+    sys.stdout.write('d %s\n' % (path))
+
+  def writesymlink(self, target, path):
+    sys.stdout.write('l %s\n' % (path))
+    sys.stdout.write('> %s\n' % (target))
+
+  def writefile(self, path, content):
+    sys.stdout.write('f %s\n' % (path))
+    for line in content:
+      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+
+  def writeexecfile(self, path, content):
+    sys.stdout.write('x %s\n' % (path))
+    for line in content:
+      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+
   def write(self, linewriter):
-    linewriter.write()
+    linewriter.write(self)
 
 # ------------------------------------------------------------------------------
 class DirMaker:
