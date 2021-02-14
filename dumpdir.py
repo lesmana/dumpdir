@@ -241,13 +241,13 @@ class WriteToFile:
 
 # ------------------------------------------------------------------------------
 class DumpDir:
-  def __init__(self, reader):
+  def __init__(self, reader, writer):
     self.reader = reader
+    self.writer = writer
 
   def runexcept(self):
-    dumpfilewriter = WriteToFile()
     for linewriter in self.reader.source():
-      dumpfilewriter.add(linewriter)
+      self.writer.add(linewriter)
     return 0
 
 # ------------------------------------------------------------------------------
@@ -277,7 +277,8 @@ def main(argv):
     dumpdirthing = ReverseDumpDir(reader)
   else:
     reader = ReadFromFileSystem()
-    dumpdirthing = DumpDir(reader)
+    writer = WriteToFile()
+    dumpdirthing = DumpDir(reader, writer)
   exitstatus = dumpdirthing.runexcept()
   return exitstatus
 
