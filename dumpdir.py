@@ -90,46 +90,6 @@ class ReadFromFileSystem:
           yield self.emitfile(relpath_filename)
 
 # ------------------------------------------------------------------------------
-class DirMaker:
-  def __init__(self, path):
-    self.path = path
-
-  def make(self):
-    os.mkdir(self.path)
-
-# ------------------------------------------------------------------------------
-class FileMaker:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def make(self):
-    with open(self.path, 'w') as fileob:
-      fileob.write(self.content)
-
-# ------------------------------------------------------------------------------
-class ExecFileMaker:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def make(self):
-    with open(self.path, 'w') as fileob:
-      fileob.write(self.content)
-      mode = os.stat(fileob.fileno()).st_mode
-      mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
-      os.chmod(fileob.fileno(), stat.S_IMODE(mode))
-
-# ------------------------------------------------------------------------------
-class SymlinkMaker:
-  def __init__(self, path, target):
-    self.path = path
-    self.target = target
-
-  def make(self):
-    os.symlink(self.target, self.path)
-
-# ------------------------------------------------------------------------------
 class DumpFileLexer:
 
   def linegen(self, filename):
@@ -238,6 +198,46 @@ class WriteToFile:
 
   def write(self, linewriter):
     linewriter.write()
+
+# ------------------------------------------------------------------------------
+class DirMaker:
+  def __init__(self, path):
+    self.path = path
+
+  def make(self):
+    os.mkdir(self.path)
+
+# ------------------------------------------------------------------------------
+class FileMaker:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def make(self):
+    with open(self.path, 'w') as fileob:
+      fileob.write(self.content)
+
+# ------------------------------------------------------------------------------
+class ExecFileMaker:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def make(self):
+    with open(self.path, 'w') as fileob:
+      fileob.write(self.content)
+      mode = os.stat(fileob.fileno()).st_mode
+      mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+      os.chmod(fileob.fileno(), stat.S_IMODE(mode))
+
+# ------------------------------------------------------------------------------
+class SymlinkMaker:
+  def __init__(self, path, target):
+    self.path = path
+    self.target = target
+
+  def make(self):
+    os.symlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
