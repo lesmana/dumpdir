@@ -157,7 +157,7 @@ class DirLine:
   def __init__(self, path):
     self.path = path
 
-  def write(self, writer):
+  def writetofile(self, writer):
     writer.writedir(self.path)
 
 # ------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ class SymlinkLine:
     self.path = path
     self.target = target
 
-  def write(self, writer):
+  def writetofile(self, writer):
     writer.writesymlink(self.target, self.path)
 
 
@@ -176,7 +176,7 @@ class FileLines:
     self.path = path
     self.content = content
 
-  def write(self, writer):
+  def writetofile(self, writer):
     writer.writefile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
@@ -185,7 +185,7 @@ class ExecFileLines:
     self.path = path
     self.content = content
 
-  def write(self, writer):
+  def writetofile(self, writer):
     writer.writeexecfile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ class WriteToFile:
       sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
   def write(self, linewriter):
-    linewriter.write(self)
+    linewriter.writetofile(self)
 
 # ------------------------------------------------------------------------------
 class DirMaker:
