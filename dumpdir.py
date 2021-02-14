@@ -6,7 +6,7 @@ import io
 import stat
 
 # ------------------------------------------------------------------------------
-class DirLine:
+class DirData:
   def __init__(self, path):
     self.path = path
 
@@ -14,7 +14,7 @@ class DirLine:
     writer.writedir(self.path)
 
 # ------------------------------------------------------------------------------
-class SymlinkLine:
+class SymlinkData:
   def __init__(self, path, target):
     self.path = path
     self.target = target
@@ -23,7 +23,7 @@ class SymlinkLine:
     writer.writesymlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
-class FileLines:
+class FileData:
   def __init__(self, path, content):
     self.path = path
     self.content = content
@@ -32,7 +32,7 @@ class FileLines:
     writer.writefile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
-class ExecFileLines:
+class ExecFileData:
   def __init__(self, path, content):
     self.path = path
     self.content = content
@@ -44,7 +44,7 @@ class ExecFileLines:
 class ReadFromFileSystem:
 
   def emitdir(self, path):
-    linewriter = DirLine(path)
+    linewriter = DirData(path)
     return linewriter
 
   def emitlink(self, path):
@@ -52,19 +52,19 @@ class ReadFromFileSystem:
     commonprefix = os.path.commonprefix([os.getcwd(), target])
     if commonprefix != '/':
       target = os.path.relpath(target)
-    linewriter = SymlinkLine(path, target)
+    linewriter = SymlinkData(path, target)
     return linewriter
 
   def emitexecfile(self, path):
     with open(path) as fileobject:
       content = fileobject.readlines()
-    linewriter = ExecFileLines(path, content)
+    linewriter = ExecFileData(path, content)
     return linewriter
 
   def emitfile(self, path):
     with open(path) as fileobject:
       content = fileobject.readlines()
-    linewriter = FileLines(path, content)
+    linewriter = FileData(path, content)
     return linewriter
 
   def read(self):
@@ -151,7 +151,7 @@ class DumpFileParser:
 
   def adddir(self):
     name = self.lexer.next()
-    dirmaker = DirLine(name)
+    dirmaker = DirData(name)
     return dirmaker
 
   def getlines(self):
@@ -168,13 +168,13 @@ class DumpFileParser:
   def addfile(self):
     name = self.lexer.next()
     lines = self.getlines()
-    filemaker = FileLines(name, lines.getvalue())
+    filemaker = FileData(name, lines.getvalue())
     return filemaker
 
   def addexecfile(self):
     name = self.lexer.next()
     lines = self.getlines()
-    filemaker = ExecFileLines(name, lines.getvalue())
+    filemaker = ExecFileData(name, lines.getvalue())
     return filemaker
 
   def addsymlink(self):
@@ -182,7 +182,7 @@ class DumpFileParser:
     symbol = self.lexer.next()
     assert symbol == '>'
     content = self.lexer.next()
-    symlinkmaker = SymlinkLine(name, content)
+    symlinkmaker = SymlinkData(name, content)
     return symlinkmaker
 
   def parse(self):
