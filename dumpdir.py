@@ -219,8 +219,8 @@ class WriteToFile:
     for line in content:
       sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
-  def write(self, linewriter):
-    linewriter.writetofile(self)
+  def write(self, thing):
+    thing.writetofile(self)
 
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
@@ -242,8 +242,8 @@ class WriteToFileSystem:
   def writesymlink(self, target, path):
     os.symlink(target, path)
 
-  def write(self, maker):
-    maker.writetofilesystem(self)
+  def write(self, thing):
+    thing.writetofilesystem(self)
 
 # ------------------------------------------------------------------------------
 class Runner:
