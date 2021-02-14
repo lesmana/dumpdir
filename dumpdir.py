@@ -257,23 +257,23 @@ class Runner:
     return 0
 
 # ------------------------------------------------------------------------------
-def filenamefromargv(argv):
-  if len(argv) == 2:
-    inputfilename = argv[1]
-  else:
-    raise Exception('need filename')
-  return inputfilename
-
-# ------------------------------------------------------------------------------
-def main(argv):
+def configfromargv(argv):
   if '-r' in argv:
     argv.remove('-r')
-    inputfilename = filenamefromargv(argv)
+    if len(argv) == 2:
+      inputfilename = argv[1]
+    else:
+      raise Exception('need filename')
     reader = ReadFromFile(inputfilename)
     writer = WriteToFileSystem()
   else:
     reader = ReadFromFileSystem()
     writer = WriteToFile()
+  return reader, writer
+
+# ------------------------------------------------------------------------------
+def main(argv):
+  reader, writer = configfromargv(argv)
   runner = Runner(reader, writer)
   exitstatus = runner.runexcept()
   return exitstatus
