@@ -53,7 +53,7 @@ class DumpFileWriter:
     linewriter.write()
 
 # ------------------------------------------------------------------------------
-class ReadFromFileSystem(object):
+class ReadFromFileSystem:
 
   def emitdir(self, path):
     linewriter = DirLine(path)
@@ -174,7 +174,7 @@ class DumpFileLexer:
     return self.nexttoken is not None
 
 # ------------------------------------------------------------------------------
-class DumpFileParser(object):
+class DumpFileParser:
   def __init__(self, lexer):
     self.lexer = lexer
 
@@ -229,7 +229,7 @@ class DumpFileParser(object):
 
 
 # ------------------------------------------------------------------------------
-class ReadFromFile(object):
+class ReadFromFile:
   def __init__(self, inputfilename):
     self.lexer = DumpFileLexer(inputfilename)
     self.parser = DumpFileParser(self.lexer)
@@ -240,7 +240,7 @@ class ReadFromFile(object):
       yield maker
 
 # ------------------------------------------------------------------------------
-class DumpDir(object):
+class DumpDir:
   def __init__(self, reader):
     self.reader = reader
 
@@ -251,7 +251,7 @@ class DumpDir(object):
     return 0
 
 # ------------------------------------------------------------------------------
-class ReverseDumpDir(object):
+class ReverseDumpDir:
   def __init__(self, reader):
     self.reader = reader
 
