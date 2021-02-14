@@ -151,8 +151,8 @@ class DumpFileParser:
 
   def adddir(self):
     name = self.lexer.next()
-    dirmaker = DirData(name)
-    return dirmaker
+    dirdata = DirData(name)
+    return dirdata
 
   def getlines(self):
     lines = io.StringIO()
@@ -168,22 +168,22 @@ class DumpFileParser:
   def addfile(self):
     name = self.lexer.next()
     lines = self.getlines()
-    filemaker = FileData(name, lines.getvalue())
-    return filemaker
+    filedata = FileData(name, lines.getvalue())
+    return filedata
 
   def addexecfile(self):
     name = self.lexer.next()
     lines = self.getlines()
-    filemaker = ExecFileData(name, lines.getvalue())
-    return filemaker
+    execfiledata = ExecFileData(name, lines.getvalue())
+    return execfiledata
 
   def addsymlink(self):
     name = self.lexer.next()
     symbol = self.lexer.next()
     assert symbol == '>'
     content = self.lexer.next()
-    symlinkmaker = SymlinkData(name, content)
-    return symlinkmaker
+    symlinkdata = SymlinkData(name, content)
+    return symlinkdata
 
   def parse(self):
     symbol = self.lexer.next()
