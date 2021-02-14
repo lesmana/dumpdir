@@ -47,13 +47,13 @@ class ReadFromFileSystem:
     dirdata = DirData(path)
     return dirdata
 
-  def getlinkdata(self, path):
+  def getsymlinkdata(self, path):
     target = os.readlink(path)
     commonprefix = os.path.commonprefix([os.getcwd(), target])
     if commonprefix != '/':
       target = os.path.relpath(target)
-    linkdata = SymlinkData(path, target)
-    return linkdata
+    symlinkdata = SymlinkData(path, target)
+    return symlinkdata
 
   def getexecfiledata(self, path):
     with open(path) as fileobject:
@@ -77,7 +77,7 @@ class ReadFromFileSystem:
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          yield self.getlinkdata(relpath_filename)
+          yield self.getsymlinkdata(relpath_filename)
         elif os.access(relpath_filename, os.X_OK):
           yield self.getexecfiledata(relpath_filename)
         else:
