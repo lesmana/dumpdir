@@ -149,7 +149,7 @@ class DumpFileParser:
   def __init__(self, lexer):
     self.lexer = lexer
 
-  def adddir(self):
+  def getdirdata(self):
     name = self.lexer.next()
     dirdata = DirData(name)
     return dirdata
@@ -165,19 +165,19 @@ class DumpFileParser:
       lines.write(content + '\n')
     return lines
 
-  def addfile(self):
+  def getfiledata(self):
     name = self.lexer.next()
     lines = self.getlines()
     filedata = FileData(name, lines.getvalue())
     return filedata
 
-  def addexecfile(self):
+  def getexecfiledata(self):
     name = self.lexer.next()
     lines = self.getlines()
     execfiledata = ExecFileData(name, lines.getvalue())
     return execfiledata
 
-  def addsymlink(self):
+  def getsymlinkdata(self):
     name = self.lexer.next()
     symbol = self.lexer.next()
     assert symbol == '>'
@@ -188,13 +188,13 @@ class DumpFileParser:
   def parse(self):
     symbol = self.lexer.next()
     if symbol == 'd':
-      return self.adddir()
+      return self.getdirdata()
     elif symbol == 'f':
-      return self.addfile()
+      return self.getfiledata()
     elif symbol == 'x':
-      return self.addexecfile()
+      return self.getexecfiledata()
     elif symbol == 'l':
-      return self.addsymlink()
+      return self.getsymlinkdata()
     else:
       raise Exception('unknown type: %s' % symbol)
 
