@@ -216,7 +216,7 @@ class DirMaker:
   def __init__(self, path):
     self.path = path
 
-  def make(self, writer):
+  def writetofilesystem(self, writer):
     writer.writedir(self.path)
 
 # ------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ class FileMaker:
     self.path = path
     self.content = content
 
-  def make(self, writer):
+  def writetofilesystem(self, writer):
     writer.writefile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
@@ -234,7 +234,7 @@ class ExecFileMaker:
     self.path = path
     self.content = content
 
-  def make(self, writer):
+  def writetofilesystem(self, writer):
     writer.writeexecfile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
@@ -243,7 +243,7 @@ class SymlinkMaker:
     self.path = path
     self.target = target
 
-  def make(self, writer):
+  def writetofilesystem(self, writer):
     writer.writesymlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
@@ -267,7 +267,7 @@ class WriteToFileSystem:
     os.symlink(target, path)
 
   def write(self, maker):
-    maker.make(self)
+    maker.writetofilesystem(self)
 
 # ------------------------------------------------------------------------------
 class Runner:
