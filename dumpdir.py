@@ -236,13 +236,13 @@ class ReadFromFile:
 # ------------------------------------------------------------------------------
 class WriteToFile:
 
-  def add(self, linewriter):
+  def write(self, linewriter):
     linewriter.write()
 
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
 
-  def add(self, maker):
+  def write(self, maker):
     maker.make()
 
 # ------------------------------------------------------------------------------
@@ -253,7 +253,7 @@ class Runner:
 
   def runexcept(self):
     for thing in self.reader.read():
-      self.writer.add(thing)
+      self.writer.write(thing)
     return 0
 
 # ------------------------------------------------------------------------------
