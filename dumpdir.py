@@ -43,11 +43,11 @@ class ExecFileData:
 # ------------------------------------------------------------------------------
 class ReadFromFileSystem:
 
-  def emitdir(self, path):
+  def getdirdata(self, path):
     dirdata = DirData(path)
     return dirdata
 
-  def emitlink(self, path):
+  def getlinkdata(self, path):
     target = os.readlink(path)
     commonprefix = os.path.commonprefix([os.getcwd(), target])
     if commonprefix != '/':
@@ -55,13 +55,13 @@ class ReadFromFileSystem:
     linkdata = SymlinkData(path, target)
     return linkdata
 
-  def emitexecfile(self, path):
+  def getexecfiledata(self, path):
     with open(path) as fileobject:
       content = fileobject.readlines()
     execfiledata = ExecFileData(path, content)
     return execfiledata
 
-  def emitfile(self, path):
+  def getfiledata(self, path):
     with open(path) as fileobject:
       content = fileobject.readlines()
     filedata = FileData(path, content)
@@ -72,16 +72,16 @@ class ReadFromFileSystem:
       dirnames.sort()
       if dirpath != os.getcwd():
         relpath = os.path.relpath(dirpath)
-        yield self.emitdir(relpath)
+        yield self.getdirdata(relpath)
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          yield self.emitlink(relpath_filename)
+          yield self.getlinkdata(relpath_filename)
         elif os.access(relpath_filename, os.X_OK):
-          yield self.emitexecfile(relpath_filename)
+          yield self.getexecfiledata(relpath_filename)
         else:
-          yield self.emitfile(relpath_filename)
+          yield self.getfiledata(relpath_filename)
 
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
