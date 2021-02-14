@@ -241,9 +241,9 @@ class DumpFileParser(object):
 
 # ------------------------------------------------------------------------------
 class ReadFromFile(object):
-  def __init__(self, lexer, parser):
-    self.lexer = lexer
-    self.parser = parser
+  def __init__(self, inputfilename):
+    self.lexer = DumpFileLexer(inputfilename)
+    self.parser = DumpFileParser(self.lexer)
 
   def read(self):
     while self.lexer.hasnext():
@@ -273,9 +273,7 @@ def main(argv):
   if '-r' in argv:
     argv.remove('-r')
     inputfilename = filenamefromargv(argv)
-    lexer = DumpFileLexer(inputfilename)
-    parser = DumpFileParser(lexer)
-    reader = ReadFromFile(lexer, parser)
+    reader = ReadFromFile(inputfilename)
     dumpdirthing = ReverseDumpDir(reader)
   else:
     reader = ReadFromFileSystem()
