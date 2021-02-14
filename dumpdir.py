@@ -44,28 +44,28 @@ class ExecFileData:
 class ReadFromFileSystem:
 
   def emitdir(self, path):
-    linewriter = DirData(path)
-    return linewriter
+    dirdata = DirData(path)
+    return dirdata
 
   def emitlink(self, path):
     target = os.readlink(path)
     commonprefix = os.path.commonprefix([os.getcwd(), target])
     if commonprefix != '/':
       target = os.path.relpath(target)
-    linewriter = SymlinkData(path, target)
-    return linewriter
+    linkdata = SymlinkData(path, target)
+    return linkdata
 
   def emitexecfile(self, path):
     with open(path) as fileobject:
       content = fileobject.readlines()
-    linewriter = ExecFileData(path, content)
-    return linewriter
+    execfiledata = ExecFileData(path, content)
+    return execfiledata
 
   def emitfile(self, path):
     with open(path) as fileobject:
       content = fileobject.readlines()
-    linewriter = FileData(path, content)
-    return linewriter
+    filedata = FileData(path, content)
+    return filedata
 
   def read(self):
     for (dirpath, dirnames, filenames) in os.walk(os.getcwd()):
