@@ -10,10 +10,7 @@ class DirLine:
   def __init__(self, path):
     self.path = path
 
-  def writetofile(self, writer):
-    writer.writedir(self.path)
-
-  def writetofilesystem(self, writer):
+  def write(self, writer):
     writer.writedir(self.path)
 
 # ------------------------------------------------------------------------------
@@ -22,10 +19,7 @@ class SymlinkLine:
     self.path = path
     self.target = target
 
-  def writetofile(self, writer):
-    writer.writesymlink(self.target, self.path)
-
-  def writetofilesystem(self, writer):
+  def write(self, writer):
     writer.writesymlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
@@ -34,10 +28,7 @@ class FileLines:
     self.path = path
     self.content = content
 
-  def writetofile(self, writer):
-    writer.writefile(self.path, self.content)
-
-  def writetofilesystem(self, writer):
+  def write(self, writer):
     writer.writefile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
@@ -46,10 +37,7 @@ class ExecFileLines:
     self.path = path
     self.content = content
 
-  def writetofile(self, writer):
-    writer.writeexecfile(self.path, self.content)
-
-  def writetofilesystem(self, writer):
+  def write(self, writer):
     writer.writeexecfile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
@@ -116,7 +104,7 @@ class WriteToFileSystem:
     os.symlink(target, path)
 
   def write(self, thing):
-    thing.writetofilesystem(self)
+    thing.write(self)
 
 # ------------------------------------------------------------------------------
 class DumpFileLexer:
@@ -243,7 +231,7 @@ class WriteToFile:
       sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
   def write(self, thing):
-    thing.writetofile(self)
+    thing.write(self)
 
 # ------------------------------------------------------------------------------
 class Runner:
