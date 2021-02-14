@@ -103,8 +103,8 @@ class WriteToFileSystem:
   def writesymlink(self, target, path):
     os.symlink(target, path)
 
-  def write(self, thing):
-    thing.doubledispatch(self)
+  def write(self, data):
+    data.doubledispatch(self)
 
 # ------------------------------------------------------------------------------
 class DumpFileLexer:
@@ -230,8 +230,8 @@ class WriteToFile:
     for line in content:
       sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
-  def write(self, thing):
-    thing.doubledispatch(self)
+  def write(self, data):
+    data.doubledispatch(self)
 
 # ------------------------------------------------------------------------------
 class Runner:
@@ -240,8 +240,8 @@ class Runner:
     self.writer = writer
 
   def runexcept(self):
-    for thing in self.reader.read():
-      self.writer.write(thing)
+    for data in self.reader.read():
+      self.writer.write(data)
     return 0
 
 # ------------------------------------------------------------------------------
