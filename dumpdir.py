@@ -207,8 +207,8 @@ class ReadFromFile:
 
   def read(self):
     while self.lexer.hasnext():
-      maker = self.parser.parse()
-      yield maker
+      data = self.parser.parse()
+      yield data
 
 # ------------------------------------------------------------------------------
 class WriteToFile:
