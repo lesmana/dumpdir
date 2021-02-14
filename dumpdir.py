@@ -234,7 +234,7 @@ class ReadFromFile:
       yield maker
 
 # ------------------------------------------------------------------------------
-class DumpFileWriter:
+class WriteToFile:
 
   def add(self, linewriter):
     linewriter.write()
@@ -245,7 +245,7 @@ class DumpDir:
     self.reader = reader
 
   def runexcept(self):
-    dumpfilewriter = DumpFileWriter()
+    dumpfilewriter = WriteToFile()
     for linewriter in self.reader.source():
       dumpfilewriter.add(linewriter)
     return 0
