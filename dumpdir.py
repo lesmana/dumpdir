@@ -240,14 +240,23 @@ class DumpFileParser(object):
 
 
 # ------------------------------------------------------------------------------
-class ReverseDumpDir(object):
+class ReadFromFile(object):
   def __init__(self, lexer, parser):
     self.lexer = lexer
     self.parser = parser
 
-  def runexcept(self):
+  def read(self):
     while self.lexer.hasnext():
       maker = self.parser.parse()
+      yield maker
+
+# ------------------------------------------------------------------------------
+class ReverseDumpDir(object):
+  def __init__(self, reader):
+    self.reader = reader
+
+  def runexcept(self):
+    for maker in self.reader.read():
       maker.make()
     return 0
 
@@ -266,7 +275,8 @@ def main(argv):
     inputfilename = filenamefromargv(argv)
     lexer = DumpFileLexer(inputfilename)
     parser = DumpFileParser(lexer)
-    dumpdirthing = ReverseDumpDir(lexer, parser)
+    reader = ReadFromFile(lexer, parser)
+    dumpdirthing = ReverseDumpDir(reader)
   else:
     reader = ReadFromFileSystem()
     dumpdirthing = DumpDir(reader)
