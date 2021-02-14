@@ -204,8 +204,8 @@ class DirMaker:
   def __init__(self, path):
     self.path = path
 
-  def make(self):
-    os.mkdir(self.path)
+  def make(self, writer):
+    writer.writedir(self.path)
 
 # ------------------------------------------------------------------------------
 class FileMaker:
@@ -213,9 +213,8 @@ class FileMaker:
     self.path = path
     self.content = content
 
-  def make(self):
-    with open(self.path, 'w') as fileob:
-      fileob.write(self.content)
+  def make(self, writer):
+    writer.writefile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
 class ExecFileMaker:
@@ -223,12 +222,8 @@ class ExecFileMaker:
     self.path = path
     self.content = content
 
-  def make(self):
-    with open(self.path, 'w') as fileob:
-      fileob.write(self.content)
-      mode = os.stat(fileob.fileno()).st_mode
-      mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
-      os.chmod(fileob.fileno(), stat.S_IMODE(mode))
+  def make(self, writer):
+    writer.writeexecfile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
 class SymlinkMaker:
@@ -236,14 +231,31 @@ class SymlinkMaker:
     self.path = path
     self.target = target
 
-  def make(self):
-    os.symlink(self.target, self.path)
+  def make(self, writer):
+    writer.writesymlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
 
+  def writedir(self, path):
+    os.mkdir(path)
+
+  def writefile(self, path, content):
+    with open(path, 'w') as fileob:
+      fileob.write(content)
+
+  def writeexecfile(self, path, content):
+    with open(path, 'w') as fileob:
+      fileob.write(content)
+      mode = os.stat(fileob.fileno()).st_mode
+      mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+      os.chmod(fileob.fileno(), stat.S_IMODE(mode))
+
+  def writesymlink(self, target, path):
+    os.symlink(target, path)
+
   def write(self, maker):
-    maker.make()
+    maker.make(self)
 
 # ------------------------------------------------------------------------------
 class Runner:
