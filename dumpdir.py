@@ -6,47 +6,6 @@ import io
 import stat
 
 # ------------------------------------------------------------------------------
-class DirLine:
-  def __init__(self, path):
-    self.path = path
-
-  def write(self):
-    sys.stdout.write('d %s\n' % (self.path))
-
-# ------------------------------------------------------------------------------
-class SymlinkLine:
-  def __init__(self, path, target):
-    self.path = path
-    self.target = target
-
-  def write(self):
-    sys.stdout.write('l %s\n' % (self.path))
-    sys.stdout.write('> %s\n' % (self.target))
-
-
-# ------------------------------------------------------------------------------
-class FileLines:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def write(self):
-    sys.stdout.write('f %s\n' % (self.path))
-    for line in self.content:
-      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
-
-# ------------------------------------------------------------------------------
-class ExecFileLines:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def write(self):
-    sys.stdout.write('x %s\n' % (self.path))
-    for line in self.content:
-      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
-
-# ------------------------------------------------------------------------------
 class ReadFromFileSystem:
 
   def emitdir(self, path):
@@ -192,6 +151,47 @@ class ReadFromFile:
     while self.lexer.hasnext():
       maker = self.parser.parse()
       yield maker
+
+# ------------------------------------------------------------------------------
+class DirLine:
+  def __init__(self, path):
+    self.path = path
+
+  def write(self):
+    sys.stdout.write('d %s\n' % (self.path))
+
+# ------------------------------------------------------------------------------
+class SymlinkLine:
+  def __init__(self, path, target):
+    self.path = path
+    self.target = target
+
+  def write(self):
+    sys.stdout.write('l %s\n' % (self.path))
+    sys.stdout.write('> %s\n' % (self.target))
+
+
+# ------------------------------------------------------------------------------
+class FileLines:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def write(self):
+    sys.stdout.write('f %s\n' % (self.path))
+    for line in self.content:
+      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+
+# ------------------------------------------------------------------------------
+class ExecFileLines:
+  def __init__(self, path, content):
+    self.path = path
+    self.content = content
+
+  def write(self):
+    sys.stdout.write('x %s\n' % (self.path))
+    for line in self.content:
+      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
 
 # ------------------------------------------------------------------------------
 class WriteToFile:
