@@ -93,7 +93,7 @@ class DumpFileParser:
 
   def adddir(self):
     name = self.lexer.next()
-    dirmaker = DirMaker(name)
+    dirmaker = DirLine(name)
     return dirmaker
 
   def getlines(self):
@@ -110,13 +110,13 @@ class DumpFileParser:
   def addfile(self):
     name = self.lexer.next()
     lines = self.getlines()
-    filemaker = FileMaker(name, lines.getvalue())
+    filemaker = FileLines(name, lines.getvalue())
     return filemaker
 
   def addexecfile(self):
     name = self.lexer.next()
     lines = self.getlines()
-    filemaker = ExecFileMaker(name, lines.getvalue())
+    filemaker = ExecFileLines(name, lines.getvalue())
     return filemaker
 
   def addsymlink(self):
@@ -124,7 +124,7 @@ class DumpFileParser:
     symbol = self.lexer.next()
     assert symbol == '>'
     content = self.lexer.next()
-    symlinkmaker = SymlinkMaker(name, content)
+    symlinkmaker = SymlinkLine(name, content)
     return symlinkmaker
 
   def parse(self):
@@ -160,6 +160,9 @@ class DirLine:
   def writetofile(self, writer):
     writer.writedir(self.path)
 
+  def writetofilesystem(self, writer):
+    writer.writedir(self.path)
+
 # ------------------------------------------------------------------------------
 class SymlinkLine:
   def __init__(self, path, target):
@@ -169,6 +172,8 @@ class SymlinkLine:
   def writetofile(self, writer):
     writer.writesymlink(self.target, self.path)
 
+  def writetofilesystem(self, writer):
+    writer.writesymlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
 class FileLines:
@@ -179,6 +184,9 @@ class FileLines:
   def writetofile(self, writer):
     writer.writefile(self.path, self.content)
 
+  def writetofilesystem(self, writer):
+    writer.writefile(self.path, self.content)
+
 # ------------------------------------------------------------------------------
 class ExecFileLines:
   def __init__(self, path, content):
@@ -186,6 +194,9 @@ class ExecFileLines:
     self.content = content
 
   def writetofile(self, writer):
+    writer.writeexecfile(self.path, self.content)
+
+  def writetofilesystem(self, writer):
     writer.writeexecfile(self.path, self.content)
 
 # ------------------------------------------------------------------------------
@@ -210,41 +221,6 @@ class WriteToFile:
 
   def write(self, linewriter):
     linewriter.writetofile(self)
-
-# ------------------------------------------------------------------------------
-class DirMaker:
-  def __init__(self, path):
-    self.path = path
-
-  def writetofilesystem(self, writer):
-    writer.writedir(self.path)
-
-# ------------------------------------------------------------------------------
-class FileMaker:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def writetofilesystem(self, writer):
-    writer.writefile(self.path, self.content)
-
-# ------------------------------------------------------------------------------
-class ExecFileMaker:
-  def __init__(self, path, content):
-    self.path = path
-    self.content = content
-
-  def writetofilesystem(self, writer):
-    writer.writeexecfile(self.path, self.content)
-
-# ------------------------------------------------------------------------------
-class SymlinkMaker:
-  def __init__(self, path, target):
-    self.path = path
-    self.target = target
-
-  def writetofilesystem(self, writer):
-    writer.writesymlink(self.target, self.path)
 
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
