@@ -242,7 +242,7 @@ class WriteToFile:
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
 
-  def make(self, maker):
+  def add(self, maker):
     maker.make()
 
 # ------------------------------------------------------------------------------
@@ -264,7 +264,7 @@ class ReverseDumpDir:
 
   def runexcept(self):
     for maker in self.reader.read():
-      self.writer.make(maker)
+      self.writer.add(maker)
     return 0
 
 # ------------------------------------------------------------------------------
