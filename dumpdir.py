@@ -58,25 +58,37 @@ class DumpFileWriter:
 # ------------------------------------------------------------------------------
 class DumpDir(object):
 
+  def emitdir(self, path):
+    linewriter = DirLine(path)
+    return linewriter
+
+  def emitlink(self, path):
+    linewriter = SymlinkLine(path)
+    return linewriter
+
+  def emitexecfile(self, path):
+    linewriter = ExecFileLines(path)
+    return linewriter
+
+  def emitfile(self, path):
+    linewriter = FileLines(path)
+    return linewriter
+
   def source(self):
     for (dirpath, dirnames, filenames) in os.walk(os.getcwd()):
       dirnames.sort()
       if dirpath != os.getcwd():
         relpath = os.path.relpath(dirpath)
-        linewriter = DirLine(relpath)
-        yield linewriter
+        yield self.emitdir(relpath)
       for filename in sorted(filenames):
         dirpath_filename = os.path.join(dirpath, filename)
         relpath_filename = os.path.relpath(dirpath_filename)
         if os.path.islink(relpath_filename):
-          linewriter = SymlinkLine(relpath_filename)
-          yield linewriter
+          yield self.emitlink(relpath_filename)
         elif os.access(relpath_filename, os.X_OK):
-          linewriter = ExecFileLines(relpath_filename)
-          yield linewriter
+          yield self.emitexecfile(relpath_filename)
         else:
-          linewriter = FileLines(relpath_filename)
-          yield linewriter
+          yield self.emitfile(relpath_filename)
 
   def runexcept(self):
     dumpfilewriter = DumpFileWriter()
