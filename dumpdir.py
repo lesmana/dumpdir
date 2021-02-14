@@ -240,6 +240,12 @@ class WriteToFile:
     linewriter.write()
 
 # ------------------------------------------------------------------------------
+class WriteToFileSystem:
+
+  def make(self, maker):
+    maker.make()
+
+# ------------------------------------------------------------------------------
 class DumpDir:
   def __init__(self, reader, writer):
     self.reader = reader
@@ -252,12 +258,13 @@ class DumpDir:
 
 # ------------------------------------------------------------------------------
 class ReverseDumpDir:
-  def __init__(self, reader):
+  def __init__(self, reader, writer):
     self.reader = reader
+    self.writer = writer
 
   def runexcept(self):
     for maker in self.reader.read():
-      maker.make()
+      self.writer.make(maker)
     return 0
 
 # ------------------------------------------------------------------------------
@@ -274,7 +281,8 @@ def main(argv):
     argv.remove('-r')
     inputfilename = filenamefromargv(argv)
     reader = ReadFromFile(inputfilename)
-    dumpdirthing = ReverseDumpDir(reader)
+    writer = WriteToFileSystem()
+    dumpdirthing = ReverseDumpDir(reader, writer)
   else:
     reader = ReadFromFileSystem()
     writer = WriteToFile()
