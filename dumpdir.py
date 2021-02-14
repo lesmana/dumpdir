@@ -15,39 +15,34 @@ class DirLine:
 
 # ------------------------------------------------------------------------------
 class SymlinkLine:
-  def __init__(self, path):
+  def __init__(self, path, target):
     self.path = path
+    self.target = target
 
   def write(self):
-    target = os.readlink(self.path)
-    commonprefix = os.path.commonprefix([os.getcwd(), target])
-    if commonprefix != '/':
-      target = os.path.relpath(target)
     sys.stdout.write('l %s\n' % (self.path))
-    sys.stdout.write('> %s\n' % (target))
+    sys.stdout.write('> %s\n' % (self.target))
 
 
 # ------------------------------------------------------------------------------
 class FileLines:
-  def __init__(self, path):
+  def __init__(self, path, content):
     self.path = path
+    self.content = content
 
   def write(self):
     sys.stdout.write('f %s\n' % (self.path))
-    with open(self.path) as fileobject:
-      for line in fileobject:
-        sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+    sys.stdout.write('%s' % (self.content))
 
 # ------------------------------------------------------------------------------
 class ExecFileLines:
-  def __init__(self, path):
+  def __init__(self, path, content):
     self.path = path
+    self.content = content
 
   def write(self):
     sys.stdout.write('x %s\n' % (self.path))
-    with open(self.path) as fileobject:
-      for line in fileobject:
-        sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+    sys.stdout.write('%s' % (self.content))
 
 # ------------------------------------------------------------------------------
 class DumpFileWriter:
@@ -63,15 +58,27 @@ class DumpDir(object):
     return linewriter
 
   def emitlink(self, path):
-    linewriter = SymlinkLine(path)
+    target = os.readlink(path)
+    commonprefix = os.path.commonprefix([os.getcwd(), target])
+    if commonprefix != '/':
+      target = os.path.relpath(target)
+    linewriter = SymlinkLine(path, target)
     return linewriter
 
   def emitexecfile(self, path):
-    linewriter = ExecFileLines(path)
+    content = io.StringIO()
+    with open(path) as fileobject:
+      for line in fileobject:
+        content.write('> %s\n' % (line.rstrip('\n')))
+    linewriter = ExecFileLines(path, content.getvalue())
     return linewriter
 
   def emitfile(self, path):
-    linewriter = FileLines(path)
+    content = io.StringIO()
+    with open(path) as fileobject:
+      for line in fileobject:
+        content.write('> %s\n' % (line.rstrip('\n')))
+    linewriter = FileLines(path, content.getvalue())
     return linewriter
 
   def source(self):
