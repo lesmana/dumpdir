@@ -73,7 +73,7 @@ class ReadFromFileSystem:
     linewriter = FileLines(path, content)
     return linewriter
 
-  def source(self):
+  def read(self):
     for (dirpath, dirnames, filenames) in os.walk(os.getcwd()):
       dirnames.sort()
       if dirpath != os.getcwd():
@@ -252,7 +252,7 @@ class DumpDir:
     self.writer = writer
 
   def runexcept(self):
-    for linewriter in self.reader.source():
+    for linewriter in self.reader.read():
       self.writer.add(linewriter)
     return 0
 
