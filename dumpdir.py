@@ -96,6 +96,29 @@ class ReadFromFileSystem:
           yield self.emitfile(relpath_filename)
 
 # ------------------------------------------------------------------------------
+class WriteToFileSystem:
+
+  def writedir(self, path):
+    os.mkdir(path)
+
+  def writefile(self, path, content):
+    with open(path, 'w') as fileob:
+      fileob.write(content)
+
+  def writeexecfile(self, path, content):
+    with open(path, 'w') as fileob:
+      fileob.write(content)
+      mode = os.stat(fileob.fileno()).st_mode
+      mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+      os.chmod(fileob.fileno(), stat.S_IMODE(mode))
+
+  def writesymlink(self, target, path):
+    os.symlink(target, path)
+
+  def write(self, thing):
+    thing.writetofilesystem(self)
+
+# ------------------------------------------------------------------------------
 class DumpFileLexer:
 
   def linegen(self, filename):
@@ -221,29 +244,6 @@ class WriteToFile:
 
   def write(self, thing):
     thing.writetofile(self)
-
-# ------------------------------------------------------------------------------
-class WriteToFileSystem:
-
-  def writedir(self, path):
-    os.mkdir(path)
-
-  def writefile(self, path, content):
-    with open(path, 'w') as fileob:
-      fileob.write(content)
-
-  def writeexecfile(self, path, content):
-    with open(path, 'w') as fileob:
-      fileob.write(content)
-      mode = os.stat(fileob.fileno()).st_mode
-      mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
-      os.chmod(fileob.fileno(), stat.S_IMODE(mode))
-
-  def writesymlink(self, target, path):
-    os.symlink(target, path)
-
-  def write(self, thing):
-    thing.writetofilesystem(self)
 
 # ------------------------------------------------------------------------------
 class Runner:
