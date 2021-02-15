@@ -206,10 +206,10 @@ class ReadFromFile:
         yield line
 
   def read(self):
-    self.lexer = DumpFileLexer(self.linegen(self.inputfilename))
-    self.parser = DumpFileParser(self.lexer)
-    while self.lexer.hasnext():
-      data = self.parser.parse()
+    lexer = DumpFileLexer(self.linegen(self.inputfilename))
+    parser = DumpFileParser(lexer)
+    while lexer.hasnext():
+      data = parser.parse()
       yield data
 
 # ------------------------------------------------------------------------------
