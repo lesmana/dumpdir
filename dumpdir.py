@@ -194,6 +194,9 @@ class DumpFileParser:
 # ------------------------------------------------------------------------------
 class ReadFromFile:
 
+  def __init__(self, inputfilename):
+    self.inputfilename = inputfilename
+
   def linegen(self, filename):
     with open(filename) as inputfile:
       for line in inputfile:
@@ -202,11 +205,9 @@ class ReadFromFile:
           continue
         yield line
 
-  def __init__(self, inputfilename):
-    self.lexer = DumpFileLexer(self.linegen(inputfilename))
-    self.parser = DumpFileParser(self.lexer)
-
   def read(self):
+    self.lexer = DumpFileLexer(self.linegen(self.inputfilename))
+    self.parser = DumpFileParser(self.lexer)
     while self.lexer.hasnext():
       data = self.parser.parse()
       yield data
