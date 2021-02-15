@@ -109,22 +109,14 @@ class WriteToFileSystem:
 # ------------------------------------------------------------------------------
 class DumpFileLexer:
 
-  def linegen(self, filename):
-    with open(filename) as inputfile:
-      for line in inputfile:
-        line = line.strip()
-        if not line:
-          continue
-        yield line
-
   def tokengen(self, linegen):
     for line in linegen:
       symbol, _, content = line.partition(' ')
       yield symbol
       yield content
 
-  def __init__(self, filename):
-    self.tokensource = self.tokengen(self.linegen(filename))
+  def __init__(self, linegen):
+    self.tokensource = self.tokengen(linegen)
     self.nexttoken = self._next()
 
   def _next(self):
@@ -201,8 +193,17 @@ class DumpFileParser:
 
 # ------------------------------------------------------------------------------
 class ReadFromFile:
+
+  def linegen(self, filename):
+    with open(filename) as inputfile:
+      for line in inputfile:
+        line = line.strip()
+        if not line:
+          continue
+        yield line
+
   def __init__(self, inputfilename):
-    self.lexer = DumpFileLexer(inputfilename)
+    self.lexer = DumpFileLexer(self.linegen(inputfilename))
     self.parser = DumpFileParser(self.lexer)
 
   def read(self):
