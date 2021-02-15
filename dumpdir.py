@@ -257,12 +257,12 @@ def configfromargv(argv):
   else:
     reader = ReadFromFileSystem()
     writer = WriteToFile()
-  return reader, writer
+  runner = Runner(reader, writer)
+  return runner
 
 # ------------------------------------------------------------------------------
 def main(argv):
-  reader, writer = configfromargv(argv)
-  runner = Runner(reader, writer)
+  runner = configfromargv(argv)
   exitstatus = runner.runexcept()
   return exitstatus
 
