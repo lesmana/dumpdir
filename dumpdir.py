@@ -214,23 +214,25 @@ class ReadFromFile:
 
 # ------------------------------------------------------------------------------
 class WriteToFile:
+  def __init__(self, outfile):
+    self.outfile = outfile
 
   def writedir(self, path):
-    sys.stdout.write('d %s\n' % (path))
+    self.outfile.write('d %s\n' % (path))
 
   def writesymlink(self, target, path):
-    sys.stdout.write('l %s\n' % (path))
-    sys.stdout.write('> %s\n' % (target))
+    self.outfile.write('l %s\n' % (path))
+    self.outfile.write('> %s\n' % (target))
 
   def writefile(self, path, content):
-    sys.stdout.write('f %s\n' % (path))
+    self.outfile.write('f %s\n' % (path))
     for line in content:
-      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+      self.outfile.write('> %s\n' % (line.rstrip('\n')))
 
   def writeexecfile(self, path, content):
-    sys.stdout.write('x %s\n' % (path))
+    self.outfile.write('x %s\n' % (path))
     for line in content:
-      sys.stdout.write('> %s\n' % (line.rstrip('\n')))
+      self.outfile.write('> %s\n' % (line.rstrip('\n')))
 
   def write(self, data):
     data.doubledispatch(self)
@@ -258,7 +260,7 @@ def configfromargv(argv):
     writer = WriteToFileSystem()
   else:
     reader = ReadFromFileSystem()
-    writer = WriteToFile()
+    writer = WriteToFile(sys.stdout)
   runner = Runner(reader, writer)
   return runner
 
