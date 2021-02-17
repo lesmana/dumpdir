@@ -111,6 +111,9 @@ class DumpFileLexer:
 
   def tokengen(self, linegen):
     for line in linegen:
+      line = line.strip()
+      if not line:
+        continue
       symbol, _, content = line.partition(' ')
       yield symbol
       yield content
@@ -200,9 +203,6 @@ class ReadFromFile:
   def linegen(self, filename):
     with open(filename) as inputfile:
       for line in inputfile:
-        line = line.strip()
-        if not line:
-          continue
         yield line
 
   def read(self):
