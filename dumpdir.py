@@ -110,7 +110,10 @@ class WriteToFileSystem:
 class DumpFileLexer:
 
   def tokengen(self, linegen):
-    for line in linegen:
+    while True:
+      line = linegen.readline()
+      if line == '':
+        break
       line = line.strip()
       if not line:
         continue
@@ -200,13 +203,8 @@ class ReadFromFile:
   def __init__(self, filename):
     self.filename = filename
 
-  def linegen(self, filename):
-    with open(filename) as inputfile:
-      for line in inputfile:
-        yield line
-
   def read(self):
-    lexer = DumpFileLexer(self.linegen(self.filename))
+    lexer = DumpFileLexer(open(self.filename))
     parser = DumpFileParser(lexer)
     while lexer.hasnext():
       data = parser.parse()
