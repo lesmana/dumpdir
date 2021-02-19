@@ -204,7 +204,6 @@ class DumpFileParser:
 
 # ------------------------------------------------------------------------------
 class ReadFromFile:
-
   def __init__(self, fileob):
     self.fileob = fileob
 
