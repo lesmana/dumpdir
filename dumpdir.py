@@ -4,6 +4,7 @@ import os
 import sys
 import io
 import stat
+import contextlib
 
 # ------------------------------------------------------------------------------
 class DirData:
@@ -42,6 +43,8 @@ class ExecFileData:
 
 # ------------------------------------------------------------------------------
 class ReadFromFileSystem:
+  def __init__(self, _):
+    pass
 
   def getdirdata(self, path):
     dirdata = DirData(path)
@@ -85,6 +88,8 @@ class ReadFromFileSystem:
 
 # ------------------------------------------------------------------------------
 class WriteToFileSystem:
+  def __init__(self, _):
+    pass
 
   def writedir(self, path):
     os.mkdir(path)
@@ -200,11 +205,11 @@ class DumpFileParser:
 # ------------------------------------------------------------------------------
 class ReadFromFile:
 
-  def __init__(self, filename):
-    self.filename = filename
+  def __init__(self, fileob):
+    self.fileob = fileob
 
   def read(self):
-    lexer = DumpFileLexer(open(self.filename))
+    lexer = DumpFileLexer(self.fileob)
     parser = DumpFileParser(lexer)
     while lexer.hasnext():
       data = parser.parse()
@@ -236,15 +241,61 @@ class WriteToFile:
     data.doubledispatch(self)
 
 # ------------------------------------------------------------------------------
+class OpenFileContext:
+  def __init__(self, filename, mode):
+    self.filename = filename
+    self.mode = mode
+    self.fileob = None
+
+  @contextlib.contextmanager
+  def __call__(self):
+    fileob = open(self.filename, self.mode)
+    try:
+      yield fileob
+    finally:
+      fileob.close()
+
+# ------------------------------------------------------------------------------
+class StdContext:
+  def __init__(self, stdstream):
+    self.stdstream = stdstream
+
+  @contextlib.contextmanager
+  def __call__(self):
+    try:
+      yield self.stdstream
+    finally:
+      pass
+
+# ------------------------------------------------------------------------------
+class NoneContext:
+
+  @contextlib.contextmanager
+  def __call__(self):
+    try:
+      yield
+    finally:
+      pass
+
+# ------------------------------------------------------------------------------
 class Runner:
-  def __init__(self, reader, writer):
-    self.reader = reader
-    self.writer = writer
+  def __init__(self, readercls, infilectx, writercls, outfilectx):
+    self.readercls = readercls
+    self.infilectx = infilectx
+    self.writercls = writercls
+    self.outfilectx = outfilectx
+
+  def runcontext(self, infile, outfile):
+    reader = self.readercls(infile)
+    writer = self.writercls(outfile)
+    for data in reader.read():
+      writer.write(data)
+    return 0
 
   def runexcept(self):
-    for data in self.reader.read():
-      self.writer.write(data)
-    return 0
+    with self.infilectx() as infile:
+      with self.outfilectx() as outfile:
+        self.runcontext(infile, outfile)
 
 # ------------------------------------------------------------------------------
 def configfromargv(argv):
@@ -254,12 +305,16 @@ def configfromargv(argv):
       inputfilename = argv[1]
     else:
       raise Exception('need filename')
-    reader = ReadFromFile(inputfilename)
-    writer = WriteToFileSystem()
+    readercls = ReadFromFile
+    infilectx = OpenFileContext(inputfilename, 'r')
+    writercls = WriteToFileSystem
+    outfilectx = NoneContext()
   else:
-    reader = ReadFromFileSystem()
-    writer = WriteToFile(sys.stdout)
-  runner = Runner(reader, writer)
+    readercls = ReadFromFileSystem
+    infilectx = NoneContext()
+    writercls = WriteToFile
+    outfilectx = StdContext(sys.stdout)
+  runner = Runner(readercls, infilectx, writercls, outfilectx)
   return runner
 
 # ------------------------------------------------------------------------------
