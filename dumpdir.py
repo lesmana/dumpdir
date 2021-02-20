@@ -114,9 +114,9 @@ class WriteToFileSystem:
 # ------------------------------------------------------------------------------
 class DumpFileLexer:
 
-  def tokengen(self, linegen):
+  def tokengen(self, fileob):
     while True:
-      line = linegen.readline()
+      line = fileob.readline()
       if line == '':
         break
       if line == '\n':
@@ -126,8 +126,8 @@ class DumpFileLexer:
       yield symbol
       yield content
 
-  def __init__(self, linegen):
-    self.tokensource = self.tokengen(linegen)
+  def __init__(self, fileob):
+    self.tokensource = self.tokengen(fileob)
     self.nexttoken = self._next()
 
   def _next(self):
