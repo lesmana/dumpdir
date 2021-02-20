@@ -128,24 +128,28 @@ class DumpFileLexer:
 
   def __init__(self, fileob):
     self.tokensource = self.tokengen(fileob)
-    self.nexttoken = self._next()
+    self.nexttoken = None
+    self._hasnext = None
+    self._next()
 
   def _next(self):
     try:
-      return next(self.tokensource)
+      self.nexttoken = next(self.tokensource)
     except StopIteration:
-      return None
+      self._hasnext = False
+    else:
+      self._hasnext = True
 
   def peek(self):
     return self.nexttoken
 
   def next(self):
     nexttoken = self.nexttoken
-    self.nexttoken = self._next()
+    self._next()
     return nexttoken
 
   def hasnext(self):
-    return self.nexttoken is not None
+    return self._hasnext
 
 # ------------------------------------------------------------------------------
 class DumpFileParser:
