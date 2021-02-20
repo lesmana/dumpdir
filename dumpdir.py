@@ -119,9 +119,9 @@ class DumpFileLexer:
       line = linegen.readline()
       if line == '':
         break
-      line = line.strip()
-      if not line:
+      if line == '\n':
         continue
+      line = line.rstrip('\n')
       symbol, _, content = line.partition(' ')
       yield symbol
       yield content
