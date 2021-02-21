@@ -5,34 +5,19 @@ dumpdir
 the same text can in turn be used as input to `reversedumpdir` to recreate the
 directory tree including files.
 
-example in some git repository refs dir:
+example
 
-    $ cd .git/refs
-    $ dumpdir
-    d heads
-    f heads/master
-    > 4591bc27978a558e6b3904c8d3dbe9b7e688931f
-    d remotes
-    d remotes/origin
-    f remotes/origin/HEAD
-    > ref: refs/remotes/origin/master
-    f remotes/origin/master
-    > 4591bc27978a558e6b3904c8d3dbe9b7e688931f
-    d tags
+    $ mkdir dir1
+    $ mkdir dir1/dir2
+    $ echo hello > dir1/dir2/file
 
-compare with `tree`:
+output
 
-    $ tree
-    .
-    ├── heads
-    │   └── master
-    ├── remotes
-    │   └── origin
-    │       ├── HEAD
-    │       └── master
-    └── tags
-
-    4 directories, 3 files
+    $ dumpdir.py
+    d dir1
+    d dir1/dir2
+    f dir1/dir2/file
+    > hello
 
 `dumpdir` works best in small directory trees with small text files.
 it does not handle binary files well. also it does not care about
