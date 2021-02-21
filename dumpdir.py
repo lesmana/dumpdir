@@ -293,12 +293,12 @@ class Runner:
     writer = self.writercls(outfile)
     for data in reader.read():
       writer.write(data)
-    return 0
 
   def runexcept(self):
     with self.infilectx() as infile:
       with self.outfilectx() as outfile:
         self.runcontext(infile, outfile)
+    return 0
 
 # ------------------------------------------------------------------------------
 def configfromargv(argv):
