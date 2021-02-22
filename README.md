@@ -20,8 +20,10 @@ output
     > hello
 
 `dumpdir` works best in small directory trees with small text files.
-it does not handle binary files well. also it does not care about
-file attributes like ownership or timestamps.
+at the moment it does not handle binary files.
+it also does not care about file attributes and permissions
+except the executable bit.
+it handles symlinks but not tested thoroughly.
 
 license
 -------
